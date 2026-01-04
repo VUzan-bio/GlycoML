@@ -1,11 +1,26 @@
-# Computational Glycobiology Framework
-## Therapeutic Antibody Optimization and Lectin-Glycan Interaction Prediction
+# GlycoML: Computational Glycobiology Framework
+Therapeutic Antibody Optimization and Lectin-Glycan Interaction Prediction
 
 This is a multi-repo (currently a monorepo) framework for structure-informed glycan engineering. It combines protein language models (ESM2), structure confidence (pLDDT), and graph neural networks to:
 - Predict N-glycosylation sites on therapeutic antibodies (Phase 1).
 - Predict lectin-glycan interaction strength from sequence + glycan structure (Phase 2).
 
 The codebase is organized into four folders that can stay in one repo or be split into separate GitHub repos as needed.
+
+## Contents
+
+- Repository layout
+- Executive summary
+- Phase 1: glycan-binding-site-predictor
+- Phase 2: lectin-glycan-interaction-ml
+- Shared foundations
+- Data sources
+- Reproducibility
+- Limitations
+- Roadmap
+- Citation
+- License
+- Contact
 
 ## Repository layout
 
@@ -17,6 +32,15 @@ GlycoML/
 `-- lectin-glycan-interaction-ml/   # Phase 2: lectin-glycan interaction prediction
 ```
 
+## Repository index
+
+| Repo | Purpose | Entry points |
+| --- | --- | --- |
+| `esm2-glycobiology-embeddings/` | Shared ESM2 embeddings, batching, LoRA hooks | `models/esm2_embedder.py` |
+| `antibody-fc-engineering/` | Fc structure graph utilities + Fcgr binding GNN | `models/fcgr_binding_gnn.py` |
+| `glycan-binding-site-predictor/` | Phase 1 glycosylation site prediction | `scripts/train.py`, `scripts/predict.py` |
+| `lectin-glycan-interaction-ml/` | Phase 2 lectin-glycan binding prediction | `scripts/train_interaction_model.py` |
+
 ## Executive summary
 
 Glycosylation is a functional determinant for antibody effector function, immune trafficking, and vaccine design. Current workflows rely on motif heuristics and manual interpretation of array data. This framework automates both problems using:
@@ -26,6 +50,26 @@ Glycosylation is a functional determinant for antibody effector function, immune
 - Molecular fingerprints or GCNs for glycan structure encoding.
 
 The goal is a production-grade, reproducible pipeline that labs can use for rational glycoengineering and lectin array interpretation.
+
+## Architecture (high level)
+
+```
+Input data
+  |-- Thera-SAbDab sequences + structures
+  |-- CFG lectin arrays + glycan SMILES
+  |-- AlphaFold2 / ColabFold models (optional)
+        |
+        v
+Phase 1: glycan-binding-site-predictor
+  ESM2 embeddings -> N-glycosite classifier -> pLDDT + SASA ranking -> Fcgr GNN impact
+        |
+        v
+Phase 2: lectin-glycan-interaction-ml
+  ESM2 lectin encoder + glycan fingerprints or GCN -> interaction MLP
+        |
+        v
+Outputs: glycosylation sites, binding shifts, lectin-glycan scores
+```
 
 ## Phase 1: glycan-binding-site-predictor
 
@@ -42,7 +86,7 @@ Target metrics (to be reproduced on Thera-SAbDab):
 - Recall > 0.80
 
 Quick start:
-```
+```bash
 cd glycan-binding-site-predictor
 python scripts/train.py --data data/thera_sabdab_processed.csv --output_dir outputs
 python scripts/predict.py --model outputs/glyco_classifier.pt --sequence EVQLVNNSTGATV
@@ -62,7 +106,7 @@ Target metrics (CFG arrays):
 - MSE competitive with GCN baselines
 
 Quick start:
-```
+```bash
 cd lectin-glycan-interaction-ml
 python scripts/preprocess_cfg_data.py --input_csv data/sample_cfg_data.csv --output_csv data/cfg_processed.csv
 python scripts/train_interaction_model.py --data data/cfg_processed.csv --output_dir outputs
@@ -77,7 +121,7 @@ Provides a reusable ESM2 embedding layer with:
 - pLDDT-guided confidence weighting.
 
 Example:
-```
+```python
 from models import ESM2Embedder
 embedder = ESM2Embedder(model_name="esm2_t33_650M_UR50D")
 emb = embedder.embed_sequence("MVHLTPEEKS...")
@@ -89,7 +133,7 @@ Provides Fc domain graph utilities and Fcgr binding GNN stubs.
 - Predict delta G shifts for Fc gamma receptor binding.
 
 Example:
-```
+```python
 from models import FcgrBindingPredictor
 predictor = FcgrBindingPredictor(model_path="path/to/model.pt")
 result = predictor.predict_from_structure("fc_structure.pdb", chain="H")
