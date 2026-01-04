@@ -1,0 +1,146 @@
+# Computational Glycobiology Framework
+## Therapeutic Antibody Optimization and Lectin-Glycan Interaction Prediction
+
+This is a multi-repo (currently a monorepo) framework for structure-informed glycan engineering. It combines protein language models (ESM2), structure confidence (pLDDT), and graph neural networks to:
+- Predict N-glycosylation sites on therapeutic antibodies (Phase 1).
+- Predict lectin-glycan interaction strength from sequence + glycan structure (Phase 2).
+
+The codebase is organized into four folders that can stay in one repo or be split into separate GitHub repos as needed.
+
+## Repository layout
+
+```
+GlycoML/
+|-- esm2-glycobiology-embeddings/   # shared ESM2 embedder (LoRA + pLDDT weighting)
+|-- antibody-fc-engineering/        # Fc domain graph utilities and GNN binding model
+|-- glycan-binding-site-predictor/  # Phase 1: glycosylation site prediction
+`-- lectin-glycan-interaction-ml/   # Phase 2: lectin-glycan interaction prediction
+```
+
+## Executive summary
+
+Glycosylation is a functional determinant for antibody effector function, immune trafficking, and vaccine design. Current workflows rely on motif heuristics and manual interpretation of array data. This framework automates both problems using:
+- ESM2 embeddings for sequence context.
+- AlphaFold2/ColabFold confidence (pLDDT) for structure-aware ranking.
+- Graph neural networks for Fc domain binding impact.
+- Molecular fingerprints or GCNs for glycan structure encoding.
+
+The goal is a production-grade, reproducible pipeline that labs can use for rational glycoengineering and lectin array interpretation.
+
+## Phase 1: glycan-binding-site-predictor
+
+Problem: given antibody sequences, predict which Asn residues are glycosylated and how those sites affect Fc gamma receptor binding.
+
+Key components:
+- Sequence-level N-glycosite classifier on ESM2 embeddings.
+- Structure-informed ranking (pLDDT + SASA filters).
+- Fcgr binding impact module (GNN on Fc structure).
+
+Target metrics (to be reproduced on Thera-SAbDab):
+- F1 score > 0.85
+- Precision > 0.90
+- Recall > 0.80
+
+Quick start:
+```
+cd glycan-binding-site-predictor
+python scripts/train.py --data data/thera_sabdab_processed.csv --output_dir outputs
+python scripts/predict.py --model outputs/glyco_classifier.pt --sequence EVQLVNNSTGATV
+```
+
+## Phase 2: lectin-glycan-interaction-ml
+
+Problem: given a lectin sequence and glycan structure, predict binding strength (RFU) or binder/non-binder class.
+
+Key components:
+- Lectin encoder: ESM2 pooled embeddings.
+- Glycan encoder: RDKit Morgan fingerprints (+ physchem) or optional GCN.
+- Interaction module: MLP with optional bilinear gating.
+
+Target metrics (CFG arrays):
+- MCC > 0.65 (binder/non-binder)
+- MSE competitive with GCN baselines
+
+Quick start:
+```
+cd lectin-glycan-interaction-ml
+python scripts/preprocess_cfg_data.py --input_csv data/sample_cfg_data.csv --output_csv data/cfg_processed.csv
+python scripts/train_interaction_model.py --data data/cfg_processed.csv --output_dir outputs
+```
+
+## Shared foundations
+
+### esm2-glycobiology-embeddings
+Provides a reusable ESM2 embedding layer with:
+- Sequence validation and batching.
+- LoRA hooks for parameter-efficient fine-tuning.
+- pLDDT-guided confidence weighting.
+
+Example:
+```
+from models import ESM2Embedder
+embedder = ESM2Embedder(model_name="esm2_t33_650M_UR50D")
+emb = embedder.embed_sequence("MVHLTPEEKS...")
+```
+
+### antibody-fc-engineering
+Provides Fc domain graph utilities and Fcgr binding GNN stubs.
+- Build residue graphs from PDB or AlphaFold outputs.
+- Predict delta G shifts for Fc gamma receptor binding.
+
+Example:
+```
+from models import FcgrBindingPredictor
+predictor = FcgrBindingPredictor(model_path="path/to/model.pt")
+result = predictor.predict_from_structure("fc_structure.pdb", chain="H")
+```
+
+## Data sources
+
+Primary public datasets used by the pipeline:
+- Thera-SAbDab for therapeutic antibody sequences and glycosites.
+- CFG lectin array data for lectin-glycan binding RFU values.
+- UniLectin3D for curated lectin binding data.
+
+Preprocessing scripts expect CSVs with explicit columns. See:
+- `glycan-binding-site-predictor/data/dataset_schema.md`
+- `lectin-glycan-interaction-ml/data/dataset_schema.md`
+
+## Reproducibility
+
+Recommended practices:
+- Fix seeds (torch + numpy) for consistent splits.
+- Split by antibody or glycan identity to avoid leakage.
+- Track model checkpoints and metadata in `outputs/`.
+
+## Limitations (current)
+
+- Phase 1 is validated on IgG-like Fc domains; non-Ig scaffolds need testing.
+- Phase 2 depends on CFG array coverage and may be biased toward mammalian glycans.
+- pLDDT is a confidence proxy, not a direct measure of accessibility.
+- Fcgr GNN is limited by available experimental binding datasets.
+
+## Roadmap
+
+- Add SHAP-based interpretability for glycan features.
+- Expand Fcgr datasets and refine delta G calibration.
+- Integrate shared encoders into Phase 1 and Phase 2 imports.
+- Add end-to-end pipeline: antibody sequence -> glycosite prediction -> lectin binding impact.
+
+## Citation
+
+If you publish work based on this framework, cite:
+- Rives et al. 2021 (ESM2)
+- Jumper et al. 2021 (AlphaFold2)
+- Shields et al. 2001 (Fc gamma receptor mapping)
+- Lauc et al. 2018 (IgG glycosylation)
+- Cummings et al. 2017 (CFG arrays)
+
+## License
+
+MIT (planned). Add LICENSE at repo root when finalizing releases.
+
+## Contact
+
+Project lead: [Your Name]
+Email: [your.email@example.com]
