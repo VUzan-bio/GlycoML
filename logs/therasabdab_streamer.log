@@ -1,0 +1,2 @@
+[2026-01-05 21:29:15,031] [ERROR] RCSB query failed: 400 Client Error: Bad Request for url: https://search.rcsb.org/rcsbsearch/v2/query
+[2026-01-05 21:29:15,667] [ERROR] RCSB query failed: 400 Client Error: Bad Request for url: https://search.rcsb.org/rcsbsearch/v2/query

@@ -1,0 +1,2 @@
+[2026-01-05 21:29:15,234] [ERROR] UniLectin metadata fetch failed: 404 Client Error: NOT FOUND for url: https://unilectin.unige.ch/api/lectin?getcolumns=lectin_id%2Cprotein_name%2Cligand%2Ciupac%2Cglytoucan_id%2Cuniprot%2Cfamily%2Corganism%2Ckd_value%2Cmethod&limit=-1&organism=Mammalian
+[2026-01-05 21:29:15,772] [ERROR] UniLectin metadata fetch failed: 404 Client Error: NOT FOUND for url: https://unilectin.unige.ch/api/lectin?getcolumns=lectin_id%2Cprotein_name%2Cligand%2Ciupac%2Cglytoucan_id%2Cuniprot%2Cfamily%2Corganism%2Ckd_value%2Cmethod&limit=-1&organism=Mammalian
