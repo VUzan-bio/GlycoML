@@ -17,6 +17,7 @@ from typing import Dict, Iterable, Iterator, List, Optional, Sequence, Tuple
 import pandas as pd
 import requests
 from Bio.PDB import PDBParser, Polypeptide
+from Bio.SeqUtils import seq1
 from Bio.PDB.Structure import Structure
 from tqdm import tqdm
 
@@ -145,6 +146,10 @@ class TheraSAbDabStreamer:
         Whether to log to stdout in addition to file logging.
     query_limit : int, default 500
         Maximum number of PDB IDs to return from RCSB query.
+    resume_from_checkpoint : bool, default False
+        Whether to skip PDB IDs already present in a checkpoint JSONL file.
+    checkpoint_file : str, optional
+        Path to a JSONL file produced by the orchestrator for resuming streams.
 
     Examples
     --------
@@ -160,6 +165,8 @@ class TheraSAbDabStreamer:
         rate_limit: float = 1.0,
         verbose: bool = True,
         query_limit: int = 500,
+        resume_from_checkpoint: bool = False,
+        checkpoint_file: Optional[str] = None,
     ) -> None:
         self.pdb_ids = pdb_ids or []
         self.cache_dir = Path(cache_dir)
@@ -167,11 +174,36 @@ class TheraSAbDabStreamer:
         self.rate_limit = max(rate_limit, 0.0)
         self.query_limit = query_limit
         self._last_request: float = 0.0
+        self.resume_from_checkpoint = resume_from_checkpoint
+        self.checkpoint_file = Path(checkpoint_file) if checkpoint_file else None
+        self.streamed_pdb_ids: set[str] = set()
         self.manifest_path = self.cache_dir / "cache_manifest.json"
         self.manifest: Dict[str, Dict[str, object]] = self._load_manifest()
         self.log_path = Path("logs") / "therasabdab_streamer.log"
         self.logger = _setup_logger(self.log_path, verbose)
         self.session = requests.Session()
+        if self.resume_from_checkpoint and self.checkpoint_file and self.checkpoint_file.exists():
+            self._load_checkpoint()
+
+    def _load_checkpoint(self) -> None:
+        if not self.checkpoint_file:
+            return
+        try:
+            with open(self.checkpoint_file, "r", encoding="utf-8") as handle:
+                for line in handle:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        record = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    pdb_id = record.get("pdb_id")
+                    if pdb_id:
+                        self.streamed_pdb_ids.add(str(pdb_id))
+            self.logger.info("Loaded checkpoint with %d PDB IDs", len(self.streamed_pdb_ids))
+        except Exception as exc:
+            self.logger.warning("Failed to load checkpoint: %s", exc)
 
     def _load_manifest(self) -> Dict[str, Dict[str, object]]:
         if self.manifest_path.exists():
@@ -201,26 +233,9 @@ class TheraSAbDabStreamer:
         """
         query = {
             "query": {
-                "type": "group",
-                "logical_operator": "and",
-                "nodes": [
-                    {
-                        "type": "terminal",
-                        "service": "text",
-                        "parameters": {
-                            "attribute": "rcsb_entry_info.molecule_type",
-                            "operator": "exact_match",
-                            "value": "protein",
-                        },
-                    },
-                    {
-                        "type": "terminal",
-                        "service": "full_text",
-                        "parameters": {
-                            "value": "antibody OR immunoglobulin",
-                        },
-                    },
-                ],
+                "type": "terminal",
+                "service": "full_text",
+                "parameters": {"value": "antibody OR immunoglobulin"},
             },
             "request_options": {
                 "return_all_hits": True,
@@ -336,8 +351,8 @@ class TheraSAbDabStreamer:
                         continue
                     residues.append(residue)
                     try:
-                        sequence_chars.append(Polypeptide.three_to_one(residue.get_resname()))
-                    except KeyError:
+                        sequence_chars.append(seq1(residue.get_resname()))
+                    except Exception:
                         sequence_chars.append("X")
                 if sequence_chars:
                     chains.append(ChainData(chain.id, "".join(sequence_chars), residues))
@@ -471,7 +486,17 @@ class TheraSAbDabStreamer:
         if not self.pdb_ids:
             self.query_rcsb_antibodies()
         iterable: Iterable[str] = self.pdb_ids
+        if self.resume_from_checkpoint and self.streamed_pdb_ids:
+            remaining = [pid for pid in self.pdb_ids if pid not in self.streamed_pdb_ids]
+            iterable = remaining
+            self.logger.info(
+                "Resuming stream: %d processed, %d remaining",
+                len(self.streamed_pdb_ids),
+                len(remaining),
+            )
         for pdb_id in tqdm(iterable, desc="Antibodies", unit="pdb"):
+            if self.resume_from_checkpoint and pdb_id in self.streamed_pdb_ids:
+                continue
             pdb_path = self.download_pdb(pdb_id)
             if pdb_path is None:
                 self.logger.warning("Skipping %s due to download failure", pdb_id)
@@ -500,8 +525,11 @@ class TheraSAbDabStreamer:
                 glyco_frames.append(self.find_glycosites(heavy_data.sequence, heavy_data.chain_id, structure, pdb_path))
             if light_data:
                 glyco_frames.append(self.find_glycosites(light_data.sequence, light_data.chain_id, structure, pdb_path))
-            glycosites_df = pd.concat(glyco_frames, ignore_index=True) if glyco_frames else pd.DataFrame(
-                columns=["position", "residue", "motif_type", "chain", "plddt", "sasa", "accessibility_rank"]
+            glyco_frames = [frame for frame in glyco_frames if not frame.empty]
+            glycosites_df = (
+                pd.concat(glyco_frames, ignore_index=True)
+                if glyco_frames
+                else pd.DataFrame(columns=["position", "residue", "motif_type", "chain", "plddt", "sasa", "accessibility_rank"])
             )
             antibody_name = pdb_id
             self.logger.info("Processed %s with %d glycosites", pdb_id, len(glycosites_df))

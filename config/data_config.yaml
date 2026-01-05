@@ -3,10 +3,13 @@ phase1:
   cache_dir: "./data/pdb_cache"
   rate_limit: 1.0
   query_limit: 500
+  resume_from_checkpoint: true
+  checkpoint_file: "./data/phase1_antibodies.jsonl"
 
 phase2:
-  filter_family: null
+  filter_family: "Siglec"
   filter_organism: "Mammalian"
+  max_pairs: 500
   cache_dir: "./data/unilectin_cache"
   rate_limit: 0.2
 

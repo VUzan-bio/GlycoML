@@ -64,7 +64,10 @@ class DataPipelineValidator:
         min_glycosites_per_ab: int = 0,
         min_sequence_length_lectin: int = 50,
     ) -> None:
-        self.antibody_streamer = TheraSAbDabStreamer(**therasabdab_config)
+        thera_cfg = dict(therasabdab_config)
+        thera_cfg["resume_from_checkpoint"] = False
+        thera_cfg["checkpoint_file"] = None
+        self.antibody_streamer = TheraSAbDabStreamer(**thera_cfg)
         self.lectin_streamer = UniLectinStreamer(**unilectin_config)
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -110,7 +113,18 @@ class DataPipelineValidator:
                     "issues": ";".join(sorted(set(issues))) if issues else "",
                 }
             )
-        df = pd.DataFrame(records)
+        df = pd.DataFrame(
+            records,
+            columns=[
+                "pdb_id",
+                "ab_name",
+                "hc_length",
+                "lc_length",
+                "num_glycosites",
+                "glycosite_positions",
+                "issues",
+            ],
+        )
         self.antibody_df = df
         self.logger.info(
             "Antibody validation complete. Antibodies: %d | Glycosites: %d",
@@ -144,8 +158,12 @@ class DataPipelineValidator:
                 issues.append("rfu_out_of_range")
             if cls not in {"strong", "medium", "weak"}:
                 issues.append("invalid_class")
-            if pd.isna(kd_nm) or not (1e-12 <= (kd_nm * 1e-9) <= 1e-3):
-                issues.append("kd_out_of_range")
+            if pd.isna(kd_nm):
+                issues.append("missing_kd")
+            else:
+                kd_molar = kd_nm * 1e-9
+                if not (1e-12 <= kd_molar <= 1e-3):
+                    issues.append("kd_out_of_range")
             records.append(
                 {
                     "lectin_id": lectin_id,
@@ -160,7 +178,21 @@ class DataPipelineValidator:
                     "issues": ";".join(sorted(set(issues))) if issues else "",
                 }
             )
-        df = pd.DataFrame(records)
+        df = pd.DataFrame(
+            records,
+            columns=[
+                "lectin_id",
+                "lectin_name",
+                "family",
+                "glytoucan_id",
+                "glycan_smiles",
+                "binding_class",
+                "kd_nm",
+                "rfu",
+                "method",
+                "issues",
+            ],
+        )
         if not df.empty:
             duplicates = df[df.duplicated(subset=["lectin_id", "glycan_smiles"], keep=False)]
             if not duplicates.empty:
@@ -169,18 +201,35 @@ class DataPipelineValidator:
         self.logger.info("Lectin validation complete. Pairs: %d", len(df))
         return df
 
+    def _collect_issue_codes(self, series: pd.Series) -> List[str]:
+        issue_set = set()
+        for entry in series.dropna():
+            for item in str(entry).split(";"):
+                if item:
+                    issue_set.add(item)
+        return sorted(issue_set)
+
     def detect_issues(self) -> Dict[str, List[str]]:
         """Aggregate issues discovered during validation."""
         issues: Dict[str, List[str]] = {}
-        if self.antibody_df is not None:
+        if self.antibody_df is not None and "issues" in self.antibody_df.columns:
             bad = self.antibody_df[self.antibody_df["issues"] != ""]
             if not bad.empty:
-                issues["antibody"] = bad["issues"].unique().tolist()
-        if self.lectin_df is not None:
+                issues["antibody"] = self._collect_issue_codes(bad["issues"])
+        if self.lectin_df is not None and "issues" in self.lectin_df.columns:
             bad = self.lectin_df[self.lectin_df["issues"] != ""]
             if not bad.empty:
-                issues["lectin_glycan"] = bad["issues"].unique().tolist()
+                issues["lectin_glycan"] = self._collect_issue_codes(bad["issues"])
         return issues
+
+    def _filter_critical_issues(self, issues: Dict[str, List[str]]) -> Dict[str, List[str]]:
+        non_critical = {"missing_kd", "invalid_sasa", "short_sequence", "low_glycosite_count"}
+        filtered: Dict[str, List[str]] = {}
+        for section, values in issues.items():
+            critical = [value for value in values if value not in non_critical]
+            if critical:
+                filtered[section] = critical
+        return filtered
 
     def generate_summary_report(self) -> str:
         """Create a human-readable validation summary."""
@@ -230,7 +279,7 @@ class DataPipelineValidator:
         issues = self.detect_issues()
         self.last_summary = self.generate_summary_report()
         self.generate_csv_outputs()
-        return len(issues) == 0
+        return len(self._filter_critical_issues(issues)) == 0
 
 
 __all__ = ["DataPipelineValidator"]

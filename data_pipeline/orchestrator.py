@@ -106,15 +106,40 @@ class DataPipelineOrchestrator:
             rate_limit=phase1_cfg.get("rate_limit", 1.0),
             verbose=True,
             query_limit=phase1_cfg.get("query_limit", 500),
+            resume_from_checkpoint=phase1_cfg.get("resume_from_checkpoint", False),
+            checkpoint_file=phase1_cfg.get("checkpoint_file"),
         )
+        if not streamer.pdb_ids:
+            streamer.query_rcsb_antibodies()
         output_path = Path("data") / "phase1_antibodies.jsonl"
         output_path.parent.mkdir(parents=True, exist_ok=True)
         count = 0
         glyco_total = 0
+        processed = set()
         summary_records = []
+        if output_path.exists():
+            with output_path.open("r", encoding="utf-8") as handle:
+                for line in handle:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        record = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    pdb_id = record.get("pdb_id")
+                    if pdb_id:
+                        processed.add(pdb_id)
+                        count += 1
+                        glyco_total += len(record.get("glycosites", []))
+        if processed:
+            streamer.pdb_ids = [pid for pid in streamer.pdb_ids if pid not in processed]
         print("Starting Phase 1: Antibody data collection...")
-        with output_path.open("w", encoding="utf-8") as handle:
+        write_mode = "a" if processed else "w"
+        with output_path.open(write_mode, encoding="utf-8") as handle:
             for pdb_id, ab_name, hc_seq, lc_seq, glyco_df in streamer.stream_antibodies():
+                if pdb_id in processed:
+                    continue
                 record = {
                     "pdb_id": pdb_id,
                     "antibody_name": ab_name,
@@ -125,6 +150,7 @@ class DataPipelineOrchestrator:
                 handle.write(json.dumps(record) + "\n")
                 count += 1
                 glyco_total += len(glyco_df)
+                processed.add(pdb_id)
                 summary_records.append(
                     {
                         "pdb_id": pdb_id,
@@ -137,7 +163,8 @@ class DataPipelineOrchestrator:
                 print(f"  Downloaded {pdb_id}... ✓")
         if summary_records:
             summary_df = pd.DataFrame(summary_records)
-            summary_df.to_csv(Path("data") / "antibodies_downloaded.csv", index=False)
+            summary_path = Path("data") / "antibodies_downloaded.csv"
+            summary_df.to_csv(summary_path, mode="a", index=False, header=not summary_path.exists())
         print(f"Phase 1 complete: {count} antibodies, {glyco_total} glycosites identified")
         self.logger.info("Phase 1 complete: %d antibodies, %d glycosites", count, glyco_total)
         return {"antibodies": count, "glycosites": glyco_total}
@@ -151,15 +178,52 @@ class DataPipelineOrchestrator:
             cache_dir=phase2_cfg.get("cache_dir", "./data/unilectin_cache"),
             rate_limit=phase2_cfg.get("rate_limit", 0.2),
             verbose=True,
+            max_pairs=phase2_cfg.get("max_pairs"),
         )
         output_path = Path("data") / "phase2_lectin_glycan.jsonl"
         output_path.parent.mkdir(parents=True, exist_ok=True)
         count = 0
         unique_lectins = set()
         unique_glycans = set()
+        processed_pairs = set()
+        processed_meta_keys = set()
         summary_records = []
+        if output_path.exists():
+            with output_path.open("r", encoding="utf-8") as handle:
+                for line in handle:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        record = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    lectin_id = record.get("lectin_id")
+                    smiles = record.get("glycan_smiles")
+                    glytoucan_id = record.get("glytoucan_id") or ""
+                    glycan_iupac = record.get("glycan_iupac") or ""
+                    pair_key = f"{lectin_id}||{smiles}"
+                    if lectin_id:
+                        processed_pairs.add(pair_key)
+                        processed_meta_keys.add(f"{lectin_id}||{glytoucan_id or glycan_iupac}")
+                        count += 1
+                        unique_lectins.add(lectin_id)
+                        if smiles:
+                            unique_glycans.add(smiles)
         print("Starting Phase 2: Lectin-glycan data collection...")
-        with output_path.open("w", encoding="utf-8") as handle:
+        write_mode = "a" if processed_pairs else "w"
+        with output_path.open(write_mode, encoding="utf-8") as handle:
+            metadata = streamer.fetch_all_lectins_metadata()
+            if processed_meta_keys:
+                filtered = []
+                for record in metadata:
+                    lectin_id = str(record.get("lectin_id") or "").strip()
+                    glytoucan_id = str(record.get("glytoucan_id") or "").strip()
+                    iupac = str(record.get("iupac") or "").strip()
+                    key = f"{lectin_id}||{glytoucan_id or iupac}"
+                    if key not in processed_meta_keys:
+                        filtered.append(record)
+                metadata = filtered
             for (
                 lectin_id,
                 lectin_name,
@@ -172,7 +236,10 @@ class DataPipelineOrchestrator:
                 rfu,
                 cls,
                 method,
-            ) in streamer.stream_pairs():
+            ) in streamer.stream_pairs_from_records(metadata):
+                pair_key = f"{lectin_id}||{glycan_smiles}"
+                if pair_key in processed_pairs:
+                    continue
                 record = {
                     "lectin_id": lectin_id,
                     "lectin_name": lectin_name,
@@ -191,6 +258,7 @@ class DataPipelineOrchestrator:
                 unique_lectins.add(lectin_id)
                 if glycan_smiles:
                     unique_glycans.add(glycan_smiles)
+                processed_pairs.add(pair_key)
                 summary_records.append(
                     {
                         "lectin_id": lectin_id,
@@ -206,7 +274,13 @@ class DataPipelineOrchestrator:
                 if count % 25 == 0:
                     print(f"  Downloaded {count} lectin-glycan pairs...")
         if summary_records:
-            pd.DataFrame(summary_records).to_csv(Path("data") / "lectin_glycan_downloaded.csv", index=False)
+            summary_path = Path("data") / "lectin_glycan_downloaded.csv"
+            pd.DataFrame(summary_records).to_csv(
+                summary_path,
+                mode="a",
+                index=False,
+                header=not summary_path.exists(),
+            )
         print(
             f"Phase 2 complete: {count} pairs, {len(unique_lectins)} unique lectins, {len(unique_glycans)} unique glycans"
         )

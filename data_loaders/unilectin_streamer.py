@@ -18,7 +18,9 @@ try:  # pragma: no cover - optional heavy dependency
 except Exception:  # pragma: no cover
     Chem = None
 
-UNILECTIN_ENDPOINT = "https://unilectin.unige.ch/api/lectin"
+UNILECTIN_ENDPOINTS = [
+    "https://unilectin.unige.ch/api/getlectins",
+]
 GLYTOUCAN_ENDPOINT = "https://glytoucan.org/api/glycans/{glytoucan_id}"
 UNIPROT_FASTA = "https://www.uniprot.org/uniprot/{uniprot_id}.fasta"
 
@@ -48,6 +50,12 @@ def _now() -> float:
     return time.time()
 
 
+def _looks_like_iupac(value: str) -> bool:
+    tokens = ["GAL", "GLC", "MAN", "NEU", "FUC", "GLCNAC", "GALNAC"]
+    upper = value.upper()
+    return any(token in upper for token in tokens)
+
+
 class UniLectinStreamer:
     """Stream lectin-glycan binding pairs from UniLectin3D.
 
@@ -63,6 +71,10 @@ class UniLectinStreamer:
         Minimum seconds between HTTP calls.
     verbose : bool, default True
         Emit logs to stdout in addition to file logging.
+    max_pairs : int, optional
+        Maximum number of pairs to yield.
+    allow_iupac_fallback : bool, default True
+        Use IUPAC strings when SMILES cannot be resolved.
     """
 
     def __init__(
@@ -72,6 +84,8 @@ class UniLectinStreamer:
         cache_dir: str = "./data/unilectin_cache",
         rate_limit: float = 0.2,
         verbose: bool = True,
+        max_pairs: Optional[int] = None,
+        allow_iupac_fallback: bool = True,
     ) -> None:
         self.filter_family = filter_family
         self.filter_organism = filter_organism
@@ -82,6 +96,9 @@ class UniLectinStreamer:
         self.smiles_dir = self.cache_dir / "smiles"
         self.smiles_dir.mkdir(parents=True, exist_ok=True)
         self.rate_limit = max(rate_limit, 0.0)
+        self.max_pairs = max_pairs
+        self.allow_iupac_fallback = allow_iupac_fallback
+        self.iupac_fallback: set[str] = set()
         self._last_request: float = 0.0
         self.metadata_path = self.cache_dir / "lectin_metadata.json"
         self.manifest_path = self.cache_dir / "cache_manifest.json"
@@ -133,27 +150,31 @@ class UniLectinStreamer:
             except Exception:
                 pass
 
-        params = {
-            "getcolumns": "lectin_id,protein_name,ligand,iupac,glytoucan_id,uniprot,family,organism,kd_value,method",
-            "limit": -1,
+        query = {
+            "getcolumns": "lectin.lectin_id,protein_name,ligand,iupac,glytoucan_id,uniprot,family,origin,species",
+            "wherecolumn": "lectin.lectin_id",
+            "isvalue": "%%",
+            "limit": "-1",
         }
-        if self.filter_family:
-            params["family"] = self.filter_family
-        if self.filter_organism:
-            params["organism"] = self.filter_organism
+        payload: Optional[List[Dict]] = None
+        for endpoint in UNILECTIN_ENDPOINTS:
+            self._throttle()
+            try:
+                resp = self.session.post(endpoint, json=query, timeout=30)
+                self._last_request = _now()
+                resp.raise_for_status()
+                parsed = resp.json()
+                if isinstance(parsed, list) and parsed:
+                    header = parsed[0]
+                    rows = parsed[1:]
+                    if isinstance(header, list):
+                        payload = [dict(zip(header, row)) for row in rows if isinstance(row, list)]
+                        break
+            except Exception as exc:  # pragma: no cover - network dependent
+                self.logger.error("UniLectin metadata fetch failed (%s): %s", endpoint, exc)
+                continue
 
-        self._throttle()
-        try:
-            resp = self.session.get(UNILECTIN_ENDPOINT, params=params, timeout=20)
-            self._last_request = _now()
-            resp.raise_for_status()
-            payload = resp.json()
-        except Exception as exc:  # pragma: no cover - network dependent
-            self.logger.error("UniLectin metadata fetch failed: %s", exc)
-            return []
-
-        if not isinstance(payload, list):
-            self.logger.error("Unexpected UniLectin response format")
+        if payload is None:
             return []
 
         self._save_json(self.metadata_path, payload)
@@ -241,6 +262,8 @@ class UniLectinStreamer:
         if cache_path.exists():
             smiles_cached = cache_path.read_text(encoding="utf-8").strip()
             if smiles_cached:
+                if self.allow_iupac_fallback and _looks_like_iupac(smiles_cached):
+                    self.iupac_fallback.add(smiles_cached)
                 return smiles_cached
 
         smiles_val: Optional[str] = None
@@ -256,9 +279,12 @@ class UniLectinStreamer:
             except Exception as exc:  # pragma: no cover
                 self.logger.warning("Failed GlyTouCan fetch for %s: %s", glytoucan_id, exc)
 
-        if smiles_val is None and iupac_name:
-            # Fallback placeholder: use IUPAC string as stand-in if RDKit not available.
-            smiles_val = iupac_name if Chem is None else None
+        if smiles_val is None and iupac_name and self.allow_iupac_fallback:
+            smiles_val = iupac_name
+            self.iupac_fallback.add(smiles_val)
+            cache_path.write_text(smiles_val, encoding="utf-8")
+            self.logger.warning("Using IUPAC fallback for %s", glytoucan_id or iupac_name)
+            return smiles_val
 
         if smiles_val and self.validate_glycan_smiles(smiles_val):
             cache_path.write_text(smiles_val, encoding="utf-8")
@@ -280,23 +306,43 @@ class UniLectinStreamer:
             cls = "weak"
         return rfu, cls
 
-    def stream_pairs(self) -> Iterator[Tuple[str, str, str, str, str, str, str, float, float, str, str]]:
-        """Stream lectin-glycan pairs with validation.
+    def _stream_from_records(
+        self,
+        records: Iterable[Dict],
+    ) -> Iterator[Tuple[str, str, str, str, str, str, str, float, float, str, str]]:
+        filtered = []
+        for record in records:
+            family = str(record.get("family") or "")
+            organism = str(record.get("origin") or record.get("species") or "")
+            if self.filter_family:
+                if self.filter_family.lower() not in family.lower():
+                    continue
+            if self.filter_organism:
+                needle = self.filter_organism.lower()
+                haystack = organism.lower()
+                if needle not in haystack:
+                    if needle in {"mammalian", "mammal", "mammals"} and "animal" in haystack:
+                        pass
+                    else:
+                        continue
+            filtered.append(record)
 
-        Yields
-        ------
-        tuple
-            (lectin_id, lectin_name, lectin_seq, family, iupac, smiles, glytoucan_id, kd_nm, rfu, class, method)
-        """
-        metadata = self.fetch_all_lectins_metadata()
-        for record in tqdm(metadata, desc="Lectin-glycan pairs", unit="pair"):
-            lectin_id = str(record.get("lectin_id") or "").strip()
+        def _kd_key(rec: Dict) -> float:
+            try:
+                return float(rec.get("kd_value"))
+            except Exception:
+                return float("inf")
+
+        filtered.sort(key=_kd_key)
+        count = 0
+        for record in tqdm(filtered, desc="Lectin-glycan pairs", unit="pair"):
+            lectin_id = str(record.get("lectin_id") or record.get("lectin.lectin_id") or "").strip()
             lectin_name = str(record.get("protein_name") or lectin_id or "unknown")
             glytoucan_id = str(record.get("glytoucan_id") or "").strip()
             iupac = str(record.get("iupac") or "").strip()
             uniprot_id = str(record.get("uniprot") or "").strip()
             family = str(record.get("family") or "")
-            organism = str(record.get("organism") or "")
+            organism = str(record.get("origin") or record.get("species") or "")
             kd_value = record.get("kd_value")
             method = str(record.get("method") or "")
             try:
@@ -310,7 +356,10 @@ class UniLectinStreamer:
                 continue
 
             smiles = self.fetch_glycan_smiles(glytoucan_id, iupac)
-            if not smiles or not self.validate_glycan_smiles(smiles):
+            if not smiles:
+                self.logger.warning("Skipping %s due to invalid SMILES", lectin_id)
+                continue
+            if smiles not in self.iupac_fallback and not self.validate_glycan_smiles(smiles):
                 self.logger.warning("Skipping %s due to invalid SMILES", lectin_id)
                 continue
 
@@ -335,7 +384,29 @@ class UniLectinStreamer:
                 cls,
                 method,
             )
+            count += 1
+            if self.max_pairs and count >= self.max_pairs:
+                self.logger.info("Reached max_pairs limit (%d).", self.max_pairs)
+                break
             self._throttle()
+
+    def stream_pairs(self) -> Iterator[Tuple[str, str, str, str, str, str, str, float, float, str, str]]:
+        """Stream lectin-glycan pairs with validation.
+
+        Yields
+        ------
+        tuple
+            (lectin_id, lectin_name, lectin_seq, family, iupac, smiles, glytoucan_id, kd_nm, rfu, class, method)
+        """
+        metadata = self.fetch_all_lectins_metadata()
+        yield from self._stream_from_records(metadata)
+
+    def stream_pairs_from_records(
+        self,
+        records: Iterable[Dict],
+    ) -> Iterator[Tuple[str, str, str, str, str, str, str, float, float, str, str]]:
+        """Stream lectin-glycan pairs from pre-fetched metadata records."""
+        yield from self._stream_from_records(records)
 
     def stream_pairs_filtered(
         self,

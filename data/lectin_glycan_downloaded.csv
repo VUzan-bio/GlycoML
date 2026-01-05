@@ -1,0 +1,19 @@
+lectin_id,lectin_name,family,glytoucan_id,glycan_smiles,binding_class,kd_nm,rfu
+1013,Sialic acid-binding Ig-like lectin 7 (Siglec-7) (Adhesion inhibitory receptor molecule 1) (AIRM-1) (CDw328) (D-siglec) (QA79 membrane protein) (p75) (CD antigen CD328),Siglec-7,G79475GW,NeuAc(a2-3)Gal(b1-3)[NeuAc(a2-6)]GlcNAc,medium,,5000.0
+1048,Sialic acid-binding Ig-like lectin 7 (Siglec-7) (Adhesion inhibitory receptor molecule 1) (AIRM-1) (CDw328) (D-siglec) (QA79 membrane protein) (p75) (CD antigen CD328),Siglec-7,G81533KY,NeuAc,medium,,5000.0
+1068,Sialic acid-binding Ig-like lectin 7 (Siglec-7) (Adhesion inhibitory receptor molecule 1) (AIRM-1) (CDw328) (D-siglec) (QA79 membrane protein) (p75) (CD antigen CD328),Siglec-7,G41759HA,GalNAc(b1-4)[NeuAc(a2-8)NeuAc(a2-3)]Gal(b1-4)Glc,medium,,5000.0
+1268,Sialic acid-binding Ig-like lectin 5 (Siglec-5) (CD33 antigen-like 2) (Obesity-binding protein 2) (OB-BP2) (OB-binding protein 2) (CD antigen CD170),Siglec-5,G69893KP,NeuAc(a2-6)Gal(b1-4)Glc,medium,,5000.0
+1270,Sialic acid-binding Ig-like lectin 5 (Siglec-5) (CD33 antigen-like 2) (Obesity-binding protein 2) (OB-BP2) (OB-binding protein 2) (CD antigen CD170),Siglec-5,G56516VH,NeuAc(a2-3)Gal(b1-4)Glc,medium,,5000.0
+3703,Sialic acid-binding Ig-like lectin 8 (Siglec-8) (Sialoadhesin family member 2) (SAF-2),Siglec-8,G90387AM,NeuAc(a2-3)Gal(b1-4)[Fuc(a1-3)]GlcNAc,medium,,5000.0
+3720,Myeloid cell surface antigen CD33 (Sialic acid-binding Ig-like lectin 3) (Siglec-3) (gp67) (CD antigen CD33),Siglec-3 CD33 ,G77824XV,NeuAc(a2-3)Gal,medium,,5000.0
+3721,Myeloid cell surface antigen CD33 (Sialic acid-binding Ig-like lectin 3) (Siglec-3) (gp67) (CD antigen CD33),Siglec-3 CD33 ,G44345UH,NeuAc(a2-6)Gal,medium,,5000.0
+3723,Paired immunoglobulin-like type 2 receptor alpha (Cell surface receptor FDF03) (Inhibitory receptor PILR-alpha),Siglec-like PILR,G08371CD,NeuAc(a2-6)GalNAc,medium,,5000.0
+3726,Paired immunoglobulin-like type 2 receptor beta (Activating receptor PILR-beta) (Cell surface receptor FDFACT),Siglec-like PILR,G81533KY,NeuAc,medium,,5000.0
+3729,Paired immunoglobulin-like type 2 receptor alpha (Cell surface receptor FDF03) (Inhibitory receptor PILR-alpha),Siglec-like PILR,G18185ZH,NeuAc(a2-6)GlcNAc,medium,,5000.0
+3730,Paired immunoglobulin-like type 2 receptor alpha (Cell surface receptor FDF03) (Inhibitory receptor PILR-alpha),Siglec-like PILR,G81533KY,NeuAc,medium,,5000.0
+4214,Myeloid cell surface antigen CD33,Siglec-3 CD33 ,G69893KP,NeuAc(a2-6)Gal(b1-4)Glc,medium,,5000.0
+4215,Myeloid cell surface antigen CD33,Siglec-3 CD33 ,G69893KP,NeuAc(a2-6)Gal(b1-4)Glc,medium,,5000.0
+4217,Myeloid cell surface antigen CD33,Siglec-3 CD33 ,G69893KP,NeuAc(a2-6)Gal(b1-4)Glc,medium,,5000.0
+4218,B-cell receptor CD22,Siglec-2 CD22,G69893KP,NeuAc(a2-6)Gal(b1-4)Glc,medium,,5000.0
+4522,Sialic acid-binding Ig-like lectin 8,Siglec-8,G10203DW,NeuAc(a2-3)Gal(b1-4)GlcNAc,medium,,5000.0
+4892,B-cell receptor CD22,Siglec-2 CD22,G81533KY,NeuAc,medium,,5000.0

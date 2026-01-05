@@ -1,2 +1,26 @@
 [2026-01-05 21:29:15,670] [INFO] Antibody validation complete. Antibodies: 0 | Glycosites: 0
 [2026-01-05 21:29:15,774] [INFO] Lectin validation complete. Pairs: 0
+[2026-01-05 22:09:56,152] [INFO] Antibody validation complete. Antibodies: 0 | Glycosites: 0
+[2026-01-05 22:09:57,961] [INFO] Lectin validation complete. Pairs: 0
+[2026-01-05 22:09:57,969] [INFO] Wrote summary report to data/validation_reports/summary_2026-01-05_21-09-57.txt
+[2026-01-05 22:09:57,981] [INFO] Saved CSV outputs.
+[2026-01-05 22:33:10,479] [INFO] Antibody validation complete. Antibodies: 497 | Glycosites: 895
+[2026-01-05 22:33:10,512] [INFO] Lectin validation complete. Pairs: 0
+[2026-01-05 22:33:10,521] [INFO] Wrote summary report to data/validation_reports/summary_2026-01-05_21-33-10.txt
+[2026-01-05 22:33:10,535] [INFO] Saved CSV outputs.
+[2026-01-05 22:40:52,411] [INFO] Antibody validation complete. Antibodies: 497 | Glycosites: 895
+[2026-01-05 22:41:02,556] [INFO] Lectin validation complete. Pairs: 0
+[2026-01-05 22:41:02,568] [INFO] Wrote summary report to data/validation_reports/summary_2026-01-05_21-41-02.txt
+[2026-01-05 22:41:02,628] [INFO] Saved CSV outputs.
+[2026-01-05 22:52:15,269] [INFO] Antibody validation complete. Antibodies: 497 | Glycosites: 895
+[2026-01-05 22:52:15,674] [INFO] Lectin validation complete. Pairs: 0
+[2026-01-05 22:52:15,678] [INFO] Wrote summary report to data/validation_reports/summary_2026-01-05_21-52-15.txt
+[2026-01-05 22:52:15,685] [INFO] Saved CSV outputs.
+[2026-01-05 23:14:03,744] [INFO] Antibody validation complete. Antibodies: 497 | Glycosites: 895
+[2026-01-05 23:14:04,242] [INFO] Lectin validation complete. Pairs: 14
+[2026-01-05 23:14:04,248] [INFO] Wrote summary report to data/validation_reports/summary_2026-01-05_22-14-04.txt
+[2026-01-05 23:14:04,261] [INFO] Saved CSV outputs.
+[2026-01-05 23:25:02,088] [INFO] Antibody validation complete. Antibodies: 497 | Glycosites: 895
+[2026-01-05 23:25:02,492] [INFO] Lectin validation complete. Pairs: 18
+[2026-01-05 23:25:02,497] [INFO] Wrote summary report to data/validation_reports/summary_2026-01-05_22-25-02.txt
+[2026-01-05 23:25:02,511] [INFO] Saved CSV outputs.

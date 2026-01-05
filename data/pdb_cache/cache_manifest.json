@@ -1,0 +1,2487 @@
+{
+  "2gsi": {
+    "path": "data/pdb_cache/2gsi.pdb",
+    "size": 1172718,
+    "timestamp": 1767645112.762159
+  },
+  "4poz": {
+    "path": "data/pdb_cache/4poz.pdb",
+    "size": 623376,
+    "timestamp": 1767645188.912268
+  },
+  "6bpc": {
+    "path": "data/pdb_cache/6bpc.pdb",
+    "size": 2060316,
+    "timestamp": 1767645190.8780432
+  },
+  "6bpe": {
+    "path": "data/pdb_cache/6bpe.pdb",
+    "size": 3121983,
+    "timestamp": 1767645192.696981
+  },
+  "6ad7": {
+    "path": "data/pdb_cache/6ad7.pdb",
+    "size": 1139508,
+    "timestamp": 1767645197.0864305
+  },
+  "6adb": {
+    "path": "data/pdb_cache/6adb.pdb",
+    "size": 1142424,
+    "timestamp": 1767645199.7807884
+  },
+  "1keg": {
+    "path": "data/pdb_cache/1keg.pdb",
+    "size": 324567,
+    "timestamp": 1767645202.2967875
+  },
+  "6v4o": {
+    "path": "data/pdb_cache/6v4o.pdb",
+    "size": 2177847,
+    "timestamp": 1767645204.1393995
+  },
+  "6bpa": {
+    "path": "data/pdb_cache/6bpa.pdb",
+    "size": 2067768,
+    "timestamp": 1767645207.038504
+  },
+  "1nsn": {
+    "path": "data/pdb_cache/1nsn.pdb",
+    "size": 398844,
+    "timestamp": 1767645209.0146165
+  },
+  "1ktr": {
+    "path": "data/pdb_cache/1ktr.pdb",
+    "size": 193509,
+    "timestamp": 1767645210.4947803
+  },
+  "4u1g": {
+    "path": "data/pdb_cache/4u1g.pdb",
+    "size": 1976238,
+    "timestamp": 1767645212.3105743
+  },
+  "1ehl": {
+    "path": "data/pdb_cache/1ehl.pdb",
+    "size": 342468,
+    "timestamp": 1767645214.0235486
+  },
+  "6wtu": {
+    "path": "data/pdb_cache/6wtu.pdb",
+    "size": 1938492,
+    "timestamp": 1767645215.793855
+  },
+  "1dee": {
+    "path": "data/pdb_cache/1dee.pdb",
+    "size": 941868,
+    "timestamp": 1767645218.3322535
+  },
+  "2f5b": {
+    "path": "data/pdb_cache/2f5b.pdb",
+    "size": 342306,
+    "timestamp": 1767645219.849439
+  },
+  "7pi2": {
+    "path": "data/pdb_cache/7pi2.pdb",
+    "size": 3902742,
+    "timestamp": 1767645221.9372888
+  },
+  "6ada": {
+    "path": "data/pdb_cache/6ada.pdb",
+    "size": 1139994,
+    "timestamp": 1767645223.510074
+  },
+  "6adc": {
+    "path": "data/pdb_cache/6adc.pdb",
+    "size": 1134405,
+    "timestamp": 1767645226.4626667
+  },
+  "6wtv": {
+    "path": "data/pdb_cache/6wtv.pdb",
+    "size": 1831572,
+    "timestamp": 1767645229.134376
+  },
+  "2fx8": {
+    "path": "data/pdb_cache/2fx8.pdb",
+    "size": 1237599,
+    "timestamp": 1767645231.7830002
+  },
+  "2dwd": {
+    "path": "data/pdb_cache/2dwd.pdb",
+    "size": 396738,
+    "timestamp": 1767645233.494015
+  },
+  "2dwe": {
+    "path": "data/pdb_cache/2dwe.pdb",
+    "size": 400302,
+    "timestamp": 1767645235.0199823
+  },
+  "2hvj": {
+    "path": "data/pdb_cache/2hvj.pdb",
+    "size": 394065,
+    "timestamp": 1767645236.5479298
+  },
+  "2hvk": {
+    "path": "data/pdb_cache/2hvk.pdb",
+    "size": 408402,
+    "timestamp": 1767645238.3962476
+  },
+  "5vco": {
+    "path": "data/pdb_cache/5vco.pdb",
+    "size": 1690308,
+    "timestamp": 1767645240.1264431
+  },
+  "5cex": {
+    "path": "data/pdb_cache/5cex.pdb",
+    "size": 634311,
+    "timestamp": 1767645241.950245
+  },
+  "5cey": {
+    "path": "data/pdb_cache/5cey.pdb",
+    "size": 609444,
+    "timestamp": 1767645243.5587792
+  },
+  "1ggi": {
+    "path": "data/pdb_cache/1ggi.pdb",
+    "size": 607905,
+    "timestamp": 1767645245.352426
+  },
+  "2nz9": {
+    "path": "data/pdb_cache/2nz9.pdb",
+    "size": 2326077,
+    "timestamp": 1767645247.1889615
+  },
+  "5i8o": {
+    "path": "data/pdb_cache/5i8o.pdb",
+    "size": 622728,
+    "timestamp": 1767645251.8923652
+  },
+  "5eor": {
+    "path": "data/pdb_cache/5eor.pdb",
+    "size": 330642,
+    "timestamp": 1767645253.4376664
+  },
+  "6vn1": {
+    "path": "data/pdb_cache/6vn1.pdb",
+    "size": 2872341,
+    "timestamp": 1767645255.3515918
+  },
+  "1nd0": {
+    "path": "data/pdb_cache/1nd0.pdb",
+    "size": 1216134,
+    "timestamp": 1767645257.0233138
+  },
+  "1tjh": {
+    "path": "data/pdb_cache/1tjh.pdb",
+    "size": 376893,
+    "timestamp": 1767645261.1347158
+  },
+  "1tji": {
+    "path": "data/pdb_cache/1tji.pdb",
+    "size": 385236,
+    "timestamp": 1767645262.7581103
+  },
+  "3mlw": {
+    "path": "data/pdb_cache/3mlw.pdb",
+    "size": 639819,
+    "timestamp": 1767645264.3889492
+  },
+  "1ots": {
+    "path": "data/pdb_cache/1ots.pdb",
+    "size": 1170774,
+    "timestamp": 1767645266.1940677
+  },
+  "1ott": {
+    "path": "data/pdb_cache/1ott.pdb",
+    "size": 1136025,
+    "timestamp": 1767645268.666404
+  },
+  "1otu": {
+    "path": "data/pdb_cache/1otu.pdb",
+    "size": 1138617,
+    "timestamp": 1767645271.3149877
+  },
+  "1q1j": {
+    "path": "data/pdb_cache/1q1j.pdb",
+    "size": 602964,
+    "timestamp": 1767645273.8522172
+  },
+  "6v4n": {
+    "path": "data/pdb_cache/6v4n.pdb",
+    "size": 2281122,
+    "timestamp": 1767645275.8347049
+  },
+  "6p8d": {
+    "path": "data/pdb_cache/6p8d.pdb",
+    "size": 599562,
+    "timestamp": 1767645277.605065
+  },
+  "5eoq": {
+    "path": "data/pdb_cache/5eoq.pdb",
+    "size": 344736,
+    "timestamp": 1767645279.2478178
+  },
+  "7pi3": {
+    "path": "data/pdb_cache/7pi3.pdb",
+    "size": 8296425,
+    "timestamp": 1767645281.2377172
+  },
+  "1nmc": {
+    "path": "data/pdb_cache/1nmc.pdb",
+    "size": 908820,
+    "timestamp": 1767645283.7480395
+  },
+  "4qnp": {
+    "path": "data/pdb_cache/4qnp.pdb",
+    "size": 2180682,
+    "timestamp": 1767645285.6094863
+  },
+  "2fx9": {
+    "path": "data/pdb_cache/2fx9.pdb",
+    "size": 646542,
+    "timestamp": 1767645288.73325
+  },
+  "1wej": {
+    "path": "data/pdb_cache/1wej.pdb",
+    "size": 442098,
+    "timestamp": 1767645290.9870641
+  },
+  "7phw": {
+    "path": "data/pdb_cache/7phw.pdb",
+    "size": 1989684,
+    "timestamp": 1767645293.330794
+  },
+  "7pi7": {
+    "path": "data/pdb_cache/7pi7.pdb",
+    "size": 2012688,
+    "timestamp": 1767645295.3110423
+  },
+  "7lvw": {
+    "path": "data/pdb_cache/7lvw.pdb",
+    "size": 4972671,
+    "timestamp": 1767645297.1271358
+  },
+  "5dlm": {
+    "path": "data/pdb_cache/5dlm.pdb",
+    "size": 1197180,
+    "timestamp": 1767645304.3339548
+  },
+  "4nc1": {
+    "path": "data/pdb_cache/4nc1.pdb",
+    "size": 674973,
+    "timestamp": 1767645306.1561115
+  },
+  "4lri": {
+    "path": "data/pdb_cache/4lri.pdb",
+    "size": 648486,
+    "timestamp": 1767645307.9659152
+  },
+  "3qa3": {
+    "path": "data/pdb_cache/3qa3.pdb",
+    "size": 1707723,
+    "timestamp": 1767645309.6951475
+  },
+  "4zto": {
+    "path": "data/pdb_cache/4zto.pdb",
+    "size": 670842,
+    "timestamp": 1767645311.207429
+  },
+  "1hq4": {
+    "path": "data/pdb_cache/1hq4.pdb",
+    "size": 586602,
+    "timestamp": 1767645313.280599
+  },
+  "1ub6": {
+    "path": "data/pdb_cache/1ub6.pdb",
+    "size": 595107,
+    "timestamp": 1767645314.9191203
+  },
+  "1cl7": {
+    "path": "data/pdb_cache/1cl7.pdb",
+    "size": 308448,
+    "timestamp": 1767645316.6195781
+  },
+  "6cyf": {
+    "path": "data/pdb_cache/6cyf.pdb",
+    "size": 1477683,
+    "timestamp": 1767645319.041585
+  },
+  "1s5i": {
+    "path": "data/pdb_cache/1s5i.pdb",
+    "size": 317844,
+    "timestamp": 1767645320.5925446
+  },
+  "3mlx": {
+    "path": "data/pdb_cache/3mlx.pdb",
+    "size": 658449,
+    "timestamp": 1767645322.4650002
+  },
+  "1yqv": {
+    "path": "data/pdb_cache/1yqv.pdb",
+    "size": 431244,
+    "timestamp": 1767645324.078971
+  },
+  "1p2c": {
+    "path": "data/pdb_cache/1p2c.pdb",
+    "size": 813645,
+    "timestamp": 1767645325.7182236
+  },
+  "3ab0": {
+    "path": "data/pdb_cache/3ab0.pdb",
+    "size": 919026,
+    "timestamp": 1767645327.421439
+  },
+  "4nzt": {
+    "path": "data/pdb_cache/4nzt.pdb",
+    "size": 572994,
+    "timestamp": 1767645329.0631025
+  },
+  "1mf2": {
+    "path": "data/pdb_cache/1mf2.pdb",
+    "size": 609201,
+    "timestamp": 1767645330.8578215
+  },
+  "1him": {
+    "path": "data/pdb_cache/1him.pdb",
+    "size": 603612,
+    "timestamp": 1767645332.3323622
+  },
+  "4ene": {
+    "path": "data/pdb_cache/4ene.pdb",
+    "size": 1194831,
+    "timestamp": 1767645334.0902936
+  },
+  "4u0r": {
+    "path": "data/pdb_cache/4u0r.pdb",
+    "size": 1027323,
+    "timestamp": 1767645336.9369771
+  },
+  "1igy": {
+    "path": "data/pdb_cache/1igy.pdb",
+    "size": 1140237,
+    "timestamp": 1767645338.8059871
+  },
+  "7phv": {
+    "path": "data/pdb_cache/7phv.pdb",
+    "size": 1966923,
+    "timestamp": 1767645340.6261735
+  },
+  "6pds": {
+    "path": "data/pdb_cache/6pds.pdb",
+    "size": 659826,
+    "timestamp": 1767645342.390511
+  },
+  "6pef": {
+    "path": "data/pdb_cache/6pef.pdb",
+    "size": 635931,
+    "timestamp": 1767645344.0100155
+  },
+  "6wwc": {
+    "path": "data/pdb_cache/6wwc.pdb",
+    "size": 604746,
+    "timestamp": 1767645346.003091
+  },
+  "1emt": {
+    "path": "data/pdb_cache/1emt.pdb",
+    "size": 322542,
+    "timestamp": 1767645347.56027
+  },
+  "1gpo": {
+    "path": "data/pdb_cache/1gpo.pdb",
+    "size": 645489,
+    "timestamp": 1767645349.0568173
+  },
+  "4nzr": {
+    "path": "data/pdb_cache/4nzr.pdb",
+    "size": 1720116,
+    "timestamp": 1767645350.7685587
+  },
+  "1ub5": {
+    "path": "data/pdb_cache/1ub5.pdb",
+    "size": 621513,
+    "timestamp": 1767645352.411427
+  },
+  "1dbj": {
+    "path": "data/pdb_cache/1dbj.pdb",
+    "size": 321489,
+    "timestamp": 1767645353.9454885
+  },
+  "1fj1": {
+    "path": "data/pdb_cache/1fj1.pdb",
+    "size": 911898,
+    "timestamp": 1767645355.5697687
+  },
+  "1cf8": {
+    "path": "data/pdb_cache/1cf8.pdb",
+    "size": 313632,
+    "timestamp": 1767645357.1264203
+  },
+  "3hfm": {
+    "path": "data/pdb_cache/3hfm.pdb",
+    "size": 390825,
+    "timestamp": 1767645358.7288687
+  },
+  "1nak": {
+    "path": "data/pdb_cache/1nak.pdb",
+    "size": 607743,
+    "timestamp": 1767645360.5038314
+  },
+  "6vy4": {
+    "path": "data/pdb_cache/6vy4.pdb",
+    "size": 2304855,
+    "timestamp": 1767645362.318534
+  },
+  "6u02": {
+    "path": "data/pdb_cache/6u02.pdb",
+    "size": 1808082,
+    "timestamp": 1767645706.1898105
+  },
+  "6ad8": {
+    "path": "data/pdb_cache/6ad8.pdb",
+    "size": 1139751,
+    "timestamp": 1767645708.5842505
+  },
+  "6p60": {
+    "path": "data/pdb_cache/6p60.pdb",
+    "size": 1217673,
+    "timestamp": 1767645711.1072412
+  },
+  "1mlc": {
+    "path": "data/pdb_cache/1mlc.pdb",
+    "size": 771039,
+    "timestamp": 1767645712.7350144
+  },
+  "6xq0": {
+    "path": "data/pdb_cache/6xq0.pdb",
+    "size": 1848258,
+    "timestamp": 1767645715.4961247
+  },
+  "2gk0": {
+    "path": "data/pdb_cache/2gk0.pdb",
+    "size": 589032,
+    "timestamp": 1767645717.4960444
+  },
+  "1c12": {
+    "path": "data/pdb_cache/1c12.pdb",
+    "size": 322785,
+    "timestamp": 1767645719.0538347
+  },
+  "6wx2": {
+    "path": "data/pdb_cache/6wx2.pdb",
+    "size": 597051,
+    "timestamp": 1767645720.7177851
+  },
+  "3ma9": {
+    "path": "data/pdb_cache/3ma9.pdb",
+    "size": 866700,
+    "timestamp": 1767645722.5988152
+  },
+  "1kip": {
+    "path": "data/pdb_cache/1kip.pdb",
+    "size": 263898,
+    "timestamp": 1767645724.1690142
+  },
+  "1kiq": {
+    "path": "data/pdb_cache/1kiq.pdb",
+    "size": 268839,
+    "timestamp": 1767645725.66677
+  },
+  "1kir": {
+    "path": "data/pdb_cache/1kir.pdb",
+    "size": 266490,
+    "timestamp": 1767645727.1631773
+  },
+  "1tpx": {
+    "path": "data/pdb_cache/1tpx.pdb",
+    "size": 380943,
+    "timestamp": 1767645728.6878986
+  },
+  "6woz": {
+    "path": "data/pdb_cache/6woz.pdb",
+    "size": 1942380,
+    "timestamp": 1767645730.6493707
+  },
+  "1axt": {
+    "path": "data/pdb_cache/1axt.pdb",
+    "size": 325215,
+    "timestamp": 1767645732.8235018
+  },
+  "4lvh": {
+    "path": "data/pdb_cache/4lvh.pdb",
+    "size": 1825821,
+    "timestamp": 1767645734.7475953
+  },
+  "1fl3": {
+    "path": "data/pdb_cache/1fl3.pdb",
+    "size": 592191,
+    "timestamp": 1767645737.188028
+  },
+  "2ghw": {
+    "path": "data/pdb_cache/2ghw.pdb",
+    "size": 640953,
+    "timestamp": 1767645738.828615
+  },
+  "4xmk": {
+    "path": "data/pdb_cache/4xmk.pdb",
+    "size": 882090,
+    "timestamp": 1767645740.6898575
+  },
+  "4f15": {
+    "path": "data/pdb_cache/4f15.pdb",
+    "size": 1811646,
+    "timestamp": 1767645742.3946576
+  },
+  "4ybl": {
+    "path": "data/pdb_cache/4ybl.pdb",
+    "size": 1450143,
+    "timestamp": 1767645744.7746036
+  },
+  "4yc2": {
+    "path": "data/pdb_cache/4yc2.pdb",
+    "size": 1470069,
+    "timestamp": 1767645747.1854062
+  },
+  "1jto": {
+    "path": "data/pdb_cache/1jto.pdb",
+    "size": 364905,
+    "timestamp": 1767645748.9971707
+  },
+  "3q3g": {
+    "path": "data/pdb_cache/3q3g.pdb",
+    "size": 1771875,
+    "timestamp": 1767645750.9013934
+  },
+  "7ce2": {
+    "path": "data/pdb_cache/7ce2.pdb",
+    "size": 1210626,
+    "timestamp": 1767645752.8383946
+  },
+  "6n5d": {
+    "path": "data/pdb_cache/6n5d.pdb",
+    "size": 1403082,
+    "timestamp": 1767645754.693604
+  },
+  "1yed": {
+    "path": "data/pdb_cache/1yed.pdb",
+    "size": 613413,
+    "timestamp": 1767645757.8697107
+  },
+  "1clo": {
+    "path": "data/pdb_cache/1clo.pdb",
+    "size": 336798,
+    "timestamp": 1767645759.395156
+  },
+  "1kel": {
+    "path": "data/pdb_cache/1kel.pdb",
+    "size": 373410,
+    "timestamp": 1767645760.894902
+  },
+  "1kem": {
+    "path": "data/pdb_cache/1kem.pdb",
+    "size": 367092,
+    "timestamp": 1767645762.4635618
+  },
+  "5drz": {
+    "path": "data/pdb_cache/5drz.pdb",
+    "size": 1222533,
+    "timestamp": 1767645764.1502528
+  },
+  "5d96": {
+    "path": "data/pdb_cache/5d96.pdb",
+    "size": 919431,
+    "timestamp": 1767645765.6550565
+  },
+  "1bvk": {
+    "path": "data/pdb_cache/1bvk.pdb",
+    "size": 492156,
+    "timestamp": 1767645767.2138257
+  },
+  "6p7h": {
+    "path": "data/pdb_cache/6p7h.pdb",
+    "size": 334368,
+    "timestamp": 1767645768.7575366
+  },
+  "6pdr": {
+    "path": "data/pdb_cache/6pdr.pdb",
+    "size": 351540,
+    "timestamp": 1767645770.7104723
+  },
+  "6pdu": {
+    "path": "data/pdb_cache/6pdu.pdb",
+    "size": 335421,
+    "timestamp": 1767645772.4095945
+  },
+  "6pec": {
+    "path": "data/pdb_cache/6pec.pdb",
+    "size": 339795,
+    "timestamp": 1767645773.9575424
+  },
+  "2ajz": {
+    "path": "data/pdb_cache/2ajz.pdb",
+    "size": 618921,
+    "timestamp": 1767645775.562329
+  },
+  "6mqm": {
+    "path": "data/pdb_cache/6mqm.pdb",
+    "size": 1163565,
+    "timestamp": 1767645777.65233
+  },
+  "6n16": {
+    "path": "data/pdb_cache/6n16.pdb",
+    "size": 1162755,
+    "timestamp": 1767645779.4848354
+  },
+  "4nby": {
+    "path": "data/pdb_cache/4nby.pdb",
+    "size": 391878,
+    "timestamp": 1767645781.014769
+  },
+  "1rih": {
+    "path": "data/pdb_cache/1rih.pdb",
+    "size": 311202,
+    "timestamp": 1767645782.7070837
+  },
+  "2nyy": {
+    "path": "data/pdb_cache/2nyy.pdb",
+    "size": 1218321,
+    "timestamp": 1767645784.4203093
+  },
+  "2gjz": {
+    "path": "data/pdb_cache/2gjz.pdb",
+    "size": 636660,
+    "timestamp": 1767645786.2027977
+  },
+  "3etb": {
+    "path": "data/pdb_cache/3etb.pdb",
+    "size": 1012014,
+    "timestamp": 1767645787.9684098
+  },
+  "2mcg": {
+    "path": "data/pdb_cache/2mcg.pdb",
+    "size": 328698,
+    "timestamp": 1767645790.2009184
+  },
+  "3mcg": {
+    "path": "data/pdb_cache/3mcg.pdb",
+    "size": 325296,
+    "timestamp": 1767645791.7730677
+  },
+  "3cfe": {
+    "path": "data/pdb_cache/3cfe.pdb",
+    "size": 633744,
+    "timestamp": 1767645793.709855
+  },
+  "1mel": {
+    "path": "data/pdb_cache/1mel.pdb",
+    "size": 361017,
+    "timestamp": 1767645795.3724127
+  },
+  "3moa": {
+    "path": "data/pdb_cache/3moa.pdb",
+    "size": 658206,
+    "timestamp": 1767645796.97922
+  },
+  "3mob": {
+    "path": "data/pdb_cache/3mob.pdb",
+    "size": 634068,
+    "timestamp": 1767645798.6126966
+  },
+  "3mod": {
+    "path": "data/pdb_cache/3mod.pdb",
+    "size": 648810,
+    "timestamp": 1767645800.2139
+  },
+  "1ken": {
+    "path": "data/pdb_cache/1ken.pdb",
+    "size": 1589220,
+    "timestamp": 1767645801.920477
+  },
+  "1frg": {
+    "path": "data/pdb_cache/1frg.pdb",
+    "size": 324567,
+    "timestamp": 1767645805.3670502
+  },
+  "1dbk": {
+    "path": "data/pdb_cache/1dbk.pdb",
+    "size": 322623,
+    "timestamp": 1767645806.9350991
+  },
+  "6mqc": {
+    "path": "data/pdb_cache/6mqc.pdb",
+    "size": 634797,
+    "timestamp": 1767645808.5517614
+  },
+  "6mqe": {
+    "path": "data/pdb_cache/6mqe.pdb",
+    "size": 615195,
+    "timestamp": 1767645810.1923943
+  },
+  "6mqs": {
+    "path": "data/pdb_cache/6mqs.pdb",
+    "size": 587574,
+    "timestamp": 1767645811.8899472
+  },
+  "1dbm": {
+    "path": "data/pdb_cache/1dbm.pdb",
+    "size": 323433,
+    "timestamp": 1767645813.658391
+  },
+  "1dzb": {
+    "path": "data/pdb_cache/1dzb.pdb",
+    "size": 519372,
+    "timestamp": 1767645815.273718
+  },
+  "1kcu": {
+    "path": "data/pdb_cache/1kcu.pdb",
+    "size": 314037,
+    "timestamp": 1767645816.9170246
+  },
+  "1jtp": {
+    "path": "data/pdb_cache/1jtp.pdb",
+    "size": 411642,
+    "timestamp": 1767645818.4558187
+  },
+  "4np4": {
+    "path": "data/pdb_cache/4np4.pdb",
+    "size": 761157,
+    "timestamp": 1767645820.2035189
+  },
+  "15c8": {
+    "path": "data/pdb_cache/15c8.pdb",
+    "size": 306423,
+    "timestamp": 1767645822.0090754
+  },
+  "25c8": {
+    "path": "data/pdb_cache/25c8.pdb",
+    "size": 322704,
+    "timestamp": 1767645823.533587
+  },
+  "2xra": {
+    "path": "data/pdb_cache/2xra.pdb",
+    "size": 461295,
+    "timestamp": 1767645825.1610775
+  },
+  "2ajx": {
+    "path": "data/pdb_cache/2ajx.pdb",
+    "size": 348786,
+    "timestamp": 1767645826.7952583
+  },
+  "2aju": {
+    "path": "data/pdb_cache/2aju.pdb",
+    "size": 669384,
+    "timestamp": 1767645828.4156406
+  },
+  "1kcr": {
+    "path": "data/pdb_cache/1kcr.pdb",
+    "size": 314604,
+    "timestamp": 1767645830.0932145
+  },
+  "1g7h": {
+    "path": "data/pdb_cache/1g7h.pdb",
+    "size": 266409,
+    "timestamp": 1767645831.6212134
+  },
+  "1g7i": {
+    "path": "data/pdb_cache/1g7i.pdb",
+    "size": 289899,
+    "timestamp": 1767645833.1210167
+  },
+  "1g7j": {
+    "path": "data/pdb_cache/1g7j.pdb",
+    "size": 281880,
+    "timestamp": 1767645834.7779493
+  },
+  "1g7l": {
+    "path": "data/pdb_cache/1g7l.pdb",
+    "size": 269568,
+    "timestamp": 1767645836.368833
+  },
+  "1g7m": {
+    "path": "data/pdb_cache/1g7m.pdb",
+    "size": 262521,
+    "timestamp": 1767645837.89061
+  },
+  "1f11": {
+    "path": "data/pdb_cache/1f11.pdb",
+    "size": 589356,
+    "timestamp": 1767645839.5559494
+  },
+  "5d93": {
+    "path": "data/pdb_cache/5d93.pdb",
+    "size": 945189,
+    "timestamp": 1767645841.4257705
+  },
+  "5dur": {
+    "path": "data/pdb_cache/5dur.pdb",
+    "size": 1687797,
+    "timestamp": 1767645843.3218732
+  },
+  "1tjg": {
+    "path": "data/pdb_cache/1tjg.pdb",
+    "size": 366120,
+    "timestamp": 1767645844.8694737
+  },
+  "2iff": {
+    "path": "data/pdb_cache/2iff.pdb",
+    "size": 397548,
+    "timestamp": 1767645846.4285662
+  },
+  "3cfd": {
+    "path": "data/pdb_cache/3cfd.pdb",
+    "size": 624915,
+    "timestamp": 1767645848.0596821
+  },
+  "7kfw": {
+    "path": "data/pdb_cache/7kfw.pdb",
+    "size": 2592810,
+    "timestamp": 1767645850.044902
+  },
+  "4fp8": {
+    "path": "data/pdb_cache/4fp8.pdb",
+    "size": 3830085,
+    "timestamp": 1767645853.6588397
+  },
+  "5e94": {
+    "path": "data/pdb_cache/5e94.pdb",
+    "size": 782379,
+    "timestamp": 1767645858.405225
+  },
+  "6xq2": {
+    "path": "data/pdb_cache/6xq2.pdb",
+    "size": 1888191,
+    "timestamp": 1767645860.3185682
+  },
+  "8dgx": {
+    "path": "data/pdb_cache/8dgx.pdb",
+    "size": 1124199,
+    "timestamp": 1767645862.5841315
+  },
+  "2vir": {
+    "path": "data/pdb_cache/2vir.pdb",
+    "size": 489483,
+    "timestamp": 1767645864.2027407
+  },
+  "2vit": {
+    "path": "data/pdb_cache/2vit.pdb",
+    "size": 489483,
+    "timestamp": 1767645865.8512316
+  },
+  "1tqb": {
+    "path": "data/pdb_cache/1tqb.pdb",
+    "size": 378675,
+    "timestamp": 1767645867.6531894
+  },
+  "1p7k": {
+    "path": "data/pdb_cache/1p7k.pdb",
+    "size": 709803,
+    "timestamp": 1767645869.1219058
+  },
+  "1ck0": {
+    "path": "data/pdb_cache/1ck0.pdb",
+    "size": 304803,
+    "timestamp": 1767645870.7056842
+  },
+  "6a0z": {
+    "path": "data/pdb_cache/6a0z.pdb",
+    "size": 1004562,
+    "timestamp": 1767645872.6310081
+  },
+  "6mtp": {
+    "path": "data/pdb_cache/6mtp.pdb",
+    "size": 1225692,
+    "timestamp": 1767645874.3302782
+  },
+  "1fe8": {
+    "path": "data/pdb_cache/1fe8.pdb",
+    "size": 1304910,
+    "timestamp": 1767645876.0420618
+  },
+  "6pzz": {
+    "path": "data/pdb_cache/6pzz.pdb",
+    "size": 1825254,
+    "timestamp": 1767645877.8936372
+  },
+  "7phu": {
+    "path": "data/pdb_cache/7phu.pdb",
+    "size": 1593189,
+    "timestamp": 1767645880.1087463
+  },
+  "1uac": {
+    "path": "data/pdb_cache/1uac.pdb",
+    "size": 265437,
+    "timestamp": 1767645881.6555653
+  },
+  "1lo0": {
+    "path": "data/pdb_cache/1lo0.pdb",
+    "size": 609282,
+    "timestamp": 1767645883.6242893
+  },
+  "1c08": {
+    "path": "data/pdb_cache/1c08.pdb",
+    "size": 269001,
+    "timestamp": 1767645885.1124966
+  },
+  "1ztx": {
+    "path": "data/pdb_cache/1ztx.pdb",
+    "size": 385317,
+    "timestamp": 1767645886.4916375
+  },
+  "1nmb": {
+    "path": "data/pdb_cache/1nmb.pdb",
+    "size": 483084,
+    "timestamp": 1767645888.5715332
+  },
+  "2dbl": {
+    "path": "data/pdb_cache/2dbl.pdb",
+    "size": 320679,
+    "timestamp": 1767645890.8861773
+  },
+  "7kfv": {
+    "path": "data/pdb_cache/7kfv.pdb",
+    "size": 2688471,
+    "timestamp": 1767645892.6964974
+  },
+  "6nfu": {
+    "path": "data/pdb_cache/6nfu.pdb",
+    "size": 406620,
+    "timestamp": 1767645896.789538
+  },
+  "6nfv": {
+    "path": "data/pdb_cache/6nfv.pdb",
+    "size": 390339,
+    "timestamp": 1767645898.491682
+  },
+  "6wn1": {
+    "path": "data/pdb_cache/6wn1.pdb",
+    "size": 810000,
+    "timestamp": 1767645900.1147947
+  },
+  "3fo9": {
+    "path": "data/pdb_cache/3fo9.pdb",
+    "size": 631800,
+    "timestamp": 1767645901.8908515
+  },
+  "6pzy": {
+    "path": "data/pdb_cache/6pzy.pdb",
+    "size": 1838781,
+    "timestamp": 1767645903.8544872
+  },
+  "2ajy": {
+    "path": "data/pdb_cache/2ajy.pdb",
+    "size": 339957,
+    "timestamp": 1767645907.2435076
+  },
+  "2ajs": {
+    "path": "data/pdb_cache/2ajs.pdb",
+    "size": 360693,
+    "timestamp": 1767645908.9708097
+  },
+  "2ajv": {
+    "path": "data/pdb_cache/2ajv.pdb",
+    "size": 669708,
+    "timestamp": 1767645910.6146524
+  },
+  "2ak1": {
+    "path": "data/pdb_cache/2ak1.pdb",
+    "size": 346437,
+    "timestamp": 1767645913.0466871
+  },
+  "2eiz": {
+    "path": "data/pdb_cache/2eiz.pdb",
+    "size": 274671,
+    "timestamp": 1767645915.5879772
+  },
+  "5tr1": {
+    "path": "data/pdb_cache/5tr1.pdb",
+    "size": 1092933,
+    "timestamp": 1767645918.8753192
+  },
+  "1yyl": {
+    "path": "data/pdb_cache/1yyl.pdb",
+    "size": 1102167,
+    "timestamp": 1767645920.8035526
+  },
+  "2i60": {
+    "path": "data/pdb_cache/2i60.pdb",
+    "size": 1110024,
+    "timestamp": 1767645923.2166398
+  },
+  "1dqj": {
+    "path": "data/pdb_cache/1dqj.pdb",
+    "size": 429867,
+    "timestamp": 1767645924.751525
+  },
+  "1kc5": {
+    "path": "data/pdb_cache/1kc5.pdb",
+    "size": 326673,
+    "timestamp": 1767645926.327461
+  },
+  "4rfn": {
+    "path": "data/pdb_cache/4rfn.pdb",
+    "size": 2099277,
+    "timestamp": 1767645929.340688
+  },
+  "1yee": {
+    "path": "data/pdb_cache/1yee.pdb",
+    "size": 319788,
+    "timestamp": 1767645930.9267905
+  },
+  "1ggb": {
+    "path": "data/pdb_cache/1ggb.pdb",
+    "size": 311931,
+    "timestamp": 1767645932.4619966
+  },
+  "1ggc": {
+    "path": "data/pdb_cache/1ggc.pdb",
+    "size": 311931,
+    "timestamp": 1767645934.1959896
+  },
+  "1rup": {
+    "path": "data/pdb_cache/1rup.pdb",
+    "size": 674568,
+    "timestamp": 1767645935.9956105
+  },
+  "6n6b": {
+    "path": "data/pdb_cache/6n6b.pdb",
+    "size": 609201,
+    "timestamp": 1767645937.6166966
+  },
+  "7x26": {
+    "path": "data/pdb_cache/7x26.pdb",
+    "size": 426789,
+    "timestamp": 1767645939.3750577
+  },
+  "3o41": {
+    "path": "data/pdb_cache/3o41.pdb",
+    "size": 1246509,
+    "timestamp": 1767645941.101182
+  },
+  "3o45": {
+    "path": "data/pdb_cache/3o45.pdb",
+    "size": 1168749,
+    "timestamp": 1767645942.838536
+  },
+  "7jx3": {
+    "path": "data/pdb_cache/7jx3.pdb",
+    "size": 1939302,
+    "timestamp": 1767645944.544341
+  },
+  "7m7w": {
+    "path": "data/pdb_cache/7m7w.pdb",
+    "size": 2728566,
+    "timestamp": 1767645946.484961
+  },
+  "4xak": {
+    "path": "data/pdb_cache/4xak.pdb",
+    "size": 1738098,
+    "timestamp": 1767645948.8071277
+  },
+  "6mtt": {
+    "path": "data/pdb_cache/6mtt.pdb",
+    "size": 482436,
+    "timestamp": 1767645950.7275422
+  },
+  "2vyr": {
+    "path": "data/pdb_cache/2vyr.pdb",
+    "size": 997839,
+    "timestamp": 1767645952.7214658
+  },
+  "5umn": {
+    "path": "data/pdb_cache/5umn.pdb",
+    "size": 1956960,
+    "timestamp": 1767645955.506116
+  },
+  "6xq4": {
+    "path": "data/pdb_cache/6xq4.pdb",
+    "size": 889704,
+    "timestamp": 1767645958.5000541
+  },
+  "1a3l": {
+    "path": "data/pdb_cache/1a3l.pdb",
+    "size": 333558,
+    "timestamp": 1767645960.180495
+  },
+  "5vag": {
+    "path": "data/pdb_cache/5vag.pdb",
+    "size": 513783,
+    "timestamp": 1767645961.965902
+  },
+  "2eks": {
+    "path": "data/pdb_cache/2eks.pdb",
+    "size": 266004,
+    "timestamp": 1767645963.5044427
+  },
+  "2yss": {
+    "path": "data/pdb_cache/2yss.pdb",
+    "size": 257337,
+    "timestamp": 1767645965.2491431
+  },
+  "1bm3": {
+    "path": "data/pdb_cache/1bm3.pdb",
+    "size": 337203,
+    "timestamp": 1767645966.7727652
+  },
+  "1ua6": {
+    "path": "data/pdb_cache/1ua6.pdb",
+    "size": 266004,
+    "timestamp": 1767645968.2679942
+  },
+  "4zyp": {
+    "path": "data/pdb_cache/4zyp.pdb",
+    "size": 2575719,
+    "timestamp": 1767645970.1200671
+  },
+  "4pub": {
+    "path": "data/pdb_cache/4pub.pdb",
+    "size": 600048,
+    "timestamp": 1767645975.0999804
+  },
+  "4yk4": {
+    "path": "data/pdb_cache/4yk4.pdb",
+    "size": 1701972,
+    "timestamp": 1767645976.8487914
+  },
+  "7lue": {
+    "path": "data/pdb_cache/7lue.pdb",
+    "size": 1378539,
+    "timestamp": 1767645978.6870642
+  },
+  "3uji": {
+    "path": "data/pdb_cache/3uji.pdb",
+    "size": 383130,
+    "timestamp": 1767645981.236816
+  },
+  "1tqc": {
+    "path": "data/pdb_cache/1tqc.pdb",
+    "size": 377622,
+    "timestamp": 1767645982.964509
+  },
+  "2xqy": {
+    "path": "data/pdb_cache/2xqy.pdb",
+    "size": 2432349,
+    "timestamp": 1767645984.7490942
+  },
+  "4n1e": {
+    "path": "data/pdb_cache/4n1e.pdb",
+    "size": 1699866,
+    "timestamp": 1767645987.4157844
+  },
+  "1fbi": {
+    "path": "data/pdb_cache/1fbi.pdb",
+    "size": 743499,
+    "timestamp": 1767645988.9532819
+  },
+  "7v3l": {
+    "path": "data/pdb_cache/7v3l.pdb",
+    "size": 3074355,
+    "timestamp": 1767645990.970378
+  },
+  "1rum": {
+    "path": "data/pdb_cache/1rum.pdb",
+    "size": 703809,
+    "timestamp": 1767645996.125521
+  },
+  "2dqf": {
+    "path": "data/pdb_cache/2dqf.pdb",
+    "size": 496530,
+    "timestamp": 1767645997.7282634
+  },
+  "1seq": {
+    "path": "data/pdb_cache/1seq.pdb",
+    "size": 337446,
+    "timestamp": 1767645999.3032777
+  },
+  "2i5y": {
+    "path": "data/pdb_cache/2i5y.pdb",
+    "size": 1119501,
+    "timestamp": 1767646001.0088654
+  },
+  "5tkj": {
+    "path": "data/pdb_cache/5tkj.pdb",
+    "size": 2407644,
+    "timestamp": 1767646002.844825
+  },
+  "2fx7": {
+    "path": "data/pdb_cache/2fx7.pdb",
+    "size": 349272,
+    "timestamp": 1767646004.9257212
+  },
+  "1ai1": {
+    "path": "data/pdb_cache/1ai1.pdb",
+    "size": 317763,
+    "timestamp": 1767646006.4960368
+  },
+  "1yym": {
+    "path": "data/pdb_cache/1yym.pdb",
+    "size": 1139832,
+    "timestamp": 1767646008.384061
+  },
+  "1nbz": {
+    "path": "data/pdb_cache/1nbz.pdb",
+    "size": 434646,
+    "timestamp": 1767646010.1725223
+  },
+  "8dgw": {
+    "path": "data/pdb_cache/8dgw.pdb",
+    "size": 2224908,
+    "timestamp": 1767646012.145219
+  },
+  "7tcq": {
+    "path": "data/pdb_cache/7tcq.pdb",
+    "size": 1248048,
+    "timestamp": 1767646013.6500268
+  },
+  "2gj7": {
+    "path": "data/pdb_cache/2gj7.pdb",
+    "size": 619731,
+    "timestamp": 1767646015.3316753
+  },
+  "5tpn": {
+    "path": "data/pdb_cache/5tpn.pdb",
+    "size": 630180,
+    "timestamp": 1767646016.9435606
+  },
+  "4u3x": {
+    "path": "data/pdb_cache/4u3x.pdb",
+    "size": 641520,
+    "timestamp": 1767646018.740362
+  },
+  "4f2m": {
+    "path": "data/pdb_cache/4f2m.pdb",
+    "size": 1560060,
+    "timestamp": 1767646020.4613981
+  },
+  "1e4w": {
+    "path": "data/pdb_cache/1e4w.pdb",
+    "size": 348948,
+    "timestamp": 1767646022.824553
+  },
+  "5mhr": {
+    "path": "data/pdb_cache/5mhr.pdb",
+    "size": 3812589,
+    "timestamp": 1767646025.0144117
+  },
+  "1mhp": {
+    "path": "data/pdb_cache/1mhp.pdb",
+    "size": 718389,
+    "timestamp": 1767646026.632354
+  },
+  "1a14": {
+    "path": "data/pdb_cache/1a14.pdb",
+    "size": 477414,
+    "timestamp": 1767646028.4620593
+  },
+  "1ncb": {
+    "path": "data/pdb_cache/1ncb.pdb",
+    "size": 609039,
+    "timestamp": 1767646030.1019952
+  },
+  "1ncc": {
+    "path": "data/pdb_cache/1ncc.pdb",
+    "size": 599724,
+    "timestamp": 1767646031.72579
+  },
+  "1eo8": {
+    "path": "data/pdb_cache/1eo8.pdb",
+    "size": 658287,
+    "timestamp": 1767646033.3859084
+  },
+  "7cho": {
+    "path": "data/pdb_cache/7cho.pdb",
+    "size": 839565,
+    "timestamp": 1767646035.2362142
+  },
+  "1xgt": {
+    "path": "data/pdb_cache/1xgt.pdb",
+    "size": 413910,
+    "timestamp": 1767646036.8659215
+  },
+  "5tih": {
+    "path": "data/pdb_cache/5tih.pdb",
+    "size": 1030563,
+    "timestamp": 1767646039.1601572
+  },
+  "7kzb": {
+    "path": "data/pdb_cache/7kzb.pdb",
+    "size": 1247238,
+    "timestamp": 1767646041.4433587
+  },
+  "1a2y": {
+    "path": "data/pdb_cache/1a2y.pdb",
+    "size": 297999,
+    "timestamp": 1767646043.1194973
+  },
+  "8fbw": {
+    "path": "data/pdb_cache/8fbw.pdb",
+    "size": 1244322,
+    "timestamp": 1767646044.8621678
+  },
+  "5tkk": {
+    "path": "data/pdb_cache/5tkk.pdb",
+    "size": 623781,
+    "timestamp": 1767646046.3323507
+  },
+  "1ru9": {
+    "path": "data/pdb_cache/1ru9.pdb",
+    "size": 345708,
+    "timestamp": 1767646048.0325806
+  },
+  "1ruk": {
+    "path": "data/pdb_cache/1ruk.pdb",
+    "size": 670599,
+    "timestamp": 1767646049.6680079
+  },
+  "1rul": {
+    "path": "data/pdb_cache/1rul.pdb",
+    "size": 350649,
+    "timestamp": 1767646051.2777126
+  },
+  "1etz": {
+    "path": "data/pdb_cache/1etz.pdb",
+    "size": 607095,
+    "timestamp": 1767646053.0757825
+  },
+  "6xpq": {
+    "path": "data/pdb_cache/6xpq.pdb",
+    "size": 507627,
+    "timestamp": 1767646054.7519288
+  },
+  "5gjt": {
+    "path": "data/pdb_cache/5gjt.pdb",
+    "size": 635526,
+    "timestamp": 1767646056.4492524
+  },
+  "1mvu": {
+    "path": "data/pdb_cache/1mvu.pdb",
+    "size": 204687,
+    "timestamp": 1767646058.1316836
+  },
+  "5dhv": {
+    "path": "data/pdb_cache/5dhv.pdb",
+    "size": 787482,
+    "timestamp": 1767646060.2631006
+  },
+  "1ct8": {
+    "path": "data/pdb_cache/1ct8.pdb",
+    "size": 614061,
+    "timestamp": 1767646061.915214
+  },
+  "1xgu": {
+    "path": "data/pdb_cache/1xgu.pdb",
+    "size": 423468,
+    "timestamp": 1767646063.6991637
+  },
+  "2dd8": {
+    "path": "data/pdb_cache/2dd8.pdb",
+    "size": 457893,
+    "timestamp": 1767646065.3170946
+  },
+  "1qfu": {
+    "path": "data/pdb_cache/1qfu.pdb",
+    "size": 669951,
+    "timestamp": 1767646067.1319726
+  },
+  "5vcn": {
+    "path": "data/pdb_cache/5vcn.pdb",
+    "size": 1700433,
+    "timestamp": 1767646069.3371847
+  },
+  "6vy6": {
+    "path": "data/pdb_cache/6vy6.pdb",
+    "size": 1161054,
+    "timestamp": 1767646072.348028
+  },
+  "3d9a": {
+    "path": "data/pdb_cache/3d9a.pdb",
+    "size": 453762,
+    "timestamp": 1767646074.1789708
+  },
+  "7eam": {
+    "path": "data/pdb_cache/7eam.pdb",
+    "size": 1835460,
+    "timestamp": 1767646076.183322
+  },
+  "4jo3": {
+    "path": "data/pdb_cache/4jo3.pdb",
+    "size": 622647,
+    "timestamp": 1767646078.1160815
+  },
+  "6mqr": {
+    "path": "data/pdb_cache/6mqr.pdb",
+    "size": 338337,
+    "timestamp": 1767646079.8127172
+  },
+  "1ndg": {
+    "path": "data/pdb_cache/1ndg.pdb",
+    "size": 428976,
+    "timestamp": 1767646081.4375875
+  },
+  "1ndm": {
+    "path": "data/pdb_cache/1ndm.pdb",
+    "size": 432216,
+    "timestamp": 1767646083.071688
+  },
+  "5dd0": {
+    "path": "data/pdb_cache/5dd0.pdb",
+    "size": 873423,
+    "timestamp": 1767646084.7741513
+  },
+  "1a0q": {
+    "path": "data/pdb_cache/1a0q.pdb",
+    "size": 315171,
+    "timestamp": 1767646086.3276384
+  },
+  "6lxj": {
+    "path": "data/pdb_cache/6lxj.pdb",
+    "size": 2248884,
+    "timestamp": 1767646088.111735
+  },
+  "6msy": {
+    "path": "data/pdb_cache/6msy.pdb",
+    "size": 324972,
+    "timestamp": 1767646092.1194122
+  },
+  "1rua": {
+    "path": "data/pdb_cache/1rua.pdb",
+    "size": 356400,
+    "timestamp": 1767646093.8287845
+  },
+  "3o0r": {
+    "path": "data/pdb_cache/3o0r.pdb",
+    "size": 1426248,
+    "timestamp": 1767646095.5376205
+  },
+  "3wfb": {
+    "path": "data/pdb_cache/3wfb.pdb",
+    "size": 1419687,
+    "timestamp": 1767646097.3455122
+  },
+  "3wfe": {
+    "path": "data/pdb_cache/3wfe.pdb",
+    "size": 1446741,
+    "timestamp": 1767646099.0476696
+  },
+  "6c6z": {
+    "path": "data/pdb_cache/6c6z.pdb",
+    "size": 1709586,
+    "timestamp": 1767646100.8223658
+  },
+  "1f58": {
+    "path": "data/pdb_cache/1f58.pdb",
+    "size": 331209,
+    "timestamp": 1767646103.6081028
+  },
+  "4jb9": {
+    "path": "data/pdb_cache/4jb9.pdb",
+    "size": 1064583,
+    "timestamp": 1767646105.3423095
+  },
+  "1ncw": {
+    "path": "data/pdb_cache/1ncw.pdb",
+    "size": 691011,
+    "timestamp": 1767646107.1724672
+  },
+  "7n0i": {
+    "path": "data/pdb_cache/7n0i.pdb",
+    "size": 1801845,
+    "timestamp": 1767646108.9476478
+  },
+  "1opg": {
+    "path": "data/pdb_cache/1opg.pdb",
+    "size": 363366,
+    "timestamp": 1767646111.764402
+  },
+  "7fah": {
+    "path": "data/pdb_cache/7fah.pdb",
+    "size": 1780623,
+    "timestamp": 1767646113.5551078
+  },
+  "6wm9": {
+    "path": "data/pdb_cache/6wm9.pdb",
+    "size": 1022301,
+    "timestamp": 1767646115.3279095
+  },
+  "6wqo": {
+    "path": "data/pdb_cache/6wqo.pdb",
+    "size": 930528,
+    "timestamp": 1767646117.2353444
+  },
+  "4ttd": {
+    "path": "data/pdb_cache/4ttd.pdb",
+    "size": 750141,
+    "timestamp": 1767646119.1221898
+  },
+  "7u8m": {
+    "path": "data/pdb_cache/7u8m.pdb",
+    "size": 2682639,
+    "timestamp": 1767646121.101352
+  },
+  "7m42": {
+    "path": "data/pdb_cache/7m42.pdb",
+    "size": 711180,
+    "timestamp": 1767646125.993448
+  },
+  "3mnw": {
+    "path": "data/pdb_cache/3mnw.pdb",
+    "size": 648567,
+    "timestamp": 1767646127.8131704
+  },
+  "3mnz": {
+    "path": "data/pdb_cache/3mnz.pdb",
+    "size": 669546,
+    "timestamp": 1767646129.6051705
+  },
+  "4npf": {
+    "path": "data/pdb_cache/4npf.pdb",
+    "size": 831465,
+    "timestamp": 1767646131.2435231
+  },
+  "1xgr": {
+    "path": "data/pdb_cache/1xgr.pdb",
+    "size": 411156,
+    "timestamp": 1767646132.8044555
+  },
+  "5mi0": {
+    "path": "data/pdb_cache/5mi0.pdb",
+    "size": 1048383,
+    "timestamp": 1767646134.5021703
+  },
+  "1j1o": {
+    "path": "data/pdb_cache/1j1o.pdb",
+    "size": 284148,
+    "timestamp": 1767646135.9904122
+  },
+  "1j1p": {
+    "path": "data/pdb_cache/1j1p.pdb",
+    "size": 285363,
+    "timestamp": 1767646137.4794912
+  },
+  "1j1x": {
+    "path": "data/pdb_cache/1j1x.pdb",
+    "size": 285201,
+    "timestamp": 1767646139.104882
+  },
+  "2dqc": {
+    "path": "data/pdb_cache/2dqc.pdb",
+    "size": 286497,
+    "timestamp": 1767646140.617364
+  },
+  "2dqd": {
+    "path": "data/pdb_cache/2dqd.pdb",
+    "size": 286740,
+    "timestamp": 1767646142.1641107
+  },
+  "2dqe": {
+    "path": "data/pdb_cache/2dqe.pdb",
+    "size": 279207,
+    "timestamp": 1767646143.8461812
+  },
+  "2vis": {
+    "path": "data/pdb_cache/2vis.pdb",
+    "size": 492399,
+    "timestamp": 1767646145.4494617
+  },
+  "4pgj": {
+    "path": "data/pdb_cache/4pgj.pdb",
+    "size": 605556,
+    "timestamp": 1767646147.0794413
+  },
+  "8dgv": {
+    "path": "data/pdb_cache/8dgv.pdb",
+    "size": 580932,
+    "timestamp": 1767646148.8791347
+  },
+  "7mxd": {
+    "path": "data/pdb_cache/7mxd.pdb",
+    "size": 2683935,
+    "timestamp": 1767646150.8971949
+  },
+  "2b2x": {
+    "path": "data/pdb_cache/2b2x.pdb",
+    "size": 845559,
+    "timestamp": 1767646155.5538583
+  },
+  "5tqq": {
+    "path": "data/pdb_cache/5tqq.pdb",
+    "size": 1078272,
+    "timestamp": 1767646157.6944022
+  },
+  "2ny7": {
+    "path": "data/pdb_cache/2ny7.pdb",
+    "size": 1064259,
+    "timestamp": 1767646159.6145945
+  },
+  "3gbm": {
+    "path": "data/pdb_cache/3gbm.pdb",
+    "size": 1328319,
+    "timestamp": 1767646161.456899
+  },
+  "1moe": {
+    "path": "data/pdb_cache/1moe.pdb",
+    "size": 347004,
+    "timestamp": 1767646163.957334
+  },
+  "6ml8": {
+    "path": "data/pdb_cache/6ml8.pdb",
+    "size": 1215729,
+    "timestamp": 1767646165.928142
+  },
+  "5dhy": {
+    "path": "data/pdb_cache/5dhy.pdb",
+    "size": 767718,
+    "timestamp": 1767646168.3745384
+  },
+  "1kb5": {
+    "path": "data/pdb_cache/1kb5.pdb",
+    "size": 492561,
+    "timestamp": 1767646169.9832325
+  },
+  "6h0e": {
+    "path": "data/pdb_cache/6h0e.pdb",
+    "size": 1274130,
+    "timestamp": 1767646171.8700109
+  },
+  "8d6z": {
+    "path": "data/pdb_cache/8d6z.pdb",
+    "size": 1190457,
+    "timestamp": 1767646173.9042957
+  },
+  "4xnm": {
+    "path": "data/pdb_cache/4xnm.pdb",
+    "size": 1666899,
+    "timestamp": 1767646175.609073
+  },
+  "1nby": {
+    "path": "data/pdb_cache/1nby.pdb",
+    "size": 437886,
+    "timestamp": 1767646177.6501195
+  },
+  "3ujj": {
+    "path": "data/pdb_cache/3ujj.pdb",
+    "size": 406296,
+    "timestamp": 1767646179.160057
+  },
+  "5gjs": {
+    "path": "data/pdb_cache/5gjs.pdb",
+    "size": 1215405,
+    "timestamp": 1767646180.9037197
+  },
+  "2exw": {
+    "path": "data/pdb_cache/2exw.pdb",
+    "size": 1137888,
+    "timestamp": 1767646183.6581936
+  },
+  "2ez0": {
+    "path": "data/pdb_cache/2ez0.pdb",
+    "size": 1140156,
+    "timestamp": 1767646186.7760527
+  },
+  "1xgp": {
+    "path": "data/pdb_cache/1xgp.pdb",
+    "size": 418203,
+    "timestamp": 1767646189.2360504
+  },
+  "1xgq": {
+    "path": "data/pdb_cache/1xgq.pdb",
+    "size": 420471,
+    "timestamp": 1767646191.0575173
+  },
+  "7rks": {
+    "path": "data/pdb_cache/7rks.pdb",
+    "size": 849771,
+    "timestamp": 1767646192.898547
+  },
+  "5do2": {
+    "path": "data/pdb_cache/5do2.pdb",
+    "size": 1698651,
+    "timestamp": 1767646194.63668
+  },
+  "2dqg": {
+    "path": "data/pdb_cache/2dqg.pdb",
+    "size": 268920,
+    "timestamp": 1767646196.3063023
+  },
+  "2dqh": {
+    "path": "data/pdb_cache/2dqh.pdb",
+    "size": 266328,
+    "timestamp": 1767646197.8015718
+  },
+  "2dqi": {
+    "path": "data/pdb_cache/2dqi.pdb",
+    "size": 285525,
+    "timestamp": 1767646199.2073846
+  },
+  "2dqj": {
+    "path": "data/pdb_cache/2dqj.pdb",
+    "size": 283500,
+    "timestamp": 1767646200.7102346
+  },
+  "4tsb": {
+    "path": "data/pdb_cache/4tsb.pdb",
+    "size": 406377,
+    "timestamp": 1767646202.329403
+  },
+  "7r6x": {
+    "path": "data/pdb_cache/7r6x.pdb",
+    "size": 1585332,
+    "timestamp": 1767646204.1361115
+  },
+  "6tys": {
+    "path": "data/pdb_cache/6tys.pdb",
+    "size": 1438074,
+    "timestamp": 1767646206.2757568
+  },
+  "4ydj": {
+    "path": "data/pdb_cache/4ydj.pdb",
+    "size": 3014739,
+    "timestamp": 1767646208.444711
+  },
+  "7x28": {
+    "path": "data/pdb_cache/7x28.pdb",
+    "size": 3211083,
+    "timestamp": 1767646212.5266955
+  },
+  "7x29": {
+    "path": "data/pdb_cache/7x29.pdb",
+    "size": 3274992,
+    "timestamp": 1767646214.3962548
+  },
+  "7syz": {
+    "path": "data/pdb_cache/7syz.pdb",
+    "size": 668007,
+    "timestamp": 1767646220.291825
+  },
+  "1acy": {
+    "path": "data/pdb_cache/1acy.pdb",
+    "size": 326268,
+    "timestamp": 1767646222.972266
+  },
+  "6xdg": {
+    "path": "data/pdb_cache/6xdg.pdb",
+    "size": 827172,
+    "timestamp": 1767646225.6213021
+  },
+  "1xed": {
+    "path": "data/pdb_cache/1xed.pdb",
+    "size": 473850,
+    "timestamp": 1767646228.899307
+  },
+  "7x6o": {
+    "path": "data/pdb_cache/7x6o.pdb",
+    "size": 1825254,
+    "timestamp": 1767646231.985594
+  },
+  "6nmr": {
+    "path": "data/pdb_cache/6nmr.pdb",
+    "size": 1469178,
+    "timestamp": 1767646236.7771742
+  },
+  "5x08": {
+    "path": "data/pdb_cache/5x08.pdb",
+    "size": 700083,
+    "timestamp": 1767646239.3653746
+  },
+  "5uea": {
+    "path": "data/pdb_cache/5uea.pdb",
+    "size": 1558764,
+    "timestamp": 1767646361.2335985
+  },
+  "6ayz": {
+    "path": "data/pdb_cache/6ayz.pdb",
+    "size": 1559574,
+    "timestamp": 1767646363.4960048
+  },
+  "6az2": {
+    "path": "data/pdb_cache/6az2.pdb",
+    "size": 2180844,
+    "timestamp": 1767646365.2912276
+  },
+  "4r0l": {
+    "path": "data/pdb_cache/4r0l.pdb",
+    "size": 874962,
+    "timestamp": 1767646367.2298563
+  },
+  "4nc0": {
+    "path": "data/pdb_cache/4nc0.pdb",
+    "size": 288765,
+    "timestamp": 1767646368.8776753
+  },
+  "7x25": {
+    "path": "data/pdb_cache/7x25.pdb",
+    "size": 3877065,
+    "timestamp": 1767646370.7342675
+  },
+  "3t2n": {
+    "path": "data/pdb_cache/3t2n.pdb",
+    "size": 1984338,
+    "timestamp": 1767646372.5116227
+  },
+  "4fqj": {
+    "path": "data/pdb_cache/4fqj.pdb",
+    "size": 987795,
+    "timestamp": 1767646375.5015562
+  },
+  "3se8": {
+    "path": "data/pdb_cache/3se8.pdb",
+    "size": 1633122,
+    "timestamp": 1767646377.306796
+  },
+  "6wzt": {
+    "path": "data/pdb_cache/6wzt.pdb",
+    "size": 1964979,
+    "timestamp": 1767646379.2410302
+  },
+  "3ciq": {
+    "path": "data/pdb_cache/3ciq.pdb",
+    "size": 915057,
+    "timestamp": 1767646381.597344
+  },
+  "4fg6": {
+    "path": "data/pdb_cache/4fg6.pdb",
+    "size": 1128168,
+    "timestamp": 1767646383.545461
+  },
+  "3ztj": {
+    "path": "data/pdb_cache/3ztj.pdb",
+    "size": 3491181,
+    "timestamp": 1767646386.6517751
+  },
+  "7tbf": {
+    "path": "data/pdb_cache/7tbf.pdb",
+    "size": 580932,
+    "timestamp": 1767646392.0409145
+  },
+  "6xpr": {
+    "path": "data/pdb_cache/6xpr.pdb",
+    "size": 975483,
+    "timestamp": 1767646393.7065902
+  },
+  "6xpz": {
+    "path": "data/pdb_cache/6xpz.pdb",
+    "size": 1905120,
+    "timestamp": 1767646395.742642
+  },
+  "8be1": {
+    "path": "data/pdb_cache/8be1.pdb",
+    "size": 865242,
+    "timestamp": 1767646397.8124468
+  },
+  "4jpv": {
+    "path": "data/pdb_cache/4jpv.pdb",
+    "size": 1058913,
+    "timestamp": 1767646399.7232165
+  },
+  "4jpw": {
+    "path": "data/pdb_cache/4jpw.pdb",
+    "size": 1057617,
+    "timestamp": 1767646401.4316313
+  },
+  "7l7e": {
+    "path": "data/pdb_cache/7l7e.pdb",
+    "size": 5490342,
+    "timestamp": 1767646403.5399828
+  },
+  "1fpt": {
+    "path": "data/pdb_cache/1fpt.pdb",
+    "size": 330075,
+    "timestamp": 1767646405.5671408
+  },
+  "7cdi": {
+    "path": "data/pdb_cache/7cdi.pdb",
+    "size": 812754,
+    "timestamp": 1767646407.3530967
+  },
+  "3wfc": {
+    "path": "data/pdb_cache/3wfc.pdb",
+    "size": 1444149,
+    "timestamp": 1767646409.0665321
+  },
+  "3wfd": {
+    "path": "data/pdb_cache/3wfd.pdb",
+    "size": 1447065,
+    "timestamp": 1767646410.772337
+  },
+  "1nca": {
+    "path": "data/pdb_cache/1nca.pdb",
+    "size": 604017,
+    "timestamp": 1767646412.5543294
+  },
+  "1ncd": {
+    "path": "data/pdb_cache/1ncd.pdb",
+    "size": 605799,
+    "timestamp": 1767646414.079575
+  },
+  "1ae6": {
+    "path": "data/pdb_cache/1ae6.pdb",
+    "size": 310311,
+    "timestamp": 1767646415.5771234
+  },
+  "6p4b": {
+    "path": "data/pdb_cache/6p4b.pdb",
+    "size": 777276,
+    "timestamp": 1767646417.3870356
+  },
+  "6urm": {
+    "path": "data/pdb_cache/6urm.pdb",
+    "size": 1789209,
+    "timestamp": 1767646419.172146
+  },
+  "4dag": {
+    "path": "data/pdb_cache/4dag.pdb",
+    "size": 1068795,
+    "timestamp": 1767646421.2413597
+  },
+  "6lxi": {
+    "path": "data/pdb_cache/6lxi.pdb",
+    "size": 2175498,
+    "timestamp": 1767646423.3511782
+  },
+  "6oyh": {
+    "path": "data/pdb_cache/6oyh.pdb",
+    "size": 3490371,
+    "timestamp": 1767646425.8810337
+  },
+  "7r6w": {
+    "path": "data/pdb_cache/7r6w.pdb",
+    "size": 1466586,
+    "timestamp": 1767646430.8730092
+  },
+  "3d0v": {
+    "path": "data/pdb_cache/3d0v.pdb",
+    "size": 331047,
+    "timestamp": 1767646432.3974128
+  },
+  "6nc2": {
+    "path": "data/pdb_cache/6nc2.pdb",
+    "size": 3689712,
+    "timestamp": 1767646434.183889
+  },
+  "3a67": {
+    "path": "data/pdb_cache/3a67.pdb",
+    "size": 289332,
+    "timestamp": 1767646443.3772163
+  },
+  "3a6b": {
+    "path": "data/pdb_cache/3a6b.pdb",
+    "size": 290547,
+    "timestamp": 1767646444.8705745
+  },
+  "3a6c": {
+    "path": "data/pdb_cache/3a6c.pdb",
+    "size": 291114,
+    "timestamp": 1767646446.3634045
+  },
+  "4xmp": {
+    "path": "data/pdb_cache/4xmp.pdb",
+    "size": 1630368,
+    "timestamp": 1767646448.0793595
+  },
+  "4xny": {
+    "path": "data/pdb_cache/4xny.pdb",
+    "size": 1595943,
+    "timestamp": 1767646449.939958
+  },
+  "5te4": {
+    "path": "data/pdb_cache/5te4.pdb",
+    "size": 1086129,
+    "timestamp": 1767646451.73429
+  },
+  "7x8q": {
+    "path": "data/pdb_cache/7x8q.pdb",
+    "size": 741069,
+    "timestamp": 1767646453.3665698
+  },
+  "1ic4": {
+    "path": "data/pdb_cache/1ic4.pdb",
+    "size": 264951,
+    "timestamp": 1767646454.9151976
+  },
+  "1ic5": {
+    "path": "data/pdb_cache/1ic5.pdb",
+    "size": 269487,
+    "timestamp": 1767646456.4031756
+  },
+  "1ic7": {
+    "path": "data/pdb_cache/1ic7.pdb",
+    "size": 268353,
+    "timestamp": 1767646457.9009223
+  },
+  "2q8a": {
+    "path": "data/pdb_cache/2q8a.pdb",
+    "size": 525690,
+    "timestamp": 1767646459.6970956
+  },
+  "1k4d": {
+    "path": "data/pdb_cache/1k4d.pdb",
+    "size": 401760,
+    "timestamp": 1767646461.4354486
+  },
+  "5ujt": {
+    "path": "data/pdb_cache/5ujt.pdb",
+    "size": 882819,
+    "timestamp": 1767646463.477543
+  },
+  "4rwy": {
+    "path": "data/pdb_cache/4rwy.pdb",
+    "size": 1578285,
+    "timestamp": 1767646465.8323095
+  },
+  "2hh0": {
+    "path": "data/pdb_cache/2hh0.pdb",
+    "size": 311202,
+    "timestamp": 1767646467.4404151
+  },
+  "7n28": {
+    "path": "data/pdb_cache/7n28.pdb",
+    "size": 2677779,
+    "timestamp": 1767646469.229427
+  },
+  "1vfb": {
+    "path": "data/pdb_cache/1vfb.pdb",
+    "size": 316629,
+    "timestamp": 1767646474.3114994
+  },
+  "6db7": {
+    "path": "data/pdb_cache/6db7.pdb",
+    "size": 656910,
+    "timestamp": 1767646476.1073895
+  },
+  "6z2m": {
+    "path": "data/pdb_cache/6z2m.pdb",
+    "size": 2020383,
+    "timestamp": 1767646477.9016225
+  },
+  "6rlo": {
+    "path": "data/pdb_cache/6rlo.pdb",
+    "size": 1388421,
+    "timestamp": 1767646480.1874065
+  },
+  "6vy5": {
+    "path": "data/pdb_cache/6vy5.pdb",
+    "size": 1079892,
+    "timestamp": 1767646482.0441902
+  },
+  "5v7j": {
+    "path": "data/pdb_cache/5v7j.pdb",
+    "size": 1174500,
+    "timestamp": 1767646483.8759604
+  },
+  "3bn9": {
+    "path": "data/pdb_cache/3bn9.pdb",
+    "size": 1819341,
+    "timestamp": 1767646486.2403243
+  },
+  "2j1k": {
+    "path": "data/pdb_cache/2j1k.pdb",
+    "size": 2602449,
+    "timestamp": 1767646488.976137
+  },
+  "2w9l": {
+    "path": "data/pdb_cache/2w9l.pdb",
+    "size": 2531655,
+    "timestamp": 1767646492.0010095
+  },
+  "5gmq": {
+    "path": "data/pdb_cache/5gmq.pdb",
+    "size": 450198,
+    "timestamp": 1767646496.735663
+  },
+  "1h0d": {
+    "path": "data/pdb_cache/1h0d.pdb",
+    "size": 438372,
+    "timestamp": 1767646498.5923522
+  },
+  "3hi6": {
+    "path": "data/pdb_cache/3hi6.pdb",
+    "size": 943812,
+    "timestamp": 1767646500.4613068
+  },
+  "7u0d": {
+    "path": "data/pdb_cache/7u0d.pdb",
+    "size": 713367,
+    "timestamp": 1767646502.2935884
+  },
+  "5e7f": {
+    "path": "data/pdb_cache/5e7f.pdb",
+    "size": 1010718,
+    "timestamp": 1767646504.006002
+  },
+  "5f3h": {
+    "path": "data/pdb_cache/5f3h.pdb",
+    "size": 1374246,
+    "timestamp": 1767646505.7793257
+  },
+  "4ydk": {
+    "path": "data/pdb_cache/4ydk.pdb",
+    "size": 1695573,
+    "timestamp": 1767646507.6717138
+  },
+  "4xnq": {
+    "path": "data/pdb_cache/4xnq.pdb",
+    "size": 1697193,
+    "timestamp": 1767646509.369582
+  },
+  "4xrc": {
+    "path": "data/pdb_cache/4xrc.pdb",
+    "size": 1678806,
+    "timestamp": 1767646511.1755767
+  },
+  "7cjf": {
+    "path": "data/pdb_cache/7cjf.pdb",
+    "size": 930123,
+    "timestamp": 1767646513.0257406
+  },
+  "7kfx": {
+    "path": "data/pdb_cache/7kfx.pdb",
+    "size": 885735,
+    "timestamp": 1767646514.8808103
+  },
+  "7kfy": {
+    "path": "data/pdb_cache/7kfy.pdb",
+    "size": 903069,
+    "timestamp": 1767646516.5725164
+  },
+  "4lsr": {
+    "path": "data/pdb_cache/4lsr.pdb",
+    "size": 1062315,
+    "timestamp": 1767646518.437645
+  },
+  "7jkt": {
+    "path": "data/pdb_cache/7jkt.pdb",
+    "size": 1075842,
+    "timestamp": 1767646520.7381763
+  },
+  "6whk": {
+    "path": "data/pdb_cache/6whk.pdb",
+    "size": 456921,
+    "timestamp": 1767646522.934807
+  },
+  "6dzm": {
+    "path": "data/pdb_cache/6dzm.pdb",
+    "size": 1240839,
+    "timestamp": 1767646524.8173945
+  },
+  "5k59": {
+    "path": "data/pdb_cache/5k59.pdb",
+    "size": 2652426,
+    "timestamp": 1767646528.4747481
+  },
+  "4z7w": {
+    "path": "data/pdb_cache/4z7w.pdb",
+    "size": 2208951,
+    "timestamp": 1767646533.1192415
+  },
+  "1egj": {
+    "path": "data/pdb_cache/1egj.pdb",
+    "size": 391959,
+    "timestamp": 1767646536.0912986
+  },
+  "1jrh": {
+    "path": "data/pdb_cache/1jrh.pdb",
+    "size": 331371,
+    "timestamp": 1767646537.842967
+  },
+  "6db6": {
+    "path": "data/pdb_cache/6db6.pdb",
+    "size": 354051,
+    "timestamp": 1767646539.3878448
+  },
+  "8dw2": {
+    "path": "data/pdb_cache/8dw2.pdb",
+    "size": 808866,
+    "timestamp": 1767646541.013541
+  },
+  "4tsc": {
+    "path": "data/pdb_cache/4tsc.pdb",
+    "size": 388719,
+    "timestamp": 1767646542.7299085
+  },
+  "2b1a": {
+    "path": "data/pdb_cache/2b1a.pdb",
+    "size": 329184,
+    "timestamp": 1767646544.2465765
+  },
+  "7x6l": {
+    "path": "data/pdb_cache/7x6l.pdb",
+    "size": 1813671,
+    "timestamp": 1767646546.177602
+  },
+  "3se9": {
+    "path": "data/pdb_cache/3se9.pdb",
+    "size": 1596024,
+    "timestamp": 1767646549.6126535
+  },
+  "6x04": {
+    "path": "data/pdb_cache/6x04.pdb",
+    "size": 3492234,
+    "timestamp": 1767646551.4657435
+  },
+  "6p62": {
+    "path": "data/pdb_cache/6p62.pdb",
+    "size": 1821852,
+    "timestamp": 1767646554.4058125
+  },
+  "2qql": {
+    "path": "data/pdb_cache/2qql.pdb",
+    "size": 695952,
+    "timestamp": 1767646556.5766716
+  },
+  "7x2a": {
+    "path": "data/pdb_cache/7x2a.pdb",
+    "size": 2592729,
+    "timestamp": 1767646558.6560392
+  },
+  "8d36": {
+    "path": "data/pdb_cache/8d36.pdb",
+    "size": 358182,
+    "timestamp": 1767646562.7089443
+  },
+  "4g6f": {
+    "path": "data/pdb_cache/4g6f.pdb",
+    "size": 1274049,
+    "timestamp": 1767646564.430731
+  },
+  "4npe": {
+    "path": "data/pdb_cache/4npe.pdb",
+    "size": 207846,
+    "timestamp": 1767646565.8399813
+  },
+  "7ekk": {
+    "path": "data/pdb_cache/7ekk.pdb",
+    "size": 369927,
+    "timestamp": 1767646567.613285
+  },
+  "1dbb": {
+    "path": "data/pdb_cache/1dbb.pdb",
+    "size": 321570,
+    "timestamp": 1767646569.1440039
+  },
+  "7syy": {
+    "path": "data/pdb_cache/7syy.pdb",
+    "size": 1185273,
+    "timestamp": 1767646570.8867927
+  },
+  "1ri8": {
+    "path": "data/pdb_cache/1ri8.pdb",
+    "size": 206064,
+    "timestamp": 1767646572.3804183
+  },
+  "1rjc": {
+    "path": "data/pdb_cache/1rjc.pdb",
+    "size": 206388,
+    "timestamp": 1767646574.037314
+  },
+  "1r3i": {
+    "path": "data/pdb_cache/1r3i.pdb",
+    "size": 400707,
+    "timestamp": 1767646575.5770812
+  },
+  "1r3j": {
+    "path": "data/pdb_cache/1r3j.pdb",
+    "size": 418446,
+    "timestamp": 1767646577.1523228
+  },
+  "1r3k": {
+    "path": "data/pdb_cache/1r3k.pdb",
+    "size": 378513,
+    "timestamp": 1767646578.8398678
+  },
+  "1r3l": {
+    "path": "data/pdb_cache/1r3l.pdb",
+    "size": 404433,
+    "timestamp": 1767646580.825236
+  },
+  "1zv5": {
+    "path": "data/pdb_cache/1zv5.pdb",
+    "size": 188730,
+    "timestamp": 1767646582.398419
+  },
+  "6pzw": {
+    "path": "data/pdb_cache/6pzw.pdb",
+    "size": 1822176,
+    "timestamp": 1767646584.1256073
+  },
+  "6u3o": {
+    "path": "data/pdb_cache/6u3o.pdb",
+    "size": 2161404,
+    "timestamp": 1767646588.25401
+  },
+  "6n5e": {
+    "path": "data/pdb_cache/6n5e.pdb",
+    "size": 1424547,
+    "timestamp": 1767646591.8254535
+  },
+  "5xku": {
+    "path": "data/pdb_cache/5xku.pdb",
+    "size": 492723,
+    "timestamp": 1767646594.8070912
+  },
+  "6vvu": {
+    "path": "data/pdb_cache/6vvu.pdb",
+    "size": 3499038,
+    "timestamp": 1767646596.6785848
+  },
+  "4hc1": {
+    "path": "data/pdb_cache/4hc1.pdb",
+    "size": 2417688,
+    "timestamp": 1767646601.8984234
+  },
+  "7e8m": {
+    "path": "data/pdb_cache/7e8m.pdb",
+    "size": 850338,
+    "timestamp": 1767646604.1817803
+  },
+  "1jtt": {
+    "path": "data/pdb_cache/1jtt.pdb",
+    "size": 239112,
+    "timestamp": 1767646605.6952212
+  },
+  "4hem": {
+    "path": "data/pdb_cache/4hem.pdb",
+    "size": 1114560,
+    "timestamp": 1767646607.547723
+  },
+  "6bb4": {
+    "path": "data/pdb_cache/6bb4.pdb",
+    "size": 957015,
+    "timestamp": 1767646609.7014759
+  },
+  "6nms": {
+    "path": "data/pdb_cache/6nms.pdb",
+    "size": 766827,
+    "timestamp": 1767646611.5324283
+  },
+  "7e88": {
+    "path": "data/pdb_cache/7e88.pdb",
+    "size": 3143448,
+    "timestamp": 1767646613.3173873
+  },
+  "5y2l": {
+    "path": "data/pdb_cache/5y2l.pdb",
+    "size": 1231362,
+    "timestamp": 1767646615.1809022
+  },
+  "5eii": {
+    "path": "data/pdb_cache/5eii.pdb",
+    "size": 1527417,
+    "timestamp": 1767646617.477068
+  },
+  "4lsv": {
+    "path": "data/pdb_cache/4lsv.pdb",
+    "size": 1067337,
+    "timestamp": 1767646619.4419358
+  },
+  "4mhh": {
+    "path": "data/pdb_cache/4mhh.pdb",
+    "size": 2012607,
+    "timestamp": 1767646621.2910926
+  },
+  "7x8t": {
+    "path": "data/pdb_cache/7x8t.pdb",
+    "size": 1518426,
+    "timestamp": 1767646625.3789895
+  },
+  "4fqv": {
+    "path": "data/pdb_cache/4fqv.pdb",
+    "size": 3513618,
+    "timestamp": 1767646627.8701937
+  },
+  "4ogy": {
+    "path": "data/pdb_cache/4ogy.pdb",
+    "size": 1787994,
+    "timestamp": 1767646633.256263
+  },
+  "5v8l": {
+    "path": "data/pdb_cache/5v8l.pdb",
+    "size": 2233332,
+    "timestamp": 1767646635.288765
+  },
+  "5y2m": {
+    "path": "data/pdb_cache/5y2m.pdb",
+    "size": 3056535,
+    "timestamp": 1767646639.525845
+  },
+  "4npd": {
+    "path": "data/pdb_cache/4npd.pdb",
+    "size": 257985,
+    "timestamp": 1767646646.269511
+  },
+  "6ur5": {
+    "path": "data/pdb_cache/6ur5.pdb",
+    "size": 959445,
+    "timestamp": 1767646648.1783032
+  },
+  "6a78": {
+    "path": "data/pdb_cache/6a78.pdb",
+    "size": 482355,
+    "timestamp": 1767646649.9753716
+  },
+  "6a79": {
+    "path": "data/pdb_cache/6a79.pdb",
+    "size": 478629,
+    "timestamp": 1767646651.5938962
+  },
+  "4ag4": {
+    "path": "data/pdb_cache/4ag4.pdb",
+    "size": 537273,
+    "timestamp": 1767646653.7839384
+  },
+  "4r4f": {
+    "path": "data/pdb_cache/4r4f.pdb",
+    "size": 1100790,
+    "timestamp": 1767646655.4754639
+  },
+  "4rfo": {
+    "path": "data/pdb_cache/4rfo.pdb",
+    "size": 1076733,
+    "timestamp": 1767646657.347115
+  },
+  "4py8": {
+    "path": "data/pdb_cache/4py8.pdb",
+    "size": 1233711,
+    "timestamp": 1767646659.3190897
+  },
+  "2q8b": {
+    "path": "data/pdb_cache/2q8b.pdb",
+    "size": 512244,
+    "timestamp": 1767646661.716493
+  },
+  "6a4k": {
+    "path": "data/pdb_cache/6a4k.pdb",
+    "size": 1771632,
+    "timestamp": 1767646663.596601
+  },
+  "8dw3": {
+    "path": "data/pdb_cache/8dw3.pdb",
+    "size": 812592,
+    "timestamp": 1767646667.7186158
+  },
+  "7cr5": {
+    "path": "data/pdb_cache/7cr5.pdb",
+    "size": 399816,
+    "timestamp": 1767646669.4160986
+  },
+  "4i9w": {
+    "path": "data/pdb_cache/4i9w.pdb",
+    "size": 1807596,
+    "timestamp": 1767646671.365876
+  },
+  "4wfe": {
+    "path": "data/pdb_cache/4wfe.pdb",
+    "size": 1813509,
+    "timestamp": 1767646673.0979216
+  },
+  "4wff": {
+    "path": "data/pdb_cache/4wff.pdb",
+    "size": 1812618,
+    "timestamp": 1767646675.3186173
+  },
+  "4wfg": {
+    "path": "data/pdb_cache/4wfg.pdb",
+    "size": 1816425,
+    "timestamp": 1767646677.0349948
+  },
+  "4wfh": {
+    "path": "data/pdb_cache/4wfh.pdb",
+    "size": 1800387,
+    "timestamp": 1767646679.1177084
+  }
+}
