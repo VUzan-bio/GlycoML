@@ -1,0 +1,7 @@
+requests
+biopython
+pandas
+tqdm
+pyyaml
+rdkit-pypi
+freesasa

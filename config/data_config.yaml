@@ -1,0 +1,20 @@
+phase1:
+  pdb_ids: null
+  cache_dir: "./data/pdb_cache"
+  rate_limit: 1.0
+  query_limit: 500
+
+phase2:
+  filter_family: null
+  filter_organism: "Mammalian"
+  cache_dir: "./data/unilectin_cache"
+  rate_limit: 0.2
+
+validation:
+  output_dir: "./data/validation_reports"
+  min_glycosites_per_ab: 0
+  min_sequence_length_lectin: 50
+
+logging:
+  level: "INFO"
+  log_dir: "./logs"
