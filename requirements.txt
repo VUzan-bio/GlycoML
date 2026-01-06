@@ -5,3 +5,11 @@ tqdm
 pyyaml
 rdkit-pypi
 freesasa
+beautifulsoup4
+openpyxl
+selenium
+torch
+torch-geometric
+fair-esm
+scikit-learn
+matplotlib
