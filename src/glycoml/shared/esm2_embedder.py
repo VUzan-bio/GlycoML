@@ -6,9 +6,10 @@ import hashlib
 import logging
 from collections import OrderedDict
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 import warnings
 
+import numpy as np
 import torch
 from torch import nn
 
@@ -17,14 +18,58 @@ try:  # pragma: no cover - optional dependency
 except ImportError:  # pragma: no cover
     esm = None
 
+try:  # pragma: no cover - optional dependency
+    import h5py
+except ImportError:  # pragma: no cover
+    h5py = None
+
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 AMINO_ACIDS = "ACDEFGHIKLMNPQRSTVWY"
 
 
+class HDF5EmbeddingCache:
+    """Lightweight HDF5 cache for variable-length embeddings."""
+
+    def __init__(self, path: Path) -> None:
+        self.path = path
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+
+    def _open(self):
+        if h5py is None:
+            return None
+        return h5py.File(self.path, "a")
+
+    def get(self, key: str) -> Optional[Dict[str, np.ndarray]]:
+        handle = self._open()
+        if handle is None:
+            return None
+        with handle as h5:
+            if key not in h5:
+                return None
+            group = h5[key]
+            result: Dict[str, np.ndarray] = {}
+            for name in ("tokens", "mean", "cls"):
+                if name in group:
+                    result[name] = group[name][()]
+            return result
+
+    def set(self, key: str, tokens: np.ndarray, pooled: np.ndarray, cls_token: np.ndarray) -> None:
+        handle = self._open()
+        if handle is None:
+            return
+        with handle as h5:
+            group = h5.require_group(key)
+            for name, value in ("tokens", tokens), ("mean", pooled), ("cls", cls_token):
+                if name in group:
+                    del group[name]
+                group.create_dataset(name, data=value, compression="gzip")
+
+
 class ESM2Embedder:
-    """ESM2 wrapper with optional fallback and caching."""
+    """ESM2 wrapper with optional fallback and HDF5 caching."""
 
     MAX_SEQ_LENGTH = {
         "esm2_t6_8M_UR50D": 2048,
@@ -38,7 +83,7 @@ class ESM2Embedder:
         self,
         model_name: str = "esm2_t6_8M_UR50D",
         device: Optional[torch.device] = None,
-        cache_dir: Optional[Path] = None,
+        cache_path: Optional[Path] = None,
         cache_size: int = 128,
         max_len: Optional[int] = None,
         fallback_dim: int = 64,
@@ -48,9 +93,8 @@ class ESM2Embedder:
         self.cache_size = cache_size
         self._cache: "OrderedDict[str, torch.Tensor]" = OrderedDict()
 
-        self.cache_dir = Path(cache_dir) if cache_dir else None
-        if self.cache_dir:
-            self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self.cache_path = Path(cache_path) if cache_path else None
+        self.h5_cache = HDF5EmbeddingCache(self.cache_path) if self.cache_path else None
 
         self.embed_dim = fallback_dim
         self.max_len = max_len or self.MAX_SEQ_LENGTH.get(model_name, 1024)
@@ -84,11 +128,6 @@ class ESM2Embedder:
     def _hash_text(self, text: str) -> str:
         return hashlib.md5(text.encode("utf-8")).hexdigest()
 
-    def _cache_path(self, sequence: str) -> Optional[Path]:
-        if not self.cache_dir:
-            return None
-        return self.cache_dir / f"{self._hash_text(sequence)}.pt"
-
     def _cache_set(self, sequence: str, embedding: torch.Tensor) -> None:
         if sequence in self._cache:
             self._cache.move_to_end(sequence)
@@ -104,6 +143,21 @@ class ESM2Embedder:
         tokens = torch.tensor(indices, dtype=torch.long, device=self.device)
         return self.fallback_embedding(tokens)
 
+    def _load_from_h5(self, sequence: str) -> Optional[Dict[str, np.ndarray]]:
+        if self.h5_cache is None:
+            return None
+        key = self._hash_text(sequence)
+        return self.h5_cache.get(key)
+
+    def _save_to_h5(self, sequence: str, tokens: torch.Tensor) -> None:
+        if self.h5_cache is None:
+            return
+        key = self._hash_text(sequence)
+        tokens_np = tokens.detach().cpu().numpy().astype(np.float32)
+        pooled = tokens_np.mean(axis=0)
+        cls_token = tokens_np[0] if tokens_np.shape[0] > 0 else pooled
+        self.h5_cache.set(key, tokens_np, pooled, cls_token)
+
     def embed_sequence(self, sequence: str) -> torch.Tensor:
         """Return per-residue embeddings for a sequence (L, D)."""
         if not sequence:
@@ -116,17 +170,16 @@ class ESM2Embedder:
         if sequence in self._cache:
             return self._cache[sequence]
 
-        cache_path = self._cache_path(sequence)
-        if cache_path and cache_path.exists():
-            embedding = torch.load(cache_path, map_location="cpu").to(self.device)
+        cached = self._load_from_h5(sequence)
+        if cached and "tokens" in cached:
+            embedding = torch.tensor(cached["tokens"], dtype=torch.float32, device=self.device)
             self._cache_set(sequence, embedding)
             return embedding
 
         if self.model is None or self.batch_converter is None:
             embedding = self._fallback_embed(sequence)
             self._cache_set(sequence, embedding)
-            if cache_path:
-                torch.save(embedding.detach().cpu(), cache_path)
+            self._save_to_h5(sequence, embedding)
             return embedding
 
         data = [("seq", sequence)]
@@ -137,13 +190,21 @@ class ESM2Embedder:
         representations = outputs["representations"][self.model.num_layers]
         embedding = representations[0, 1 : len(sequence) + 1].detach()
         self._cache_set(sequence, embedding)
-        if cache_path:
-            torch.save(embedding.detach().cpu(), cache_path)
+        self._save_to_h5(sequence, embedding)
         return embedding
 
-    def embed(self, sequence: str) -> torch.Tensor:
-        """Alias for embed_sequence."""
-        return self.embed_sequence(sequence)
+    def embed_pooled(self, sequence: str, pool: str = "mean") -> torch.Tensor:
+        """Return a pooled embedding (mean or cls)."""
+        cached = self._load_from_h5(sequence)
+        if cached:
+            if pool == "cls" and "cls" in cached:
+                return torch.tensor(cached["cls"], dtype=torch.float32, device=self.device)
+            if "mean" in cached:
+                return torch.tensor(cached["mean"], dtype=torch.float32, device=self.device)
+        tokens = self.embed_sequence(sequence)
+        if pool == "cls":
+            return tokens[0]
+        return tokens.mean(dim=0)
 
     def embed_batch(self, sequences: List[str]) -> List[torch.Tensor]:
         embeddings: List[torch.Tensor] = []
@@ -151,35 +212,6 @@ class ESM2Embedder:
             embeddings.append(self.embed_sequence(seq))
         return embeddings
 
-        if return_lengths:
-            return all_embeddings, np.array(all_lengths, dtype=int)
-        return all_embeddings
-
-    def embed_with_structure_guidance(
-        self,
-        seq: str,
-        plddt_scores: np.ndarray,
-        temperature: float = 0.1,
-    ) -> torch.Tensor:
-        embeddings = self.embed_sequence(seq)
-        if plddt_scores.shape[0] != embeddings.shape[0]:
-            raise ValueError(
-                f"pLDDT shape {plddt_scores.shape} != sequence length {embeddings.shape[0]}"
-            )
-
-        plddt_norm = np.clip(plddt_scores, 0, 100) / 100.0
-        weights = torch.tensor(plddt_norm, dtype=embeddings.dtype, device=embeddings.device)
-        weights = weights ** (1.0 / temperature)
-        weights = weights / (weights.sum() + 1e-10)
-        return embeddings * weights.unsqueeze(-1)
-
-    def get_model_info(self) -> Dict[str, Optional[Union[str, int]]]:
-        return {
-            "model_name": self.model_name,
-            "embedding_dim": self.embed_dim,
-            "max_sequence_length": self.MAX_SEQ_LENGTH.get(self.model_name),
-            "device": self.device,
-            "num_parameters": sum(p.numel() for p in self.model.parameters()),
-            "use_lora": self.use_lora,
-            "lora_rank": self.lora_rank if self.use_lora else None,
-        }
+    def embed(self, sequence: str) -> torch.Tensor:
+        """Alias for embed_sequence."""
+        return self.embed_sequence(sequence)

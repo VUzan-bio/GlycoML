@@ -1,11 +1,21 @@
-"""IUPAC tokenizer utilities for glycan strings."""
+"""IUPAC and SMILES helpers for glycans."""
 
 from __future__ import annotations
 
 import json
 import re
 from pathlib import Path
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable, List, Optional
+
+try:  # pragma: no cover - optional dependency
+    from rdkit import Chem
+except Exception:  # pragma: no cover
+    Chem = None
+
+try:  # pragma: no cover - optional dependency
+    import glypy
+except Exception:  # pragma: no cover
+    glypy = None
 
 
 class GlycanTokenizer:
@@ -44,3 +54,47 @@ class GlycanTokenizer:
         data = json.loads(path.read_text(encoding="utf-8"))
         self.token_to_id = {str(k): int(v) for k, v in data.items()}
         self.id_to_token = {int(v): str(k) for k, v in self.token_to_id.items()}
+
+
+def canonicalize_smiles(smiles: str) -> Optional[str]:
+    """Return canonical RDKit SMILES when available."""
+    if not smiles:
+        return None
+    if Chem is None:
+        return smiles
+    mol = Chem.MolFromSmiles(smiles)
+    if mol is None:
+        return None
+    return Chem.MolToSmiles(mol, canonical=True)
+
+
+def iupac_to_smiles(iupac: str) -> Optional[str]:
+    """Attempt to convert IUPAC to SMILES using available parsers."""
+    if not iupac:
+        return None
+
+    if Chem is not None:
+        mol = Chem.MolFromSmiles(iupac)
+        if mol is not None:
+            return Chem.MolToSmiles(mol, canonical=True)
+
+    if glypy is None:
+        return None
+
+    try:
+        glycan = glypy.io.iupac.loads(iupac)
+    except Exception:
+        return None
+
+    try:
+        glycoct = glypy.io.glycoct.dumps(glycan)
+    except Exception:
+        return None
+
+    if Chem is None:
+        return None
+
+    mol = Chem.MolFromSmiles(glycoct)
+    if mol is None:
+        return None
+    return Chem.MolToSmiles(mol, canonical=True)
