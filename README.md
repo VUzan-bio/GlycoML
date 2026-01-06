@@ -274,7 +274,7 @@ Output: P(binding) ∈ [0, 1]
 
 ## **Repository Architecture & Integration**
 
-### **Foundation Layer: `esm2-glycobiology-embeddings`**
+### **Foundation Layer: `glycoml.shared`**
 
 **Purpose**: Centralized provider of ESM-2 embeddings for both Phase 1 and Phase 2, eliminating code duplication and ensuring consistent preprocessing.
 
@@ -290,7 +290,7 @@ Output: P(binding) ∈ [0, 1]
   - Batch processing with GPU memory management (dynamic batching based on sequence lengths)
   - Model checkpointing and versioning
 
-### **Domain Toolkit: `antibody-fc-engineering`**
+### **Domain Toolkit: `glycoml.phase1.fc_engineering`**
 
 **Purpose**: Fc-specific utilities shared by Phase 1.
 
@@ -300,7 +300,7 @@ Output: P(binding) ∈ [0, 1]
 - **SASACalculator**: Wrapper for FreeSASA; computes solvent accessibility for each residue
 - **FcDomainGCN**: PyTorch Geometric model for FcγR binding prediction (described above)
 
-### **Phase 1: `glycan-binding-site-predictor`**
+### **Phase 1: `glycoml.phase1`**
 
 **Modules**:
 - **NGlycositePredictorHead**: LoRA-fine-tuned ESM-2 classification head
@@ -308,7 +308,7 @@ Output: P(binding) ∈ [0, 1]
 - **CrossValidator**: k-fold validation on Thera-SAbDab, reports F1/Precision/Recall per fold
 - **PipelineOrchestrator**: Coordinates: sequence → ESM-2 embeddings → prediction → structure fetching → ranking
 
-### **Phase 2: `lectin-glycan-interaction-ml`**
+### **Phase 2: `glycoml.phase2`**
 
 **Modules**:
 - **LectinEncoder**: ESM-2 pooling with optional structure guidance
@@ -323,15 +323,15 @@ Output: P(binding) ∈ [0, 1]
 ```
 User input: Antibody sequence
   ↓
-Phase 1: glycan-binding-site-predictor
-  → imports ESM2Embedder from esm2-glycobiology-embeddings
-  → imports FcDomainGCN from antibody-fc-engineering
+Phase 1: glycoml.phase1
+  → imports ESM2Embedder from glycoml.shared
+  → imports FcDomainGCN from glycoml.phase1.fc_engineering
   → predicts N-glycosites with confidence scores
   ↓
 Output: [{"position": 298, "p_glycosylated": 0.94, "fcgr_delta_g": -1.8, "rank": 1}, ...]
   ↓
-(Optional) Phase 2: lectin-glycan-interaction-ml
-  → imports ESM2Embedder from esm2-glycobiology-embeddings
+(Optional) Phase 2: glycoml.phase2
+  → imports ESM2Embedder from glycoml.shared
   → predicts Siglec-1 binding to sialylated glycan at predicted site
   → outputs RFU score, binding strength
 ```
@@ -430,6 +430,18 @@ All training data publicly available and open-licensed:
 ***
 ## **Installation & Deployment**
 
+### **Package install (editable)**
+```bash
+pip install -e .
+python -m glycoml.phase2.train --data-path data/glycoml_phase2_unified_lectin_glycan_interactions.csv --output-dir outputs/phase2_model
+```
+
+### **Poetry install**
+```bash
+poetry install
+poetry run python -m glycoml.phase2.train --data-path data/glycoml_phase2_unified_lectin_glycan_interactions.csv --output-dir outputs/phase2_model
+```
+
 ### **Requirements**
 ```
 Python 3.9+
@@ -442,17 +454,8 @@ CUDA 11.8+ (recommended for GPU acceleration)
 
 ### **Setup**
 ```bash
-# Clone repositories
-git clone https://github.com/YourHandle/esm2-glycobiology-embeddings.git
-git clone https://github.com/YourHandle/antibody-fc-engineering.git
-git clone https://github.com/YourHandle/glycan-binding-site-predictor.git
-git clone https://github.com/YourHandle/lectin-glycan-interaction-ml.git
-
-# Install in dependency order
-cd esm2-glycobiology-embeddings && pip install -e .
-cd ../antibody-fc-engineering && pip install -e .
-cd ../glycan-binding-site-predictor && pip install -e .
-cd ../lectin-glycan-interaction-ml && pip install -e .
+# Install the monorepo in editable mode
+pip install -e .
 ```
 
 ***

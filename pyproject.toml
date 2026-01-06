@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "glycoml"
+version = "0.1.0"
+description = "GlycoML pipelines for antibody glycosylation and lectin-glycan interaction modeling."
+authors = ["GlycoML Team"]
+readme = "README.md"
+packages = [
+  { include = "glycoml", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+requests = "*"
+biopython = "*"
+pandas = "*"
+tqdm = "*"
+pyyaml = "*"
+rdkit-pypi = "*"
+freesasa = "*"
+beautifulsoup4 = "*"
+openpyxl = "*"
+selenium = "*"
+torch = "*"
+torch-geometric = "*"
+fair-esm = "*"
+scikit-learn = "*"
+matplotlib = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+black = "*"
+isort = "*"
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["poetry-core>=1.5.0"]
+build-backend = "poetry.core.masonry.api"

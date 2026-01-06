@@ -1,12 +1,6 @@
-data/*.csv
-data/*.jsonl
-data/pdb_cache/
-data/unilectin_cache/
+data/raw/
 data/cache/
-data/cache_test/
-data/cache*/
-data/test_cfg/
-data/validation_reports/
+*.h5
 logs/
 __pycache__/
 **/__pycache__/
