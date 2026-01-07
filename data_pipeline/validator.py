@@ -49,7 +49,7 @@ class DataPipelineValidator:
     unilectin_config : dict
         Configuration forwarded to :class:`UniLectinStreamer`.
     output_dir : str, optional
-        Directory for validation reports. Defaults to ``./data/validation_reports``.
+        Directory for validation reports. Defaults to ``./logs/validation``.
     min_glycosites_per_ab : int, default 0
         Minimum expected glycosylation sites per antibody.
     min_sequence_length_lectin : int, default 50
@@ -60,7 +60,7 @@ class DataPipelineValidator:
         self,
         therasabdab_config: Dict,
         unilectin_config: Dict,
-        output_dir: str = "./data/validation_reports",
+        output_dir: str = "./logs/validation",
         min_glycosites_per_ab: int = 0,
         min_sequence_length_lectin: int = 50,
     ) -> None:
@@ -263,9 +263,10 @@ class DataPipelineValidator:
 
     def generate_csv_outputs(self) -> None:
         """Persist validated datasets to CSV files."""
-        antibodies_path = Path("data") / "antibodies_validated.csv"
-        lectins_path = Path("data") / "lectin_glycan_validated.csv"
+        antibodies_path = Path("data") / "interim" / "antibodies_validated.csv"
+        lectins_path = Path("data") / "processed" / "lectin_glycan_validated.csv"
         antibodies_path.parent.mkdir(parents=True, exist_ok=True)
+        lectins_path.parent.mkdir(parents=True, exist_ok=True)
         if self.antibody_df is not None:
             self.antibody_df.to_csv(antibodies_path, index=False)
         if self.lectin_df is not None:

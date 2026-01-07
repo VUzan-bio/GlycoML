@@ -1,7 +1,34 @@
-data/raw/
+# Caches
 data/cache/
-*.h5
-logs/
+*.pyc
 __pycache__/
 **/__pycache__/
-*.pyc
+.pytest_cache/
+
+# Logs
+logs/
+*.log
+
+# Models
+models/
+*.pt
+*.pth
+*.ckpt
+
+# Data (keep metadata only)
+data/raw/
+data/interim/
+data/processed/*.csv
+data/processed/*.jsonl
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.h5

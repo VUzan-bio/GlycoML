@@ -1,9 +1,0 @@
-GLYCOENGINEERING DATA VALIDATION REPORT
-Generated at UTC 2026-01-05_22-14-04
-
-Antibodies processed: 497 (valid 494)
-Lectin-glycan pairs processed: 14 (valid 0)
-
-Issues detected:
-- antibody: invalid_sasa, short_sequence
-- lectin_glycan: kd_out_of_range

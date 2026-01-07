@@ -520,7 +520,7 @@ if __name__ == "__main__":
     parser.add_argument("--input_csv", type=Path, help="CSV with pdb_id and antibody_name")
     parser.add_argument("--input_uniprot", type=Path, help="Text file with UniProt IDs")
     parser.add_argument("--output_dir", type=Path, default=Path("pipeline/data"))
-    parser.add_argument("--cache_dir", type=Path, default=Path("pipeline/data/pdb_cache"))
+    parser.add_argument("--cache_dir", type=Path, default=Path("data/cache/pdb_cache"))
     parser.add_argument("--max_workers", type=int, default=4)
     parser.add_argument("--checkpoint", type=Path)
     args = parser.parse_args()

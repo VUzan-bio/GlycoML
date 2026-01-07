@@ -138,7 +138,7 @@ class TheraSAbDabStreamer:
     ----------
     pdb_ids : list of str, optional
         PDB identifiers to process. If None, the RCSB search API is queried.
-    cache_dir : str, default "./data/pdb_cache"
+    cache_dir : str, default "./data/cache/pdb_cache"
         Directory for cached PDB downloads and manifest.
     rate_limit : float, default 1.0
         Minimum seconds between HTTP requests to respect rate limits.
@@ -161,7 +161,7 @@ class TheraSAbDabStreamer:
     def __init__(
         self,
         pdb_ids: Optional[List[str]] = None,
-        cache_dir: str = "./data/pdb_cache",
+        cache_dir: str = "./data/cache/pdb_cache",
         rate_limit: float = 1.0,
         verbose: bool = True,
         query_limit: int = 500,

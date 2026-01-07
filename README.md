@@ -433,13 +433,13 @@ All training data publicly available and open-licensed:
 ### **Package install (editable)**
 ```bash
 pip install -e .
-python -m glycoml.phase2.train --data-path data/glycoml_phase2_unified_lectin_glycan_interactions.csv --output-dir outputs/phase2_model
+python -m glycoml.phase2.train --data-path data/interim/glycoml_phase2_unified_lectin_glycan_interactions.csv --output-dir outputs/phase2_model
 ```
 
 ### **Poetry install**
 ```bash
 poetry install
-poetry run python -m glycoml.phase2.train --data-path data/glycoml_phase2_unified_lectin_glycan_interactions.csv --output-dir outputs/phase2_model
+poetry run python -m glycoml.phase2.train --data-path data/interim/glycoml_phase2_unified_lectin_glycan_interactions.csv --output-dir outputs/phase2_model
 ```
 
 ### **Requirements**

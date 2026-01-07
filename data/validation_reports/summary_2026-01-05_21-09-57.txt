@@ -1,7 +1,0 @@
-GLYCOENGINEERING DATA VALIDATION REPORT
-Generated at UTC 2026-01-05_21-09-57
-
-Antibodies processed: 0 (valid 0)
-Lectin-glycan pairs processed: 0 (valid 0)
-
-No critical issues detected.

@@ -25,18 +25,18 @@ LOG_FORMAT = "[%(asctime)s] [%(levelname)s] %(message)s"
 DEFAULT_CONFIG: Dict[str, Any] = {
     "phase1": {
         "pdb_ids": None,
-        "cache_dir": "./data/pdb_cache",
+        "cache_dir": "./data/cache/pdb_cache",
         "rate_limit": 1.0,
         "query_limit": 500,
     },
     "phase2": {
         "filter_family": None,
         "filter_organism": "Mammalian",
-        "cache_dir": "./data/unilectin_cache",
+        "cache_dir": "./data/cache/unilectin_cache",
         "rate_limit": 0.2,
     },
     "validation": {
-        "output_dir": "./data/validation_reports",
+        "output_dir": "./logs/validation",
         "min_glycosites_per_ab": 0,
         "min_sequence_length_lectin": 50,
     },
@@ -102,7 +102,7 @@ class DataPipelineOrchestrator:
         phase1_cfg = self.config.get("phase1", {})
         streamer = TheraSAbDabStreamer(
             pdb_ids=phase1_cfg.get("pdb_ids"),
-            cache_dir=phase1_cfg.get("cache_dir", "./data/pdb_cache"),
+            cache_dir=phase1_cfg.get("cache_dir", "./data/cache/pdb_cache"),
             rate_limit=phase1_cfg.get("rate_limit", 1.0),
             verbose=True,
             query_limit=phase1_cfg.get("query_limit", 500),
@@ -111,7 +111,7 @@ class DataPipelineOrchestrator:
         )
         if not streamer.pdb_ids:
             streamer.query_rcsb_antibodies()
-        output_path = Path("data") / "phase1_antibodies.jsonl"
+        output_path = Path("data") / "processed" / "phase1_antibodies.jsonl"
         output_path.parent.mkdir(parents=True, exist_ok=True)
         count = 0
         glyco_total = 0
@@ -163,7 +163,8 @@ class DataPipelineOrchestrator:
                 print(f"  Downloaded {pdb_id}... ✓")
         if summary_records:
             summary_df = pd.DataFrame(summary_records)
-            summary_path = Path("data") / "antibodies_downloaded.csv"
+            summary_path = Path("data") / "interim" / "antibodies_downloaded.csv"
+            summary_path.parent.mkdir(parents=True, exist_ok=True)
             summary_df.to_csv(summary_path, mode="a", index=False, header=not summary_path.exists())
         print(f"Phase 1 complete: {count} antibodies, {glyco_total} glycosites identified")
         self.logger.info("Phase 1 complete: %d antibodies, %d glycosites", count, glyco_total)
@@ -175,12 +176,12 @@ class DataPipelineOrchestrator:
         streamer = UniLectinStreamer(
             filter_family=phase2_cfg.get("filter_family"),
             filter_organism=phase2_cfg.get("filter_organism"),
-            cache_dir=phase2_cfg.get("cache_dir", "./data/unilectin_cache"),
+            cache_dir=phase2_cfg.get("cache_dir", "./data/cache/unilectin_cache"),
             rate_limit=phase2_cfg.get("rate_limit", 0.2),
             verbose=True,
             max_pairs=phase2_cfg.get("max_pairs"),
         )
-        output_path = Path("data") / "phase2_lectin_glycan.jsonl"
+        output_path = Path("data") / "processed" / "phase2_lectin_glycan.jsonl"
         output_path.parent.mkdir(parents=True, exist_ok=True)
         count = 0
         unique_lectins = set()
@@ -274,7 +275,8 @@ class DataPipelineOrchestrator:
                 if count % 25 == 0:
                     print(f"  Downloaded {count} lectin-glycan pairs...")
         if summary_records:
-            summary_path = Path("data") / "lectin_glycan_downloaded.csv"
+            summary_path = Path("data") / "interim" / "lectin_glycan_downloaded.csv"
+            summary_path.parent.mkdir(parents=True, exist_ok=True)
             pd.DataFrame(summary_records).to_csv(
                 summary_path,
                 mode="a",
@@ -298,7 +300,7 @@ class DataPipelineOrchestrator:
         validator = DataPipelineValidator(
             therasabdab_config=self.config.get("phase1", {}),
             unilectin_config=self.config.get("phase2", {}),
-            output_dir=self.config.get("validation", {}).get("output_dir", "./data/validation_reports"),
+            output_dir=self.config.get("validation", {}).get("output_dir", "./logs/validation"),
             min_glycosites_per_ab=self.config.get("validation", {}).get("min_glycosites_per_ab", 0),
             min_sequence_length_lectin=self.config.get("validation", {}).get("min_sequence_length_lectin", 50),
         )
@@ -333,11 +335,11 @@ if __name__ == "__main__":
 ✓ Data pipeline completed successfully!
 
 Output files:
-- ./data/phase1_antibodies.jsonl
-- ./data/phase2_lectin_glycan.jsonl
-- ./data/antibodies_validated.csv
-- ./data/lectin_glycan_validated.csv
-- ./data/validation_reports/summary_*.txt
+- ./data/processed/phase1_antibodies.jsonl
+- ./data/processed/phase2_lectin_glycan.jsonl
+- ./data/interim/antibodies_validated.csv
+- ./data/processed/lectin_glycan_validated.csv
+- ./logs/validation/summary_*.txt
 """
         )
     else:

@@ -65,7 +65,7 @@ class UniLectinStreamer:
         Restrict lectins to a family (e.g., "Siglec").
     filter_organism : str, optional
         Restrict lectins to an organism class (e.g., "Human").
-    cache_dir : str, default "./data/unilectin_cache"
+    cache_dir : str, default "./data/cache/unilectin_cache"
         Directory for cached metadata, sequences, and SMILES strings.
     rate_limit : float, default 0.2
         Minimum seconds between HTTP calls.
@@ -81,7 +81,7 @@ class UniLectinStreamer:
         self,
         filter_family: Optional[str] = None,
         filter_organism: Optional[str] = None,
-        cache_dir: str = "./data/unilectin_cache",
+        cache_dir: str = "./data/cache/unilectin_cache",
         rate_limit: float = 0.2,
         verbose: bool = True,
         max_pairs: Optional[int] = None,
