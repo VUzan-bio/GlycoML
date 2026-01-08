@@ -209,26 +209,44 @@ def merge_phase2_data(
     ligands = load_ligands(ligands_path)
 
     if not unilectin.empty:
-        unified = unified.merge(
-            unilectin,
-            how="left",
-            left_on=["lectin_id", "glytoucan_id"],
-            right_on=["lectin_id", "glytoucan_id"],
-            suffixes=("", "_unilectin"),
-        )
+        if "glytoucan_id" in unified.columns:
+            unified = unified.merge(
+                unilectin,
+                how="left",
+                left_on=["lectin_id", "glytoucan_id"],
+                right_on=["lectin_id", "glytoucan_id"],
+                suffixes=("", "_unilectin"),
+            )
+        else:
+            unified = unified.merge(
+                unilectin,
+                how="left",
+                left_on=["lectin_id"],
+                right_on=["lectin_id"],
+                suffixes=("", "_unilectin"),
+            )
 
     if not cfg.empty:
         cfg_names = sorted(cfg["lectin_name"].dropna().unique().tolist())
         cfg["lectin_name_match"] = cfg["lectin_name"].apply(lambda x: _fuzzy_match(str(x), cfg_names, fuzzy_cutoff))
-        unified = unified.merge(
-            cfg,
-            how="left",
-            left_on=["lectin_name", "glytoucan_id"],
-            right_on=["lectin_name_match", "glytoucan_id"],
-            suffixes=("", "_cfg"),
-        )
+        if "glytoucan_id" in unified.columns:
+            unified = unified.merge(
+                cfg,
+                how="left",
+                left_on=["lectin_name", "glytoucan_id"],
+                right_on=["lectin_name_match", "glytoucan_id"],
+                suffixes=("", "_cfg"),
+            )
+        else:
+            unified = unified.merge(
+                cfg,
+                how="left",
+                left_on=["lectin_name"],
+                right_on=["lectin_name_match"],
+                suffixes=("", "_cfg"),
+            )
 
-    if not ligands.empty:
+    if not ligands.empty and "glytoucan_id" in unified.columns:
         unified = unified.merge(
             ligands,
             how="left",
