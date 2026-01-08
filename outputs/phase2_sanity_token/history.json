@@ -1,0 +1,32 @@
+{
+  "1": {
+    "train_loss": 0.11759755864040926,
+    "val_pearson": NaN,
+    "val_spearman": 0.03260869565217391,
+    "val_rmse": 0.6036483461338342
+  },
+  "2": {
+    "train_loss": 0.00047234417870640756,
+    "val_pearson": NaN,
+    "val_spearman": 0.26383399209486164,
+    "val_rmse": 0.42432703994097304
+  },
+  "3": {
+    "train_loss": 0.00020574475347530098,
+    "val_pearson": NaN,
+    "val_spearman": 0.2658102766798419,
+    "val_rmse": 0.37428574609237936
+  },
+  "4": {
+    "train_loss": 0.00014092398632783442,
+    "val_pearson": NaN,
+    "val_spearman": 0.33300395256917,
+    "val_rmse": 0.3700584407904705
+  },
+  "5": {
+    "train_loss": 9.87710984190926e-05,
+    "val_pearson": NaN,
+    "val_spearman": 0.42094861660079047,
+    "val_rmse": 0.3728653299916932
+  }
+}

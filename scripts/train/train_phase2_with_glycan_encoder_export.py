@@ -36,6 +36,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from models.esm2_lectin_encoder import ESM2LectinEncoder
+from scripts.utils.glycan_graph_encoder import parse_iupac_condensed
 
 
 def resolve_device(requested: str) -> torch.device:
@@ -261,7 +262,10 @@ class CFGDataset(Dataset):
         glycan_smiles = clean_glycan_string(str(row["glycan_smiles"]))
         label = torch.tensor(row["binding"], dtype=torch.float32)
         if self.allow_non_smiles and looks_like_iupac(glycan_smiles):
-            glycan_graph = iupac_to_token_graph(glycan_smiles)
+            try:
+                glycan_graph = parse_iupac_condensed(glycan_smiles)
+            except Exception:
+                glycan_graph = iupac_to_token_graph(glycan_smiles)
         else:
             try:
                 graph = smiles_to_graph(glycan_smiles, strict=not self.allow_non_smiles)

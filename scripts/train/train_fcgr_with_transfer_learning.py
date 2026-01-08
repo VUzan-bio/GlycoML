@@ -24,7 +24,13 @@ if str(ROOT) not in sys.path:
 from models.esm2_lectin_encoder import ESM2LectinEncoder
 
 sys.path.append(str(Path(__file__).parent))
-from train_phase2_with_glycan_encoder_export import GlycanGNNEncoder, smiles_to_graph
+from train_phase2_with_glycan_encoder_export import (
+    GlycanGNNEncoder,
+    iupac_to_token_graph,
+    looks_like_iupac,
+    smiles_to_graph,
+)
+from scripts.utils.glycan_graph_encoder import parse_iupac_condensed
 
 
 def resolve_device(requested: str) -> torch.device:
@@ -82,7 +88,7 @@ class FcGammaRFcPredictorTransfer(nn.Module):
 
 
 class FcGammaRDataset(Dataset):
-    def __init__(self, csv_path: str) -> None:
+    def __init__(self, csv_path: str, allow_non_smiles: bool = False) -> None:
         csv_path = Path(csv_path)
         if not csv_path.exists():
             raise SystemExit(f"Input not found: {csv_path}")
@@ -96,15 +102,17 @@ class FcGammaRDataset(Dataset):
             df["log_kd"] = np.log10(df["binding_kd_nm"])
         df = df.dropna(subset=required + ["log_kd"])
         self.df = df.reset_index(drop=True)
+        self.allow_non_smiles = allow_non_smiles
         print(f"Loaded {len(self.df)} samples from {csv_path}")
         print(f"  KD range: {self.df['binding_kd_nm'].min():.1f} - {self.df['binding_kd_nm'].max():.1f} nM")
 
-        for idx, row in self.df.iterrows():
-            glycan_smiles = row["glycan_structure"]
-            try:
-                _ = smiles_to_graph(glycan_smiles)
-            except Exception as exc:
-                raise ValueError(f"Invalid glycan_structure at index {idx}: {glycan_smiles}") from exc
+        if not self.allow_non_smiles:
+            for idx, row in self.df.iterrows():
+                glycan_smiles = row["glycan_structure"]
+                try:
+                    _ = smiles_to_graph(glycan_smiles)
+                except Exception as exc:
+                    raise ValueError(f"Invalid glycan_structure at index {idx}: {glycan_smiles}") from exc
 
     def __len__(self) -> int:
         return len(self.df)
@@ -113,12 +121,20 @@ class FcGammaRDataset(Dataset):
         row = self.df.iloc[idx]
         fcgr_seq = row["fcgr_sequence"]
         fc_seq = row["fc_sequence"]
-        glycan_smiles = row["glycan_structure"]
+        glycan_smiles = str(row["glycan_structure"])
         log_kd = torch.tensor(row["log_kd"], dtype=torch.float32)
-        try:
-            glycan_graph = smiles_to_graph(glycan_smiles)
-        except Exception:
-            glycan_graph = Data(x=torch.zeros(1, 5), edge_index=torch.zeros(2, 0, dtype=torch.long))
+        if self.allow_non_smiles and looks_like_iupac(glycan_smiles):
+            try:
+                glycan_graph = parse_iupac_condensed(glycan_smiles)
+            except Exception:
+                glycan_graph = iupac_to_token_graph(glycan_smiles)
+        else:
+            try:
+                glycan_graph = smiles_to_graph(glycan_smiles, strict=not self.allow_non_smiles)
+            except Exception:
+                glycan_graph = None
+            if glycan_graph is None:
+                glycan_graph = iupac_to_token_graph(glycan_smiles)
         return fcgr_seq, fc_seq, glycan_graph, log_kd
 
 
@@ -175,6 +191,7 @@ def main() -> None:
     parser.add_argument("--epochs", type=int, default=100)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--allow-non-smiles", action="store_true")
     args = parser.parse_args()
 
     device = resolve_device(args.device)
@@ -203,7 +220,7 @@ def main() -> None:
     )
     glycan_encoder.load_state_dict(checkpoint["model_state_dict"])
 
-    dataset = FcGammaRDataset(args.data)
+    dataset = FcGammaRDataset(args.data, allow_non_smiles=args.allow_non_smiles)
     train_size = int(0.7 * len(dataset))
     val_size = int(0.15 * len(dataset))
     test_size = len(dataset) - train_size - val_size

@@ -1,0 +1,51 @@
+args:
+  ablation: ''
+  allow_network: false
+  batch_size: 16
+  cfg_metadata_path: data/metadata/cfg_experiment_metadata.csv
+  data_path: data/interim/glycoml_phase2_unified_lectin_glycan_interactions.csv
+  epochs: 5
+  glycan_encoder: token
+  label_mode: binary
+  ligands_path: data/metadata/unilectin3d_ligands.csv
+  lr: 0.0001
+  max_samples: 100
+  nan_handling: zero
+  output_dir: outputs/phase2_sanity_token
+  project: glycoml-phase2
+  require_labels: false
+  rfu_threshold: 2000.0
+  seed: 42
+  unilectin_path: data/interim/unilectin3d_lectin_glycan_interactions.csv
+  use_structure: false
+  wandb: false
+model:
+  attn_dropout: 0.1
+  attn_heads: 8
+  glycan_graph_config:
+    cutoff: 5.0
+    hidden_dim: 128
+    interactions: 6
+    meta_dim: 11
+    out_dim: 256
+  glycan_token_config:
+    dropout: 0.1
+    embed_dim: 128
+    ff_dim: 512
+    meta_dim: 11
+    num_heads: 4
+    num_layers: 4
+    vocab_size: 32
+  head_dropout: 0.2
+  lectin_config:
+    dropout: 0.1
+    esm_dim: 1280
+    family_dim: 83
+    output_dim: 512
+    schnet_hidden: 128
+    schnet_interactions: 3
+    species_emb_dim: 32
+    struct_dim: 256
+    use_structure: false
+  use_cross_attention: true
+  use_graph: false
