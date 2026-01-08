@@ -8,7 +8,7 @@ import pandas as pd
 
 
 def main() -> None:
-    base_dir = Path(__file__).resolve().parents[1]
+    base_dir = Path(__file__).resolve().parents[2]
     csv_file = base_dir / "data" / "processed" / "cfg_rfu_measurements.csv"
 
     print("=" * 80)
@@ -72,7 +72,12 @@ def main() -> None:
     print()
 
     print("First 5 rows:")
-    print(df[["experiment_id", "glycan_id", "glycan_name", "rfu_raw", "rfu_normalized", "conclusive"]].head(5).to_string(index=False))
+    display_cols = ["experiment_id", "glycan_id", "rfu_raw", "rfu_normalized", "conclusive"]
+    if "glycan_name" in df.columns:
+        display_cols.insert(2, "glycan_name")
+    elif "cfg_glycan_iupac" in df.columns:
+        display_cols.insert(2, "cfg_glycan_iupac")
+    print(df[display_cols].head(5).to_string(index=False))
     print()
 
     print("=" * 80)

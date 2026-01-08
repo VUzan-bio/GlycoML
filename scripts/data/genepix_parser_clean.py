@@ -100,7 +100,7 @@ def extract_sample_info(filepath: Path) -> Tuple[str, str, Optional[str]]:
 
 
 def main() -> None:
-    base_dir = Path(__file__).resolve().parents[1]
+    base_dir = Path(__file__).resolve().parents[2]
     input_dir = base_dir / "data" / "raw" / "cfg_arrays_raw"
     output_file = base_dir / "data" / "processed" / "cfg_rfu_measurements.csv"
 

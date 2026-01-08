@@ -27,3 +27,10 @@ data/metadata/cfg_experiment_metadata.csv,6035,703136,2934389f4942250528e8bb1a0c
 data/processed/cfg_rfu_measurements.csv,0,162,210ab70cd91172c45d06de4758891694,2026-01-06T19:47:47Z
 data/metadata/cfg_to_unilectin_lectin_mapping.csv,0,83,ff4a5ef3208c2869284edae2d6e358f5,2026-01-06T19:47:47Z
 data/interim/glycoml_phase2_unified_lectin_glycan_interactions.csv,2814,669708,1fecfad46fb0f75195eb484b50bb220f,2026-01-06T19:47:47Z
+data/interim/unilectin3d_lectin_glycan_interactions.csv,2814,806535,e78203d43cc6e0a5e3cd2ac9c3fe5512,2026-01-07T16:13:49Z
+data/metadata/unilectin3d_predicted_lectins.csv,0,104,278b8b38b63c8cd742d3f96cc8484a94,2026-01-07T16:13:49Z
+data/metadata/unilectin3d_ligands.csv,237,50009,1aaffd19b8264ea3fa404eae9d750128,2026-01-07T16:13:49Z
+data/metadata/cfg_experiment_metadata.csv,6035,703136,2934389f4942250528e8bb1a0c5a9d6c,2026-01-07T16:13:49Z
+data/processed/cfg_rfu_measurements.csv,0,162,210ab70cd91172c45d06de4758891694,2026-01-07T16:13:49Z
+data/metadata/cfg_to_unilectin_lectin_mapping.csv,0,83,ff4a5ef3208c2869284edae2d6e358f5,2026-01-07T16:13:49Z
+data/interim/glycoml_phase2_unified_lectin_glycan_interactions.csv,2814,669708,1fecfad46fb0f75195eb484b50bb220f,2026-01-07T16:13:49Z

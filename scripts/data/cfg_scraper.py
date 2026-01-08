@@ -188,7 +188,7 @@ def _group_average(df: pd.DataFrame, group_cols: List[str]) -> pd.DataFrame:
 
 
 def extract_experiment_id_from_name(name: str) -> int:
-    matches = re.findall(r"(\\d{4,6})", name)
+    matches = re.findall(r"(\d{4,6})", name)
     if not matches:
         return 0
     return int(matches[-1])
@@ -211,6 +211,13 @@ def _find_col(mapping: Dict[str, str], key: str) -> Optional[str]:
     for norm, original in mapping.items():
         if norm.startswith(key):
             return original
+    return None
+
+
+def _find_col_idx(columns: List[object], target: str) -> Optional[int]:
+    for idx, col in enumerate(columns):
+        if normalize_col(col) == target:
+            return idx
     return None
 
 
@@ -258,6 +265,87 @@ def parse_data_sheet(df: pd.DataFrame, sheet_name: str) -> pd.DataFrame:
     frame["sample_tag"] = sheet_name
     frame["sample_name"] = ""
     return _group_average(frame, ["sample_tag", "glycan_id"])
+
+
+def _parse_cfg_data_sheet(df: pd.DataFrame, sheet_name: str, file_stem: str) -> pd.DataFrame:
+    df = df.copy()
+    cols = list(df.columns)
+    chart_idx = _find_col_idx(cols, "chartnumber1")
+    rfu_idx = _find_col_idx(cols, "averagerfu1")
+    stdev_idx = _find_col_idx(cols, "stdev1")
+    cv_idx = _find_col_idx(cols, "cv1")
+    name_idx = _find_col_idx(cols, "structureonmasterlist1")
+
+    if chart_idx is None or rfu_idx is None:
+        chart_idx = _find_col_idx(cols, "chartnumber")
+        rfu_idx = _find_col_idx(cols, "averagerfu")
+        stdev_idx = _find_col_idx(cols, "stdev")
+        cv_idx = _find_col_idx(cols, "cv")
+        name_idx = _find_col_idx(cols, "structureonmasterlist")
+
+    if chart_idx is None or rfu_idx is None:
+        return pd.DataFrame()
+
+    if name_idx is None and chart_idx < rfu_idx:
+        for idx in range(chart_idx + 1, rfu_idx):
+            if df.iloc[:, idx].notna().any():
+                name_idx = idx
+                break
+
+    sample_name = str(file_stem or sheet_name)
+    records: List[Dict[str, object]] = []
+
+    for _, row in df.iterrows():
+        gid = row.iloc[chart_idx]
+        if pd.isna(gid):
+            continue
+        try:
+            gid_val = int(float(gid))
+        except Exception:
+            continue
+
+        rfu = row.iloc[rfu_idx]
+        if pd.isna(rfu):
+            continue
+        try:
+            rfu_val = float(rfu)
+        except Exception:
+            continue
+        if rfu_val < 0:
+            continue
+
+        glycan_name = ""
+        if name_idx is not None:
+            name_val = row.iloc[name_idx]
+            if pd.notna(name_val):
+                glycan_name = safe_str(name_val)
+
+        stdev_val = 0.0
+        if stdev_idx is not None:
+            stdev_cell = row.iloc[stdev_idx]
+            stdev_val = float(stdev_cell) if pd.notna(stdev_cell) else 0.0
+
+        cv_val = 0.0
+        if cv_idx is not None:
+            cv_cell = row.iloc[cv_idx]
+            cv_val = float(cv_cell) if pd.notna(cv_cell) else 0.0
+
+        records.append(
+            {
+                "glycan_id": gid_val,
+                "rfu_raw": rfu_val,
+                "stdev": stdev_val,
+                "cv": cv_val,
+                "cfg_glycan_iupac": glycan_name,
+                "sample_name": sample_name,
+                "sample_tag": sheet_name,
+            }
+        )
+
+    if not records:
+        return pd.DataFrame()
+    frame = pd.DataFrame(records)
+    return _group_average(frame, ["sample_name", "sample_tag", "glycan_id"])
 
 
 def _parse_genepix_sheet(df: pd.DataFrame, sheet_name: str, file_stem: str) -> pd.DataFrame:
@@ -315,12 +403,18 @@ def parse_excel(path: Path) -> pd.DataFrame:
     is_genepix_file = any(marker in path.name.lower() for marker in ["genepix", "v5.2", "results"])
     for sheet in xls.sheet_names:
         df = xls.parse(sheet)
+        cols_norm = [normalize_col(c) for c in df.columns]
         if is_genepix_file and len(df.columns) >= 33:
             frame = _parse_genepix_sheet(df, sheet, path.stem)
             if not frame.empty:
                 frames.append(frame)
+        elif not is_genepix_file and any(c.startswith("chartnumber") for c in cols_norm) and any(
+            c.startswith("averagerfu") for c in cols_norm
+        ):
+            frame = _parse_cfg_data_sheet(df, sheet, path.stem)
+            if not frame.empty:
+                frames.append(frame)
         elif not is_genepix_file:
-            cols_norm = [normalize_col(c) for c in df.columns]
             if any("avgmeansbwominmax" in c for c in cols_norm) or "data" in sheet.lower():
                 frame = parse_data_sheet(df, sheet)
                 if not frame.empty:

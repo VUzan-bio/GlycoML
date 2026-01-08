@@ -1064,7 +1064,8 @@ def parse_cfg_rfu_data(
 ) -> int:
     row_count = 0
     ensure_dir(output_path.parent)
-    with output_path.open("w", newline="", encoding="utf-8") as handle:
+    tmp_path = output_path.with_suffix(output_path.suffix + ".tmp")
+    with tmp_path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
             handle,
             fieldnames=CFG_RFU_COLUMNS,
@@ -1117,6 +1118,15 @@ def parse_cfg_rfu_data(
                         }
                     )
                     row_count += 1
+    if row_count == 0 and output_path.exists():
+        logger.info(
+            "No CFG RFU rows parsed; keeping existing file: %s",
+            output_path,
+        )
+        if tmp_path.exists():
+            tmp_path.unlink()
+        return row_count
+    tmp_path.replace(output_path)
     return row_count
 
 

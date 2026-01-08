@@ -1,25 +1,38 @@
 # Caches
-data/cache/
+data/cache/**
 *.pyc
 __pycache__/
 **/__pycache__/
 .pytest_cache/
 
 # Logs
-logs/
+logs/**
 *.log
 
-# Models
-models/
-*.pt
-*.pth
-*.ckpt
+# Models (track code only)
+models/**
+!models/
+!models/**/
+!models/**/*.py
+!models/README.md
+models/**/*.pt
+models/**/*.pth
+models/**/*.ckpt
+models/**/*.npz
 
-# Data (keep metadata only)
-data/raw/
-data/interim/
-data/processed/*.csv
-data/processed/*.jsonl
+# Data (track metadata + small examples only)
+data/raw/**
+data/interim/**
+data/processed/**
+!data/raw/README.md
+!data/interim/README.md
+!data/processed/README.md
+!data/processed/*sample*.csv
+!data/processed/*sample*.jsonl
+
+# Results
+results/**
+!results/README.md
 
 # IDE
 .vscode/

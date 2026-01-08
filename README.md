@@ -274,6 +274,14 @@ Output: P(binding) ∈ [0, 1]
 
 ## **Repository Architecture & Integration**
 
+### **Entrypoint Scripts (CLI)**
+
+Operational scripts are grouped by purpose under `scripts/`:
+- `scripts/data/`: ingestion, parsing, dataset building.
+- `scripts/train/`: model training and encoder export.
+- `scripts/analysis/`: evaluation and prediction.
+- `scripts/baselines/`: legacy baselines (not the default pipeline).
+
 ### **Foundation Layer: `glycoml.shared`**
 
 **Purpose**: Centralized provider of ESM-2 embeddings for both Phase 1 and Phase 2, eliminating code duplication and ensuring consistent preprocessing.
