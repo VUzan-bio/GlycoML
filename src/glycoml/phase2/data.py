@@ -142,6 +142,10 @@ def _normalize_columns(df: pd.DataFrame, mapping: Dict[str, str]) -> pd.DataFram
     return df.rename(columns=rename)
 
 
+def normalize_col(name: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(name).lower())
+
+
 def _parse_monosac(value: object) -> Dict[str, float]:
     if value is None or value == "":
         return {}
