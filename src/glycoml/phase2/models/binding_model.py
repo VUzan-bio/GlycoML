@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Tuple
 
 import torch
@@ -14,9 +14,9 @@ from .glycan_encoder import GlycanGraphEncoder, GlycanGraphConfig, GlycanTokenEn
 
 @dataclass
 class BindingModelConfig:
-    lectin_config: LectinEncoderConfig = LectinEncoderConfig()
-    glycan_graph_config: GlycanGraphConfig = GlycanGraphConfig()
-    glycan_token_config: GlycanTokenConfig = GlycanTokenConfig()
+    lectin_config: LectinEncoderConfig = field(default_factory=LectinEncoderConfig)
+    glycan_graph_config: GlycanGraphConfig = field(default_factory=GlycanGraphConfig)
+    glycan_token_config: GlycanTokenConfig = field(default_factory=GlycanTokenConfig)
     use_graph: bool = True
     use_cross_attention: bool = True
     attn_heads: int = 8
