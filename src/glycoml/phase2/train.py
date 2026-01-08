@@ -262,8 +262,10 @@ def main() -> None:
     if args.require_labels:
         df = df[df["binding_value"].notna() | df.get("rfu_normalized").notna()].copy()
     df = build_labels(df, rfu_threshold=args.rfu_threshold, nan_handling=args.nan_handling)
+    df = df.reset_index(drop=True)
     if args.max_samples:
         df = df.sample(n=min(args.max_samples, len(df)), random_state=args.seed)
+        df = df.reset_index(drop=True)
 
     tokenizer = GlycanTokenizer()
     tokenizer.build(df["glycan_iupac"].fillna("").astype(str).tolist())

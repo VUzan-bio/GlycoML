@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ast
 import difflib
+import hashlib
 import json
 import logging
 import re
@@ -267,6 +268,11 @@ def merge_phase2_data(
                 suffixes=("", "_cfg"),
             )
 
+    if "glycan_glytoucan_id" in unified.columns:
+        glytoucan_series = unified["glycan_glytoucan_id"].astype(str).str.strip()
+        glytoucan_series = glytoucan_series.replace({"": np.nan, "nan": np.nan, "None": np.nan})
+        unified["glycan_glytoucan_id"] = glytoucan_series
+
     if not ligands.empty and "glycan_glytoucan_id" in unified.columns:
         ligand_map = {
             "glytoucanid": "glytoucan_id",
@@ -283,7 +289,12 @@ def merge_phase2_data(
                 ligand_cols[col] = ligand_map[key]
         ligands_norm = ligands.rename(columns=ligand_cols)
         if "glytoucan_id" in ligands_norm.columns:
+            ligands_norm["glytoucan_id"] = (
+                ligands_norm["glytoucan_id"].astype(str).str.strip().replace({"": np.nan, "nan": np.nan, "None": np.nan})
+            )
             needed = ["glytoucan_id"]
+            if "glycan_id" in ligands_norm.columns:
+                needed.append("glycan_id")
             for opt in ("iupac", "glycoct", "monosac_composition"):
                 if opt in ligands_norm.columns:
                     needed.append(opt)
@@ -295,6 +306,40 @@ def merge_phase2_data(
                 how="left",
                 suffixes=("", "_ligand"),
             )
+
+    if "lectin_name" in unified.columns:
+        if "protein_name" in unified.columns:
+            unified["lectin_name"] = unified["lectin_name"].fillna(unified["protein_name"])
+        if "lectin_uniprot" in unified.columns:
+            unified["lectin_name"] = unified["lectin_name"].fillna(unified["lectin_uniprot"])
+
+    if "glycan_iupac" in unified.columns and "iupac" in unified.columns:
+        unified["glycan_iupac"] = unified["glycan_iupac"].fillna(unified["iupac"])
+
+    if "glytoucan_id" in unified.columns and "glycan_glytoucan_id" in unified.columns:
+        unified["glytoucan_id"] = unified["glytoucan_id"].fillna(unified["glycan_glytoucan_id"])
+
+    if "glycan_id" in unified.columns and "glycan_id_ligand" in unified.columns:
+        unified["glycan_id"] = unified["glycan_id"].fillna(unified["glycan_id_ligand"])
+    elif "glycan_id" not in unified.columns and "glycan_id_ligand" in unified.columns:
+        unified["glycan_id"] = unified["glycan_id_ligand"]
+    if "glycan_id" in unified.columns:
+        unified["glycan_id"] = unified["glycan_id"].fillna(unified.get("glycan_glytoucan_id"))
+        unified["glycan_id"] = unified["glycan_id"].fillna(unified.get("glytoucan_id"))
+        if "glycan_iupac" in unified.columns:
+            missing = unified["glycan_id"].isna() & unified["glycan_iupac"].notna()
+            if missing.any():
+                unified.loc[missing, "glycan_id"] = unified.loc[missing, "glycan_iupac"].astype(str).map(
+                    lambda val: f"IUPAC_{hashlib.md5(val.encode('utf-8')).hexdigest()[:12]}"
+                )
+
+    drop_cols = [col for col in ("lectin_name", "glycan_id") if col in unified.columns]
+    if drop_cols:
+        before = len(unified)
+        unified = unified.dropna(subset=drop_cols, how="any")
+        dropped = before - len(unified)
+        if dropped:
+            LOGGER.info("Dropped %s rows missing lectin/glycan identifiers", dropped)
 
     return unified
 
@@ -313,7 +358,11 @@ def build_labels(
         df = df[~rfu.isna()].copy()
     rfu = rfu.fillna(0.0)
     df["rfu_value"] = rfu
-    df["label_bin"] = ((rfu >= rfu_threshold) | (df.get("conclusive", False).fillna(False))).astype(float)
+    if "conclusive" in df.columns:
+        conclusive = df["conclusive"].fillna(False)
+    else:
+        conclusive = False
+    df["label_bin"] = ((rfu >= rfu_threshold) | conclusive).astype(float)
     df["label_reg"] = np.log10(rfu + 1.0)
     return df
 
