@@ -248,10 +248,10 @@ def merge_phase2_data(
 
     if not ligands.empty and "glycan_glytoucan_id" in unified.columns:
         unified = unified.merge(
-            ligands,
+            ligands[["glytoucan_id", "iupac", "glycoct", "monosac_composition"]],
+            left_on="glycan_glytoucan_id",
+            right_on="glytoucan_id",
             how="left",
-            left_on=["glycan_glytoucan_id"],
-            right_on=["glytoucan_id"],
             suffixes=("", "_ligand"),
         )
 
