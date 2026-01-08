@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 
 from scripts.parsers import cfg_xlsx_parser
-from scripts import merge_rfu_sources
+from scripts.data import merge_rfu_sources
 
 
 def test_cfg_xlsx_parser_basic(tmp_path):
