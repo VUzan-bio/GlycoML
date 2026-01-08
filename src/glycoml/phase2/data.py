@@ -105,6 +105,8 @@ CFG_MAP = {
     "glycanglytoucanid": "glytoucan_id",
     "glytoucan_id": "glytoucan_id",
     "lectinsamplename": "lectin_name",
+    "samplename": "lectin_name",
+    "sample_name": "lectin_name",
     "lectin_name": "lectin_name",
     "rfuraw": "rfu_raw",
     "rfu_raw": "rfu_raw",
