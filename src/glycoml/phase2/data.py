@@ -305,7 +305,10 @@ def build_labels(
     nan_handling: str = "zero",
 ) -> pd.DataFrame:
     df = df.copy()
-    rfu = df["rfu_normalized"].fillna(df["binding_value"]).astype(float)
+    if "rfu_normalized" in df.columns:
+        rfu = df["rfu_normalized"].fillna(df["binding_value"]).astype(float)
+    else:
+        rfu = df["binding_value"].astype(float)
     if nan_handling == "drop":
         df = df[~rfu.isna()].copy()
     rfu = rfu.fillna(0.0)
