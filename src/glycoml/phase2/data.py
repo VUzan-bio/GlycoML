@@ -247,13 +247,33 @@ def merge_phase2_data(
             )
 
     if not ligands.empty and "glycan_glytoucan_id" in unified.columns:
-        unified = unified.merge(
-            ligands[["glytoucan_id", "iupac", "glycoct", "monosac_composition"]],
-            left_on="glycan_glytoucan_id",
-            right_on="glytoucan_id",
-            how="left",
-            suffixes=("", "_ligand"),
-        )
+        ligand_map = {
+            "glytoucanid": "glytoucan_id",
+            "glytoucan_id": "glytoucan_id",
+            "iupac": "iupac",
+            "glycoct": "glycoct",
+            "monosaccomposition": "monosac_composition",
+            "monosac_composition": "monosac_composition",
+        }
+        ligand_cols = {}
+        for col in ligands.columns:
+            key = normalize_col(col)
+            if key in ligand_map:
+                ligand_cols[col] = ligand_map[key]
+        ligands_norm = ligands.rename(columns=ligand_cols)
+        if "glytoucan_id" in ligands_norm.columns:
+            needed = ["glytoucan_id"]
+            for opt in ("iupac", "glycoct", "monosac_composition"):
+                if opt in ligands_norm.columns:
+                    needed.append(opt)
+            ligands_subset = ligands_norm[needed].copy()
+            unified = unified.merge(
+                ligands_subset,
+                left_on="glycan_glytoucan_id",
+                right_on="glytoucan_id",
+                how="left",
+                suffixes=("", "_ligand"),
+            )
 
     return unified
 
