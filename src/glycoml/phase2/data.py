@@ -229,14 +229,31 @@ def merge_phase2_data(
     if not cfg.empty:
         cfg_names = sorted(cfg["lectin_name"].dropna().unique().tolist())
         cfg["lectin_name_match"] = cfg["lectin_name"].apply(lambda x: _fuzzy_match(str(x), cfg_names, fuzzy_cutoff))
-        if "glytoucan_id" in unified.columns:
-            unified = unified.merge(
-                cfg,
-                how="left",
-                left_on=["lectin_name", "glytoucan_id"],
-                right_on=["lectin_name_match", "glytoucan_id"],
-                suffixes=("", "_cfg"),
-            )
+        if "glytoucan_id" in cfg.columns:
+            if "glycan_glytoucan_id" in unified.columns:
+                unified = unified.merge(
+                    cfg,
+                    how="left",
+                    left_on=["lectin_name", "glycan_glytoucan_id"],
+                    right_on=["lectin_name_match", "glytoucan_id"],
+                    suffixes=("", "_cfg"),
+                )
+            elif "glytoucan_id" in unified.columns:
+                unified = unified.merge(
+                    cfg,
+                    how="left",
+                    left_on=["lectin_name", "glytoucan_id"],
+                    right_on=["lectin_name_match", "glytoucan_id"],
+                    suffixes=("", "_cfg"),
+                )
+            else:
+                unified = unified.merge(
+                    cfg,
+                    how="left",
+                    left_on=["lectin_name"],
+                    right_on=["lectin_name_match"],
+                    suffixes=("", "_cfg"),
+                )
         else:
             unified = unified.merge(
                 cfg,
