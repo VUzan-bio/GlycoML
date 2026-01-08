@@ -38,6 +38,7 @@ results/**
 .vscode/
 .idea/
 *.swp
+.venv/
 
 # OS
 .DS_Store
