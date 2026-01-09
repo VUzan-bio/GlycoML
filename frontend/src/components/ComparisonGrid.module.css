@@ -28,6 +28,13 @@
   position: relative;
 }
 
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
 .templateBadge {
   align-self: flex-start;
   font-size: 0.7rem;

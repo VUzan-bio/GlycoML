@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layers, Target, Zap } from 'lucide-react';
 import { GlycoformRecord } from '../types';
 import Button from './ui/Button';
 import Select from './ui/Select';
+import styles from './ControlsPanel.module.css';
+import { Link } from 'react-router-dom';
 
 type Props = {
   glycoforms: GlycoformRecord[];
   fcgr: string;
   glycan: string;
+  mode: 'single' | 'batch';
   onChange: (fcgr: string, glycan: string) => void;
+  onModeChange: (mode: 'single' | 'batch') => void;
   onPredict: () => void;
   isLoading: boolean;
   isPredicting: boolean;
@@ -18,11 +22,14 @@ export default function ControlsPanel({
   glycoforms,
   fcgr,
   glycan,
+  mode,
   onChange,
+  onModeChange,
   onPredict,
   isLoading,
   isPredicting,
 }: Props) {
+  const [customIupac, setCustomIupac] = useState('');
   const fcgrOptions = Array.from(new Set(glycoforms.map((g) => g.fcgr_name))).sort();
   const glycanOptions = glycoforms
     .filter((g) => g.fcgr_name === fcgr)
@@ -41,10 +48,12 @@ export default function ControlsPanel({
       : [{ label: isLoading ? 'Loading variants...' : 'No variants found', value: '' }];
 
   return (
-    <div className="sidebar-panel">
-      <div className="control-section">
-        <div className="section-title">
-          <Target size={20} color="#4286F5" aria-hidden="true" />
+    <div className={styles.panel}>
+      <div className={styles.panelTitle}>Prediction Inputs</div>
+
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <Target size={18} color="#5771FE" aria-hidden="true" />
           FcγR Allotype
         </div>
         <Select
@@ -57,11 +66,15 @@ export default function ControlsPanel({
           disabled={isLoading || fcgrOptions.length === 0}
           hideLabel
         />
+        <div className={styles.checkboxRow}>
+          <input type="checkbox" checked readOnly disabled aria-label="Use structure template" />
+          Use structure (Fc-FcγR template)
+        </div>
       </div>
 
-      <div className="control-section">
-        <div className="section-title">
-          <Layers size={20} color="#4286F5" aria-hidden="true" />
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <Layers size={18} color="#5771FE" aria-hidden="true" />
           Glycan Variant
         </div>
         <Select
@@ -74,16 +87,54 @@ export default function ControlsPanel({
           disabled={isLoading || glycanOptions.length === 0}
           hideLabel
         />
+        <label className={styles.textField}>
+          <span className={styles.textLabel}>Custom IUPAC</span>
+          <input
+            type="text"
+            value={customIupac}
+            onChange={(event) => setCustomIupac(event.target.value)}
+            placeholder="Paste IUPAC sequence"
+            disabled={isLoading}
+          />
+        </label>
+      </div>
+
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Prediction Mode</div>
+        <div className={styles.radioGroup} role="radiogroup" aria-label="Prediction mode">
+          <label className={styles.radioItem}>
+            <input
+              type="radio"
+              name="prediction-mode"
+              checked={mode === 'single'}
+              onChange={() => onModeChange('single')}
+            />
+            Single prediction
+          </label>
+          <label className={styles.radioItem}>
+            <input
+              type="radio"
+              name="prediction-mode"
+              checked={mode === 'batch'}
+              onChange={() => onModeChange('batch')}
+            />
+            Batch (FcγR × glycan grid)
+          </label>
+        </div>
+        {mode === 'batch' && (
+          <div className={styles.modeHint}>
+            Switch to Compare View to run multi-glycan predictions.{' '}
+            <Link to="/compare">Open Compare View</Link>
+          </div>
+        )}
       </div>
 
       <Button
         variant="primary"
         onClick={onPredict}
         disabled={isLoading || isPredicting || !fcgr || !glycan}
-        className="predict-button"
-        icon={
-          <Zap size={20} color="white" aria-hidden="true" />
-        }
+        className={styles.predictButton}
+        icon={<Zap size={18} color="white" aria-hidden="true" />}
       >
         {isPredicting ? 'Predicting...' : 'Predict Binding'}
       </Button>

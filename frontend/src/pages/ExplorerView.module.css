@@ -1,0 +1,169 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.subhead {
+  color: var(--text-secondary);
+  max-width: 520px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.exportHint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.heatmapCard {
+  padding: 20px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendSwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.legendMissing {
+  background: repeating-linear-gradient(
+    45deg,
+    #e5e7eb,
+    #e5e7eb 4px,
+    #f9fafb 4px,
+    #f9fafb 8px
+  );
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.loadingGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.loadingGrid :global(.skeleton) {
+  height: 32px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.table th,
+.table td {
+  border: 1px solid var(--border-light);
+  padding: 0;
+  text-align: center;
+}
+
+.table th {
+  background: var(--bg-secondary);
+  font-weight: 600;
+  padding: 8px;
+  color: var(--text-secondary);
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+.table thead th {
+  top: 0;
+  z-index: 2;
+}
+
+.cell {
+  width: 50px;
+  height: 50px;
+  border: none;
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  cursor: pointer;
+}
+
+.cellMissing {
+  background: repeating-linear-gradient(
+    45deg,
+    #f3f4f6,
+    #f3f4f6 6px,
+    #ffffff 6px,
+    #ffffff 12px
+  );
+  color: var(--text-muted);
+}
+
+.cell:hover {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: -2px;
+}
+
+.cell:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: -2px;
+}
+
+.insightsCard {
+  padding: 20px;
+}
+
+.insightsHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.insightsList {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-secondary);
+  display: grid;
+  gap: 6px;
+}
+
+.hiddenCanvas {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

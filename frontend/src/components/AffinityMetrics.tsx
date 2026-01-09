@@ -39,7 +39,7 @@ export default function AffinityMetrics({ record, isLoading, totalCount }: Props
         <div className="metrics-row">
         <div className="metric-card">
           <div className="metric-header">
-            <TrendingUp size={20} color="#4286F5" aria-hidden="true" />
+            <TrendingUp size={20} color="#5771FE" aria-hidden="true" />
             <span>Affinity Metrics</span>
           </div>
           <div className="helper-text">
@@ -70,7 +70,7 @@ export default function AffinityMetrics({ record, isLoading, totalCount }: Props
             className="metric-header"
             title="K_D measured by surface plasmon resonance (Shields et al., J Biol Chem 276:6591-6604, 2001)"
           >
-            <TrendingUp size={20} color="#4286F5" aria-hidden="true" />
+            <TrendingUp size={20} color="#5771FE" aria-hidden="true" />
             <span>
               Equilibrium Dissociation Constant (K<sub>D</sub>)
             </span>
@@ -84,7 +84,7 @@ export default function AffinityMetrics({ record, isLoading, totalCount }: Props
 
         <div className="metric-card">
           <div className="metric-header">
-            <Award size={20} color="#4286F5" aria-hidden="true" />
+            <Award size={20} color="#5771FE" aria-hidden="true" />
             <span>Affinity Rank</span>
           </div>
           <div className="metric-value">
@@ -96,7 +96,7 @@ export default function AffinityMetrics({ record, isLoading, totalCount }: Props
 
         <div className="metric-card">
           <div className="metric-header">
-            <BarChart3 size={20} color="#4286F5" aria-hidden="true" />
+            <BarChart3 size={20} color="#5771FE" aria-hidden="true" />
             <span>Binding Free Energy (ΔG)</span>
           </div>
           <div className="metric-value">

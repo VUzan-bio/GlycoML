@@ -8,12 +8,16 @@ interface Props {
   maxSelections: number;
   onFcgrChange: (fcgr: string) => void;
   onGlycansChange: (glycans: string[]) => void;
+  initialFcgr?: string;
+  initialGlycans?: string[];
 }
 
 export default function GlycoformMultiSelector({
   maxSelections,
   onFcgrChange,
   onGlycansChange,
+  initialFcgr,
+  initialGlycans,
 }: Props) {
   const [glycoforms, setGlycoforms] = useState<GlycoformRecord[]>([]);
   const [selectedFcgr, setSelectedFcgr] = useState('');
@@ -26,12 +30,35 @@ export default function GlycoformMultiSelector({
       .then((data) => {
         setGlycoforms(data);
         if (data.length > 0) {
-          setSelectedFcgr(data[0].fcgr_name);
-          onFcgrChange(data[0].fcgr_name);
+          const fcgrValue = initialFcgr || data[0].fcgr_name;
+          setSelectedFcgr(fcgrValue);
+          onFcgrChange(fcgrValue);
+          if (initialGlycans && initialGlycans.length > 0) {
+            const initialSet = new Set(initialGlycans.slice(0, maxSelections));
+            setSelectedGlycans(initialSet);
+            onGlycansChange(Array.from(initialSet));
+          }
         }
       })
       .finally(() => setIsLoading(false));
-  }, [onFcgrChange]);
+  }, [initialFcgr, initialGlycans, maxSelections, onFcgrChange, onGlycansChange]);
+
+  useEffect(() => {
+    if (!initialFcgr) {
+      return;
+    }
+    setSelectedFcgr(initialFcgr);
+    onFcgrChange(initialFcgr);
+  }, [initialFcgr, onFcgrChange]);
+
+  useEffect(() => {
+    if (!initialGlycans || initialGlycans.length === 0) {
+      return;
+    }
+    const next = new Set(initialGlycans.slice(0, maxSelections));
+    setSelectedGlycans(next);
+    onGlycansChange(Array.from(next));
+  }, [initialGlycans, maxSelections, onGlycansChange]);
 
   const fcgrOptions = useMemo(() => {
     return [...new Set(glycoforms.map((g) => g.fcgr_name))].sort();

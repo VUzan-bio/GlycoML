@@ -4,7 +4,7 @@ import styles from './StatCard.module.css';
 type Tone = 'strong' | 'moderate' | 'weak' | 'neutral';
 
 type Props = {
-  label: string;
+  label: React.ReactNode;
   value: string;
   subtitle?: string;
   tone?: Tone;

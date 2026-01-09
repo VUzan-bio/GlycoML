@@ -39,7 +39,7 @@
 .select:focus {
   outline: none;
   border-color: var(--primary-blue);
-  box-shadow: 0 0 0 3px rgba(66, 134, 245, 0.1);
+  box-shadow: 0 0 0 3px rgba(87, 113, 254, 0.1);
 }
 
 .select:disabled {

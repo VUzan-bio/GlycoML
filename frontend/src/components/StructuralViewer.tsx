@@ -4,9 +4,9 @@ import {
   CheckCircle,
   Loader2,
   Maximize2,
-  Minimize2,
   Pause,
   Play,
+  RotateCcw,
 } from 'lucide-react';
 import { createPluginUI } from 'molstar/lib/mol-plugin-ui';
 import { renderReact18 } from 'molstar/lib/mol-plugin-ui/react18';
@@ -144,10 +144,13 @@ export default function StructuralViewer({
     >
       <div className="viewer-header">
         <div className="viewer-title">
-          <Atom size={24} color="#4286F5" aria-hidden="true" />
+          <Atom size={24} color="#5771FE" aria-hidden="true" />
           <span>Fc-FcγR Complex</span>
         </div>
-        <div className="viewer-controls">
+      </div>
+      <div className="viewer-body">
+        <div ref={viewerRef} className="viewer-canvas" aria-label="Molecular structure viewer" />
+        <div className="viewer-overlay" role="toolbar" aria-label="Viewer controls">
           <button
             className="icon-btn"
             type="button"
@@ -156,10 +159,16 @@ export default function StructuralViewer({
             onClick={onToggleAnimation}
             disabled={!pdbUrl}
           >
-            {isPlaying ? <Pause size={20} aria-hidden="true" /> : <Play size={20} aria-hidden="true" />}
+            {isPlaying ? <Pause size={18} aria-hidden="true" /> : <Play size={18} aria-hidden="true" />}
           </button>
-          <button className="icon-btn" type="button" title="Reset view" aria-label="Reset view" onClick={handleReset}>
-            <Minimize2 size={20} aria-hidden="true" />
+          <button
+            className="icon-btn"
+            type="button"
+            title="Reset view"
+            aria-label="Reset view"
+            onClick={handleReset}
+          >
+            <RotateCcw size={18} aria-hidden="true" />
           </button>
           <button
             className="icon-btn"
@@ -168,12 +177,9 @@ export default function StructuralViewer({
             aria-label="Toggle fullscreen"
             onClick={handleFullscreen}
           >
-            <Maximize2 size={20} aria-hidden="true" />
+            <Maximize2 size={18} aria-hidden="true" />
           </button>
         </div>
-      </div>
-      <div className="viewer-body">
-        <div ref={viewerRef} className="viewer-canvas" aria-label="Molecular structure viewer" />
         {showEmpty && (
           <div className="viewer-placeholder">
             Select an FcγR allotype and glycan variant, then Predict Binding.

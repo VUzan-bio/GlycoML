@@ -18,7 +18,7 @@ export default function ComparisonTable({ data, isLoading }: Props) {
           <h2>Affinity Metrics</h2>
           <p className={styles.subtext}>Measured vs predicted values with ranking.</p>
         </div>
-        <BarChart3 size={18} color="#4286F5" aria-hidden="true" />
+        <BarChart3 size={18} color="#5771FE" aria-hidden="true" />
       </div>
       <div className="table-wrapper">
         <table className="table" aria-label="Binding affinity comparison" aria-busy={isLoading}>

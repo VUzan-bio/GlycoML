@@ -5,7 +5,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_G0F": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -13,7 +13,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_G1F": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -21,7 +21,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_G2F": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -29,7 +29,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G2F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G2F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G2F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_G0FS": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -37,7 +37,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_G1FS": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -45,7 +45,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_G2FS": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -53,7 +53,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G2FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G2FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G2FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_G0FB": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -61,7 +61,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0FB.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0FB.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0FB.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_G1FB": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -69,7 +69,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1FB.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1FB.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1FB.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_G0-Fuc": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -77,7 +77,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0-Fuc.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0-Fuc.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G0-Fuc.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_G1-Fuc": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -85,7 +85,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1-Fuc.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1-Fuc.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_G1-Fuc.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_Man5": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -93,7 +93,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_Man5.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_Man5.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_Man5.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-V158_Man8": {
     "fcgr_name": "Fc\u03b3RIIIA-V158",
@@ -101,7 +101,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_Man8.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_Man8.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-V158_Man8.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G0": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -109,7 +109,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G0F": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -117,7 +117,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G1F": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -125,7 +125,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G2F": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -133,7 +133,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G2F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G2F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G2F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G0FS": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -141,7 +141,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G1FS": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -149,7 +149,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G2FS": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -157,7 +157,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G2FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G2FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G2FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G0FB": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -165,7 +165,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0FB.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0FB.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0FB.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G1FB": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -173,7 +173,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1FB.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1FB.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1FB.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G0-Fuc": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -181,7 +181,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0-Fuc.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0-Fuc.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G0-Fuc.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_G1-Fuc": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -189,7 +189,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1-Fuc.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1-Fuc.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_G1-Fuc.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_Man5": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -197,7 +197,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_Man5.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_Man5.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_Man5.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIIA-F158_Man8": {
     "fcgr_name": "Fc\u03b3RIIIA-F158",
@@ -205,7 +205,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_Man8.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_Man8.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIIA-F158_Man8.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G0": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -213,7 +213,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G0F": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -221,7 +221,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G1F": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -229,7 +229,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G2F": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -237,7 +237,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G2F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G2F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G2F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G0FS": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -245,7 +245,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G1FS": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -253,7 +253,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G2FS": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -261,7 +261,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G2FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G2FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G2FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G0FB": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -269,7 +269,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0FB.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0FB.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0FB.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G1FB": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -277,7 +277,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1FB.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1FB.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1FB.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G0-Fuc": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -285,7 +285,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0-Fuc.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0-Fuc.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G0-Fuc.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_G1-Fuc": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -293,7 +293,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1-Fuc.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1-Fuc.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_G1-Fuc.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_Man5": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -301,7 +301,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_Man5.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_Man5.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_Man5.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-H131_Man8": {
     "fcgr_name": "Fc\u03b3RIIA-H131",
@@ -309,7 +309,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_Man8.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_Man8.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-H131_Man8.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G0": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -317,7 +317,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G0F": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -325,7 +325,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G1F": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -333,7 +333,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G2F": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -341,7 +341,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G2F.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G2F.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G2F.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G0FS": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -349,7 +349,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G1FS": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -357,7 +357,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G2FS": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -365,7 +365,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G2FS.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G2FS.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G2FS.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G0FB": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -373,7 +373,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0FB.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0FB.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0FB.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G1FB": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -381,7 +381,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1FB.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1FB.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1FB.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G0-Fuc": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -389,7 +389,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0-Fuc.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0-Fuc.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G0-Fuc.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_G1-Fuc": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -397,7 +397,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1-Fuc.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1-Fuc.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_G1-Fuc.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_Man5": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -405,7 +405,7 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_Man5.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_Man5.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_Man5.pse",
-    "has_glycan": false
+    "has_glycan": true
   },
   "Fc\u03b3RIIA-R131_Man8": {
     "fcgr_name": "Fc\u03b3RIIA-R131",
@@ -413,6 +413,6 @@
     "png_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_Man8.png",
     "pdb_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_Man8.pdb",
     "pse_path": "outputs\\phase3_pymol\\Fc\u03b3RIIA-R131_Man8.pse",
-    "has_glycan": false
+    "has_glycan": true
   }
 }

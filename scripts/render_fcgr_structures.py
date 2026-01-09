@@ -67,6 +67,7 @@ def render_structures(
         cmd.load(str(pdb_template), "complex")
         cmd.hide("everything", "all")
         cmd.show("cartoon", "complex")
+        cmd.bg_color("white")
         cmd.color("slate", "complex and chain A")
         cmd.color("orange", "complex and chain B")
 
