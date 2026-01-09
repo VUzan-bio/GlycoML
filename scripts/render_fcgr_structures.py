@@ -4,7 +4,7 @@ import argparse
 import json
 import logging
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, Dict, List
 
 import pandas as pd
 
@@ -39,7 +39,7 @@ def render_structures(
         raise RuntimeError("PyMOL is required to render structures.") from exc
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    manifest: Dict[str, Dict[str, str]] = {}
+    manifest: Dict[str, Dict[str, Any]] = {}
 
     pymol.finish_launching(["pymol", "-cq"])
 

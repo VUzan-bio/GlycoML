@@ -33,7 +33,7 @@ app = FastAPI(title="GlycoML Phase3 API", version="1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 _DATA: Optional[pd.DataFrame] = None
-_MANIFEST: Dict[str, Dict[str, str]] = {}
+_MANIFEST: Dict[str, Dict[str, Any]] = {}
 _PREDICTOR: Optional[Phase3Predictor] = None
 _DATA_VERSION: str = "unknown"
 
@@ -42,7 +42,7 @@ def _safe_key(key: str) -> str:
     return re.sub(r"[^A-Za-z0-9._-]", "_", key)
 
 
-def _load_manifest(path: Path) -> Dict[str, Dict[str, str]]:
+def _load_manifest(path: Path) -> Dict[str, Dict[str, Any]]:
     if not path.exists():
         LOG.warning("Manifest not found: %s", path)
         return {}

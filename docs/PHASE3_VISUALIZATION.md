@@ -26,6 +26,15 @@ Glycan PDBs must be placed under `data/structures/glycans/` and named exactly li
 omitted or glycans are missing, the renderer falls back to the template-only complex
 and the UI will warn that structures are visually identical.
 
+Optional: extract glycan-only PDBs from full glycoprotein models (requires PyMOL).
+The extractor looks for files named `fc_fcgr_<glycan>_full.pdb`:
+
+```bash
+python scripts/extract_glycans.py \
+  --input-dir data/raw/glycoproteins \
+  --output-dir data/structures/glycans
+```
+
 ## 2) Start the API
 
 ```bash

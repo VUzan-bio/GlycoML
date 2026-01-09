@@ -35,7 +35,7 @@ export default function CompareView() {
       setStructureWarning(
         response.all_structures_identical || allTemplateOnly
           ? response.structure_warning ||
-              'Warning: All structures are rendered from the same Fc-FcγR template without glycan coordinates. Visual differences between glycoforms will not be visible until glycan PDBs are provided.'
+              'Warning: All structures are rendered from the same Fc-FcγR template without glycan coordinates. Visual differences between glycoforms will not be visible until glycan PDBs are provided in data/structures/glycans/.'
           : null
       );
     } catch (err) {
