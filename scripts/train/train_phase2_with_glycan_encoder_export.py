@@ -23,7 +23,7 @@ import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
 
 from torch_geometric.data import Batch, Data
-from torch_geometric.nn import GraphConv, global_mean_pool, global_max_pool
+from torch_geometric.nn import GINEConv, global_mean_pool, global_max_pool
 try:
     from rdkit import Chem
     from rdkit import RDLogger
@@ -54,16 +54,33 @@ def resolve_device(requested: str) -> torch.device:
 
 
 class GlycanGNNEncoder(nn.Module):
-    def __init__(self, input_dim: int = 5, hidden_dim: int = 64, embedding_dim: int = 512) -> None:
+    def __init__(
+        self,
+        input_dim: int = 5,
+        hidden_dim: int = 64,
+        embedding_dim: int = 512,
+        edge_dim: int = 3,
+    ) -> None:
         super().__init__()
-        self.conv1 = GraphConv(input_dim, hidden_dim)
+        self.edge_dim = edge_dim
+        self.node_proj = nn.Linear(input_dim, hidden_dim)
+        self.conv1 = GINEConv(
+            nn.Sequential(nn.Linear(hidden_dim, hidden_dim), nn.ReLU(), nn.Linear(hidden_dim, hidden_dim)),
+            edge_dim=edge_dim,
+        )
         self.bn1 = nn.BatchNorm1d(hidden_dim)
-        self.conv2 = GraphConv(hidden_dim, hidden_dim)
+        self.conv2 = GINEConv(
+            nn.Sequential(nn.Linear(hidden_dim, hidden_dim), nn.ReLU(), nn.Linear(hidden_dim, hidden_dim)),
+            edge_dim=edge_dim,
+        )
         self.bn2 = nn.BatchNorm1d(hidden_dim)
-        self.conv3 = GraphConv(hidden_dim, hidden_dim // 2)
-        self.bn3 = nn.BatchNorm1d(hidden_dim // 2)
+        self.conv3 = GINEConv(
+            nn.Sequential(nn.Linear(hidden_dim, hidden_dim), nn.ReLU(), nn.Linear(hidden_dim, hidden_dim)),
+            edge_dim=edge_dim,
+        )
+        self.bn3 = nn.BatchNorm1d(hidden_dim)
         self.projection = nn.Sequential(
-            nn.Linear(hidden_dim, embedding_dim),
+            nn.Linear(hidden_dim * 2, embedding_dim),
             nn.LayerNorm(embedding_dim),
             nn.ReLU(),
             nn.Dropout(0.1),
@@ -72,17 +89,21 @@ class GlycanGNNEncoder(nn.Module):
 
     def forward(self, data: Data) -> torch.Tensor:
         x, edge_index, batch = data.x, data.edge_index, data.batch
-        x = self.conv1(x, edge_index)
+        x = self.node_proj(x)
+        edge_attr = getattr(data, "edge_attr", None)
+        if edge_attr is None:
+            edge_attr = torch.zeros((edge_index.size(1), self.edge_dim), device=x.device, dtype=x.dtype)
+        x = self.conv1(x, edge_index, edge_attr)
         x = self.bn1(x)
         x = F.relu(x)
         x = F.dropout(x, p=0.3, training=self.training)
 
-        x = self.conv2(x, edge_index)
+        x = self.conv2(x, edge_index, edge_attr)
         x = self.bn2(x)
         x = F.relu(x)
         x = F.dropout(x, p=0.3, training=self.training)
 
-        x = self.conv3(x, edge_index)
+        x = self.conv3(x, edge_index, edge_attr)
         x = self.bn3(x)
         x = F.relu(x)
 
@@ -209,7 +230,8 @@ def iupac_to_token_graph(iupac: str) -> Data:
     else:
         edges = [(i, j) for i in range(len(tokens)) for j in range(len(tokens)) if i != j]
         edge_index = torch.tensor(edges, dtype=torch.long).t().contiguous()
-    return Data(x=x, edge_index=edge_index)
+    edge_attr = torch.zeros((edge_index.size(1), 3), dtype=torch.float32)
+    return Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
 
 
 class CFGDataset(Dataset):
@@ -285,11 +307,46 @@ def collate_fn(batch: List[Tuple[str, Data, torch.Tensor]]):
     return lectin_seqs, glycan_graphs, labels
 
 
-def train_epoch(model, dataloader, optimizer, criterion, device):
+def summarize_graphs(dataset: Dataset, sample_size: int = 100) -> None:
+    size = min(sample_size, len(dataset))
+    if size == 0:
+        print("No graphs available for debug.")
+        return
+    node_counts = []
+    edge_counts = []
+    for idx in range(size):
+        _, graph, _ = dataset[idx]
+        node_counts.append(graph.num_nodes)
+        edge_counts.append(graph.num_edges)
+    print("\n=== GRAPH STATISTICS ===")
+    print(f"Avg nodes: {np.mean(node_counts):.1f} (std: {np.std(node_counts):.1f})")
+    print(f"Avg edges: {np.mean(edge_counts):.1f} (std: {np.std(edge_counts):.1f})")
+    isolated = sum(1 for e in edge_counts if e == 0)
+    print(f"Isolated nodes (0 edges): {isolated}/{size}")
+    print("========================\n")
+
+
+def debug_parser_examples() -> None:
+    examples = [
+        "Gala-Sp8",
+        "Glc2Man3GlcNAc4",
+        "Gal\u03b21-4GlcNAc",
+    ]
+    print("\n=== PARSER EXAMPLES ===")
+    for entry in examples:
+        graph = parse_iupac_condensed(entry)
+        edge_attr = getattr(graph, "edge_attr", None)
+        edge_attr_shape = tuple(edge_attr.shape) if edge_attr is not None else None
+        print(f"{entry}: nodes={graph.num_nodes}, edges={graph.num_edges}, edge_attr={edge_attr_shape}")
+    print("========================\n")
+
+
+def train_epoch(model, dataloader, optimizer, criterion, device, debug_grads: bool = False):
     model.train()
     total_loss = 0.0
     correct = 0
     total = 0
+    printed = False
     for lectin_seqs, glycan_graphs, labels in dataloader:
         glycan_graphs = glycan_graphs.to(device)
         labels = labels.to(device)
@@ -297,6 +354,11 @@ def train_epoch(model, dataloader, optimizer, criterion, device):
         preds = model(lectin_seqs, glycan_graphs)
         loss = criterion(preds, labels)
         loss.backward()
+        if debug_grads and not printed:
+            for name, param in model.glycan_encoder.named_parameters():
+                if param.grad is not None:
+                    print(f"{name}: grad_norm={param.grad.norm().item():.4f}")
+            printed = True
         optimizer.step()
 
         total_loss += float(loss.item())
@@ -336,6 +398,8 @@ def main() -> None:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--esm-model", default="esm2_t33_650M_UR50D")
     parser.add_argument("--allow-non-smiles", action="store_true")
+    parser.add_argument("--debug-graphs", action="store_true")
+    parser.add_argument("--debug-grads", action="store_true")
     parser.add_argument("--binding-column", default="")
     args = parser.parse_args()
 
@@ -378,13 +442,21 @@ def main() -> None:
     model = CFGLectinGlycanPredictor(lectin_encoder, glycan_encoder)
     model = model.to(device)
 
+    if args.debug_graphs:
+        summarize_graphs(dataset)
+        print("Glycan encoder:")
+        print(model.glycan_encoder)
+        debug_parser_examples()
+
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
     criterion = nn.BCELoss()
 
     best_val_acc = 0.0
 
     for epoch in range(1, args.epochs + 1):
-        train_loss, train_acc = train_epoch(model, train_loader, optimizer, criterion, device)
+        train_loss, train_acc = train_epoch(
+            model, train_loader, optimizer, criterion, device, debug_grads=args.debug_grads
+        )
         val_loss, val_acc = evaluate(model, val_loader, criterion, device)
         print(
             f"Epoch {epoch}/{args.epochs} - "

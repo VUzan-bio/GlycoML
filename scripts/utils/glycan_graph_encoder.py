@@ -28,10 +28,10 @@ MONOSACCHARIDE_TYPES: Dict[str, int] = {
 }
 
 ANOMER_MAP = {
-    "a": 1,
-    "b": 2,
-    "\u03b1": 1,
-    "\u03b2": 2,
+    "a": 0,
+    "b": 1,
+    "\u03b1": 0,
+    "\u03b2": 1,
 }
 
 TOKENS_SORTED = sorted(MONOSACCHARIDE_TYPES.keys(), key=len, reverse=True)
@@ -40,7 +40,7 @@ TOKEN_PATTERN = re.compile("|".join(re.escape(tok) for tok in TOKENS_SORTED if t
 
 def clean_iupac(value: str) -> str:
     cleaned = value.strip()
-    cleaned = re.sub(r"-Sp\\d+$", "", cleaned)
+    cleaned = re.sub(r"-Sp\d+$", "", cleaned)
     cleaned = cleaned.replace("┬á", "")
     return cleaned
 
@@ -48,7 +48,7 @@ def clean_iupac(value: str) -> str:
 def is_composition(value: str) -> bool:
     if any(ch in value for ch in ("-", "(", ")", "[", "]")):
         return False
-    return bool(re.match(r"^([A-Za-z0-9]+\\d*)+$", value))
+    return bool(re.match(r"^([A-Za-z0-9]+\d*)+$", value))
 
 
 def extract_composition_tokens(value: str) -> List[str]:
@@ -70,15 +70,16 @@ def extract_composition_tokens(value: str) -> List[str]:
     return tokens
 
 
-def extract_ordered_tokens(value: str) -> List[Tuple[str, int]]:
-    matches = list(TOKEN_PATTERN.finditer(value))
-    tokens: List[Tuple[str, int]] = []
-    for match in matches:
-        token = match.group(0)
-        anomer = 0
-        if match.end() < len(value):
-            anomer = ANOMER_MAP.get(value[match.end()], 0)
-        tokens.append((token, anomer))
+def extract_ordered_tokens(value: str) -> List[Tuple[str, int, int]]:
+    pattern = re.compile(r"([A-Z][a-zA-Z0-9]*)([\u03b1\u03b2ab]?)(\d)?-?(\d)?")
+    matches = pattern.findall(value)
+    tokens: List[Tuple[str, int, int]] = []
+    for mono_name, anomer, pos_from, pos_to in matches:
+        if not mono_name:
+            continue
+        anomer_idx = ANOMER_MAP.get(anomer, 2)
+        bond_pos = int(pos_to) if pos_to and pos_to.isdigit() else 2
+        tokens.append((mono_name, anomer_idx, bond_pos))
     return tokens
 
 
@@ -89,7 +90,7 @@ def parse_iupac_condensed(iupac_string: str) -> Data:
 
     if is_composition(iupac_string):
         tokens = extract_composition_tokens(iupac_string)
-        return _build_linear_graph([(token, 0) for token in tokens])
+        return _build_linear_graph([(token, 0, 2) for token in tokens])
 
     tokens = extract_ordered_tokens(iupac_string)
     if not tokens:
@@ -101,22 +102,26 @@ def _single_node(token: str) -> Data:
     mono_type = MONOSACCHARIDE_TYPES.get(token, MONOSACCHARIDE_TYPES["Unknown"])
     x = torch.tensor([[mono_type, 0, 1, 0, 0]], dtype=torch.float32)
     edge_index = torch.empty((2, 0), dtype=torch.long)
-    return Data(x=x, edge_index=edge_index)
+    edge_attr = torch.empty((0, 3), dtype=torch.float32)
+    return Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
 
 
-def _build_linear_graph(tokens: List[Tuple[str, int]]) -> Data:
+def _build_linear_graph(tokens: List[Tuple[str, int, int]]) -> Data:
     nodes = []
     edges = []
-    for idx, (token, anomer) in enumerate(tokens):
+    edge_attrs = []
+    for idx, (token, anomer, bond_pos) in enumerate(tokens):
         mono_type = MONOSACCHARIDE_TYPES.get(token, MONOSACCHARIDE_TYPES["Unknown"])
         nodes.append([mono_type, float(anomer), 1.0 if idx == 0 else 0.0, float(idx), 0.0])
         if idx > 0:
             edges.append([idx - 1, idx])
-            edges.append([idx, idx - 1])
+            edge_attrs.append([float(anomer), float(bond_pos), 0.0])
 
     x = torch.tensor(nodes, dtype=torch.float32)
     if edges:
         edge_index = torch.tensor(edges, dtype=torch.long).t().contiguous()
+        edge_attr = torch.tensor(edge_attrs, dtype=torch.float32)
     else:
         edge_index = torch.empty((2, 0), dtype=torch.long)
-    return Data(x=x, edge_index=edge_index)
+        edge_attr = torch.empty((0, 3), dtype=torch.float32)
+    return Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
