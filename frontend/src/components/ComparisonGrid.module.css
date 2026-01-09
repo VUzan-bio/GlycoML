@@ -1,0 +1,41 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.title {
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.viewer {
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+  height: 240px;
+  overflow: hidden;
+  position: relative;
+}
+
+.templateBadge {
+  align-self: flex-start;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 152, 0, 0.12);
+  color: var(--moderate-binding);
+}

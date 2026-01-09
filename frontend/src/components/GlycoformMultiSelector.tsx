@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { fetchGlycoforms } from '../api';
 import { GlycoformRecord } from '../types';
+import Select from './ui/Select';
+import styles from './GlycoformMultiSelector.module.css';
 
 interface Props {
   maxSelections: number;
@@ -16,15 +18,19 @@ export default function GlycoformMultiSelector({
   const [glycoforms, setGlycoforms] = useState<GlycoformRecord[]>([]);
   const [selectedFcgr, setSelectedFcgr] = useState('');
   const [selectedGlycans, setSelectedGlycans] = useState<Set<string>>(new Set());
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchGlycoforms().then((data) => {
-      setGlycoforms(data);
-      if (data.length > 0) {
-        setSelectedFcgr(data[0].fcgr_name);
-        onFcgrChange(data[0].fcgr_name);
-      }
-    });
+    setIsLoading(true);
+    fetchGlycoforms()
+      .then((data) => {
+        setGlycoforms(data);
+        if (data.length > 0) {
+          setSelectedFcgr(data[0].fcgr_name);
+          onFcgrChange(data[0].fcgr_name);
+        }
+      })
+      .finally(() => setIsLoading(false));
   }, [onFcgrChange]);
 
   const fcgrOptions = useMemo(() => {
@@ -56,24 +62,42 @@ export default function GlycoformMultiSelector({
     onGlycansChange(Array.from(next));
   };
 
-  return (
-    <div className="selector-grid">
-      <label className="field">
-        Fcgr allotype
-        <select value={selectedFcgr} onChange={(e) => handleFcgrChange(e.target.value)}>
-          {fcgrOptions.map((fcgr) => (
-            <option key={fcgr} value={fcgr}>
-              {fcgr}
-            </option>
-          ))}
-        </select>
-      </label>
+  const fcgrSelectOptions =
+    fcgrOptions.length > 0
+      ? fcgrOptions.map((option) => ({ label: option, value: option }))
+      : [
+          {
+            label: isLoading ? 'Loading FcγR allotypes...' : 'No FcγR options',
+            value: '',
+          },
+        ];
 
-      <div className="field">
-        <span>Select glycoforms (2-3)</span>
-        <div className="checkbox-grid">
+  return (
+    <div className={styles.container}>
+      <Select
+        id="fcgr-compare-select"
+        label="FcγR Allotype"
+        value={selectedFcgr}
+        options={fcgrSelectOptions}
+        onChange={handleFcgrChange}
+        ariaLabel="Select FcγR allotype"
+        disabled={isLoading || fcgrOptions.length === 0}
+      />
+
+      <div className="section-title">
+        Glycan Variants
+      </div>
+
+      {isLoading ? (
+        <div className={styles.checkboxGrid} aria-busy="true" aria-live="polite">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div key={`skeleton-${index}`} className="skeleton" style={{ height: '40px' }} />
+          ))}
+        </div>
+      ) : (
+        <div className={styles.checkboxGrid} role="group" aria-label="Select glycan structures">
           {glycanOptions.map((glycan) => (
-            <label key={glycan} className="checkbox-item">
+            <label key={glycan} className={styles.checkboxItem}>
               <input
                 type="checkbox"
                 checked={selectedGlycans.has(glycan)}
@@ -83,7 +107,10 @@ export default function GlycoformMultiSelector({
             </label>
           ))}
         </div>
-      </div>
+      )}
+      <span className="helper-text">
+        Selected {selectedGlycans.size} / {maxSelections}
+      </span>
     </div>
   );
 }

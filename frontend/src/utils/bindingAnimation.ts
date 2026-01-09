@@ -16,11 +16,11 @@ export function classifyAffinity(kdNm?: number): AffinityState {
 export function highlightColor(state: AffinityState): string {
   switch (state) {
     case 'strong':
-      return '#2d8a58';
+      return '#4caf50';
     case 'weak':
-      return '#b4443b';
+      return '#f44336';
     case 'moderate':
-      return '#d6a24a';
+      return '#ff9800';
     default:
       return '#64748b';
   }

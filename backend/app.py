@@ -74,6 +74,32 @@ def _hash_data(path: Path) -> str:
     return digest[:8]
 
 
+def _normalize_manifest_path(path_str: str) -> Path:
+    normalized = path_str.replace("\\", "/")
+    path = Path(normalized)
+    if path.is_absolute():
+        return path
+    return ROOT_DIR / path
+
+
+def _hash_file_sha256(path: Path) -> Optional[str]:
+    if not path.exists():
+        return None
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    return digest
+
+
+def _get_structure_entry(fcgr: str, glycan: str) -> Dict[str, Any]:
+    key = f"{fcgr}_{glycan}"
+    entry = _MANIFEST.get(key) or _MANIFEST.get(_safe_key(key)) or {}
+    if entry:
+        entry = dict(entry)
+        entry.setdefault("fcgr_name", fcgr)
+        entry.setdefault("glycan_name", glycan)
+        entry.setdefault("has_glycan", None)
+    return entry
+
+
 @app.on_event("startup")
 def _startup() -> None:
     global _DATA, _MANIFEST, _PREDICTOR, _DATA_VERSION
@@ -123,8 +149,7 @@ def predict_binding(
     rank = int((_DATA["binding_kd_nm"] < row["binding_kd_nm"]).sum()) + 1
     row["affinity_rank"] = rank
     row["affinity_class"] = _affinity_class(row.get("binding_kd_nm"))
-    key = f"{row['fcgr_name']}_{row['glycan_name']}"
-    row["structure"] = _MANIFEST.get(key) or _MANIFEST.get(_safe_key(key), {})
+    row["structure"] = _get_structure_entry(row["fcgr_name"], row["glycan_name"])
     row["model_version"] = MODEL_VERSION
     row["data_version"] = _DATA_VERSION
     row["prediction_timestamp"] = datetime.now(timezone.utc).isoformat()
@@ -200,12 +225,37 @@ def batch_predict_live(pairs: List[Dict[str, str]]) -> Dict[str, Any]:
     results = []
     for row, pred in zip(rows, predictions):
         row.update(pred)
+        row["structure"] = _get_structure_entry(row.get("fcgr_name", ""), row.get("glycan_name", ""))
         row["model_version"] = MODEL_VERSION
         row["data_version"] = _DATA_VERSION
         row["prediction_timestamp"] = datetime.now(timezone.utc).isoformat()
         results.append(row)
 
-    return {"results": results, "count": len(results)}
+    pdb_hashes: List[str] = []
+    for row in results:
+        structure = row.get("structure") or {}
+        pdb_path = structure.get("pdb_path")
+        if not pdb_path:
+            continue
+        path = _normalize_manifest_path(str(pdb_path))
+        digest = _hash_file_sha256(path)
+        if digest:
+            pdb_hashes.append(digest)
+
+    all_structures_identical = False
+    structure_warning = None
+    if len(pdb_hashes) >= 2 and len(set(pdb_hashes)) == 1:
+        all_structures_identical = True
+        structure_warning = (
+            "Rendered PDBs are identical (likely missing glycan-specific coordinates)."
+        )
+
+    return {
+        "results": results,
+        "count": len(results),
+        "all_structures_identical": all_structures_identical,
+        "structure_warning": structure_warning,
+    }
 
 
 @app.get("/api/export")

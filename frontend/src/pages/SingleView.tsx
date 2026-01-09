@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { fetchGlycoforms, fetchPrediction, structureUrl } from '../api';
 import { GlycoformRecord, PredictionRecord } from '../types';
-import GlycoformSelector from '../components/GlycoformSelector';
-import StructureViewer from '../components/StructureViewer';
-import MetricsPanel from '../components/MetricsPanel';
-import AnimationControls from '../components/AnimationControls';
+import { AlertCircle } from 'lucide-react';
+import ControlsPanel from '../components/ControlsPanel';
+import StructuralViewer from '../components/StructuralViewer';
+import AffinityMetrics from '../components/AffinityMetrics';
 import ExportButton from '../components/ExportButton';
 import { classifyAffinity } from '../utils/bindingAnimation';
 
@@ -14,9 +14,12 @@ export default function SingleView() {
   const [selectedGlycan, setSelectedGlycan] = useState('');
   const [record, setRecord] = useState<PredictionRecord | undefined>(undefined);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoadingGlycoforms, setIsLoadingGlycoforms] = useState(true);
+  const [isLoadingPrediction, setIsLoadingPrediction] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setIsLoadingGlycoforms(true);
     fetchGlycoforms()
       .then((data) => {
         setGlycoforms(data);
@@ -25,13 +28,15 @@ export default function SingleView() {
           setSelectedGlycan(data[0].glycan_name);
         }
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => setError(err.message))
+      .finally(() => setIsLoadingGlycoforms(false));
   }, []);
 
-  useEffect(() => {
+  const predictBinding = useCallback(() => {
     if (!selectedFcgr || !selectedGlycan) {
       return;
     }
+    setIsLoadingPrediction(true);
     fetchPrediction(selectedFcgr, selectedGlycan)
       .then((data) => {
         setRecord({
@@ -40,7 +45,8 @@ export default function SingleView() {
         });
         setError(null);
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => setError(err.message))
+      .finally(() => setIsLoadingPrediction(false));
   }, [selectedFcgr, selectedGlycan]);
 
   const affinityState = record?.affinity_class || 'unknown';
@@ -48,69 +54,59 @@ export default function SingleView() {
     ? structureUrl(record.fcgr_name, record.glycan_name, 'pdb')
     : undefined;
 
-  const topGlycoforms = useMemo(() => {
-    if (glycoforms.length === 0) {
-      return [];
-    }
-    return [...glycoforms]
-      .sort((a, b) => (a.binding_kd_nm || 0) - (b.binding_kd_nm || 0))
-      .slice(0, 5);
-  }, [glycoforms]);
-
   const handleSelection = (fcgr: string, glycan: string) => {
     setSelectedFcgr(fcgr);
     setSelectedGlycan(glycan);
+    setRecord(undefined);
+    setError(null);
   };
 
   return (
-    <div className={`app ${isPlaying ? 'animating' : ''}`}>
-      <header className="hero">
-        <div>
-          <p className="tag">Phase 3 Viewer</p>
-          <h1>Fc-Fcgr Binding Explorer</h1>
-          <p className="subtitle">
-            Visualize glycoform-driven affinity shifts across Fcgr allotypes with
-            structural context and quantitative metrics.
-          </p>
-        </div>
-        <div className="hero-card">
-          <h3>Quick highlights</h3>
-          <ul>
-            {topGlycoforms.map((g) => (
-              <li key={`${g.fcgr_name}-${g.glycan_name}`}>
-                <span>{g.fcgr_name}</span>
-                <span>{g.glycan_name}</span>
-                <span>{g.binding_kd_nm.toFixed(1)} nM</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </header>
-
-      <main className="content">
-        <section className="left">
-          <GlycoformSelector
+    <div className={`app-shell ${isPlaying ? 'animating' : ''}`}>
+      <main className="main-grid" role="main">
+        <aside className="sidebar">
+          <ControlsPanel
             glycoforms={glycoforms}
             fcgr={selectedFcgr}
             glycan={selectedGlycan}
             onChange={handleSelection}
+            onPredict={predictBinding}
+            isLoading={isLoadingGlycoforms}
+            isPredicting={isLoadingPrediction}
           />
-          <MetricsPanel record={record} />
-          <div className="panel actions">
-            <div className="panel-header">
-              <h2>Exports</h2>
-              <p>Download the full Phase 3 prediction table.</p>
-            </div>
-            <ExportButton disabled={glycoforms.length === 0} />
+          <div className="sidebar-panel">
+            <div className="section-title">Export</div>
+            <ExportButton disabled={glycoforms.length === 0} className="full-width" />
+            <p className="helper-text" style={{ marginTop: '8px' }}>
+              Export structure summaries for downstream analysis.
+            </p>
           </div>
-          <AnimationControls isPlaying={isPlaying} onToggle={() => setIsPlaying(!isPlaying)} />
-          {error && <div className="panel error">{error}</div>}
-        </section>
+          {error && (
+            <div className="error-banner" role="alert">
+              <AlertCircle size={16} aria-hidden="true" style={{ marginRight: '8px' }} />
+              {error}
+            </div>
+          )}
+        </aside>
 
-        <section className="right">
-          <StructureViewer pdbUrl={pdbUrl} affinityState={affinityState} />
+        <section className="viewer-section">
+          <StructuralViewer
+            key={pdbUrl || 'empty'}
+            pdbUrl={pdbUrl}
+            affinityState={affinityState}
+            measuredKd={record?.binding_kd_nm}
+            isPlaying={isPlaying}
+            onToggleAnimation={() => setIsPlaying(!isPlaying)}
+            isLoading={isLoadingPrediction}
+          />
         </section>
       </main>
+
+      <AffinityMetrics
+        record={record}
+        isLoading={isLoadingPrediction}
+        totalCount={glycoforms.length}
+      />
     </div>
   );
 }

@@ -1,0 +1,41 @@
+:root {
+  --primary-blue: #4286f5;
+  --primary-blue-light: #e3f2fd;
+  --primary-blue-dark: #1976d2;
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafbfc;
+  --border-light: #e8eaed;
+  --text-primary: #1a1d21;
+  --text-secondary: #5f6b7a;
+  --text-muted: #98a2b3;
+  --strong-binding: #4caf50;
+  --moderate-binding: #ff9800;
+  --weak-binding: #f44336;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(66, 134, 245, 0.12);
+  --focus-ring: rgba(66, 134, 245, 0.3);
+
+  /* Compatibility aliases */
+  --bg: var(--bg-primary);
+  --surface: var(--bg-primary);
+  --surface-muted: var(--bg-secondary);
+  --border: var(--border-light);
+  --text: var(--text-primary);
+  --muted: var(--text-secondary);
+  --blue-50: var(--primary-blue-light);
+  --blue-400: #7aa9f8;
+  --blue-500: var(--primary-blue);
+  --blue-600: var(--primary-blue-dark);
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --affinity-strong: var(--strong-binding);
+  --affinity-moderate: var(--moderate-binding);
+  --affinity-weak: var(--weak-binding);
+  --shadow: var(--shadow-sm);
+}

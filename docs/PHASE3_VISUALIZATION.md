@@ -21,7 +21,10 @@ Outputs:
 - `outputs/phase3_pymol/<fcgr>_<glycan>.pse`
 - `outputs/phase3_pymol/manifest.json`
 
-If glycan PDBs are unavailable, omit `--glycan-dir`; the script will still render the protein complex and produce a manifest.
+Glycan PDBs must be placed under `data/structures/glycans/` and named exactly like the
+`glycan_name` column (e.g., `G0.pdb`, `G0F.pdb`, `Man5.pdb`). If `--glycan-dir` is
+omitted or glycans are missing, the renderer falls back to the template-only complex
+and the UI will warn that structures are visually identical.
 
 ## 2) Start the API
 

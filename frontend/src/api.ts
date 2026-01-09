@@ -22,9 +22,16 @@ export async function fetchPrediction(fcgr: string, glycan: string): Promise<Pre
   return res.json();
 }
 
+export type BatchPredictLiveResponse = {
+  results: PredictionRecord[];
+  count: number;
+  all_structures_identical?: boolean;
+  structure_warning?: string | null;
+};
+
 export async function batchPredictLive(
   pairs: Array<{ fcgr: string; glycan: string }>
-): Promise<PredictionRecord[]> {
+): Promise<BatchPredictLiveResponse> {
   const res = await fetch(`${API_BASE}/api/batch-predict-live`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -34,7 +41,12 @@ export async function batchPredictLive(
     throw new Error('Batch prediction failed');
   }
   const data = await res.json();
-  return data.results || [];
+  return {
+    results: data.results || [],
+    count: data.count || 0,
+    all_structures_identical: data.all_structures_identical || false,
+    structure_warning: data.structure_warning || null,
+  };
 }
 
 export function structureUrl(fcgr: string, glycan: string, format: 'png' | 'pdb' = 'pdb'): string {

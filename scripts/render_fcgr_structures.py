@@ -44,6 +44,19 @@ def render_structures(
     pymol.finish_launching(["pymol", "-cq"])
 
     df = pd.read_csv(data_path)
+    glycan_values = df.get("glycan_name")
+    if glycan_values is not None:
+        non_empty = (
+            glycan_values.astype(str)
+            .str.strip()
+            .str.lower()
+            .replace({"nan": "", "none": "", "unknown": ""})
+        )
+        if glycan_dir is None and (non_empty != "").any():
+            LOG.warning(
+                "No glycan directory provided; glycan-specific coordinates will not be loaded and "
+                "all structures will look identical."
+            )
     for _, row in df.iterrows():
         fcgr = str(row.get("fcgr_name", "unknown"))
         glycan = str(row.get("glycan_name", "unknown"))
@@ -62,6 +75,7 @@ def render_structures(
             cmd.show("surface", contact_sel)
             cmd.color("green", contact_sel)
 
+        has_glycan = False
         if glycan_dir is not None:
             glycan_file = glycan_dir / f"{glycan}.pdb"
             if glycan_file.exists():
@@ -69,6 +83,9 @@ def render_structures(
                 cmd.show("sticks", "glycan")
                 cmd.color("cyan", "glycan and elem C")
                 cmd.color("red", "glycan and elem O")
+                has_glycan = True
+            else:
+                LOG.warning("Missing glycan PDB: %s", glycan_file)
 
         png_path = output_dir / f"{safe_key}.png"
         pdb_path = output_dir / f"{safe_key}.pdb"
@@ -79,9 +96,12 @@ def render_structures(
         cmd.save(str(pse_path))
 
         manifest[key] = {
+            "fcgr_name": fcgr,
+            "glycan_name": glycan,
             "png_path": str(png_path),
             "pdb_path": str(pdb_path),
             "pse_path": str(pse_path),
+            "has_glycan": has_glycan,
         }
 
     manifest_path = output_dir / "manifest.json"

@@ -20,5 +20,8 @@ export type PredictionRecord = GlycoformRecord & {
     png_path?: string;
     pdb_path?: string;
     pse_path?: string;
+    has_glycan?: boolean | null;
+    fcgr_name?: string;
+    glycan_name?: string;
   };
 };
