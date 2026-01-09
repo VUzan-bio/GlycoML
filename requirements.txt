@@ -13,3 +13,5 @@ torch-geometric
 fair-esm
 scikit-learn
 matplotlib
+fastapi
+uvicorn

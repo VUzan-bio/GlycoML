@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  glycoml-phase3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/processed:/app/data/processed:ro
+      - ./outputs/phase3_pymol:/app/outputs/phase3_pymol:ro
+      - ./outputs/phase3_fcgr:/app/outputs/phase3_fcgr:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - USE_MODEL_PREDICTIONS=true
