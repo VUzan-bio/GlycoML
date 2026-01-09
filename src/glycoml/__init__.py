@@ -7,6 +7,6 @@ try:
 except _metadata.PackageNotFoundError:
     __version__ = "0.0.0"
 
-from . import phase1, phase2, shared
+from . import phase1, phase2, phase3, shared
 
-__all__ = ["phase1", "phase2", "shared", "__version__"]
+__all__ = ["phase1", "phase2", "phase3", "shared", "__version__"]
