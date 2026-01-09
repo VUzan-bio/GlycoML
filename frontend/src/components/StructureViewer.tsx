@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { createPluginUI } from 'molstar/lib/mol-plugin-ui';
-import { PluginUISpec } from 'molstar/lib/mol-plugin-ui/spec';
 import { DefaultPluginUISpec } from 'molstar/lib/mol-plugin-ui/spec';
-import 'molstar/lib/mol-plugin-ui/skin/light.scss';
 
 import { highlightColor } from '../utils/bindingAnimation';
 
@@ -15,37 +13,56 @@ export default function StructureViewer({ pdbUrl, affinityState }: Props) {
   const viewerRef = useRef<HTMLDivElement | null>(null);
   const pluginRef = useRef<any>(null);
 
-  useEffect(() => {
-    if (!viewerRef.current || pluginRef.current) {
-      return;
+  const ensurePlugin = async () => {
+    if (!viewerRef.current) {
+      return null;
     }
-    const spec: PluginUISpec = {
-      ...DefaultPluginUISpec(),
-      layoutIsExpanded: false,
-      layoutShowControls: false,
-      layoutShowSequence: false,
-      layoutShowLog: false,
-      layoutShowLeftPanel: false,
-      layoutShowPluginState: false,
-      layoutShowTaskQueue: false,
+    if (!pluginRef.current) {
+      pluginRef.current = await createPluginUI(viewerRef.current, DefaultPluginUISpec());
+    }
+    return pluginRef.current;
+  };
+
+  useEffect(() => {
+    let disposed = false;
+    void ensurePlugin().then((plugin) => {
+      if (disposed && plugin?.dispose) {
+        plugin.dispose();
+      }
+    });
+    return () => {
+      disposed = true;
+      if (pluginRef.current?.dispose) {
+        pluginRef.current.dispose();
+      }
+      pluginRef.current = null;
     };
-    pluginRef.current = createPluginUI(viewerRef.current, spec);
   }, []);
 
   useEffect(() => {
-    if (!pluginRef.current) {
-      return;
-    }
-    const plugin = pluginRef.current;
-    if (!pdbUrl) {
+    let cancelled = false;
+    const loadStructure = async () => {
+      const plugin = await ensurePlugin();
+      if (!plugin) {
+        return;
+      }
       plugin.clear();
-      return;
-    }
-    plugin.clear();
-    plugin.loadStructureFromUrl(pdbUrl, 'pdb').then(() => {
+      if (!pdbUrl) {
+        return;
+      }
+      const data = await plugin.builders.data.download({ url: pdbUrl }, { state: { isGhost: true } });
+      const trajectory = await plugin.builders.structure.parseTrajectory(data, 'pdb');
+      await plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default');
+      if (cancelled) {
+        return;
+      }
       const color = highlightColor(affinityState);
-      plugin.canvas3d?.setProps({ highlightColor: color });
-    });
+      plugin.canvas3d?.setProps({ highlightColor: color, backgroundColor: 'white' });
+    };
+    void loadStructure();
+    return () => {
+      cancelled = true;
+    };
   }, [pdbUrl, affinityState]);
 
   return (

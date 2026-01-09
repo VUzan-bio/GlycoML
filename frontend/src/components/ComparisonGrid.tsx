@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { createPluginUI } from 'molstar/lib/mol-plugin-ui';
-import { PluginUISpec } from 'molstar/lib/mol-plugin-ui/spec';
 import { DefaultPluginUISpec } from 'molstar/lib/mol-plugin-ui/spec';
-import 'molstar/lib/mol-plugin-ui/skin/light.scss';
 import { PredictionRecord } from '../types';
 import { structureUrl } from '../api';
 import { classifyAffinity, highlightColor } from '../utils/bindingAnimation';
@@ -17,32 +15,59 @@ export default function ComparisonGrid({ fcgrName, data }: Props) {
   const pluginRefs = useRef<Array<any>>([]);
 
   useEffect(() => {
-    data.forEach((row, index) => {
-      const container = viewerRefs.current[index];
-      if (!container) {
-        return;
+    let cancelled = false;
+
+    const ensurePlugin = async (index: number, container: HTMLDivElement) => {
+      if (pluginRefs.current[index]) {
+        return pluginRefs.current[index];
       }
-      if (!pluginRefs.current[index]) {
-        const spec: PluginUISpec = {
-          ...DefaultPluginUISpec(),
-          layoutIsExpanded: false,
-          layoutShowControls: false,
-          layoutShowSequence: false,
-          layoutShowLog: false,
-          layoutShowLeftPanel: false,
-          layoutShowPluginState: false,
-          layoutShowTaskQueue: false,
-        };
-        pluginRefs.current[index] = createPluginUI(container, spec);
-      }
-      const plugin = pluginRefs.current[index];
-      const pdbUrl = structureUrl(fcgrName, row.glycan_name, 'pdb');
-      plugin.clear();
-      plugin.loadStructureFromUrl(pdbUrl, 'pdb').then(() => {
-        const affinity = classifyAffinity(row.binding_kd_nm);
-        plugin.canvas3d?.setProps({ highlightColor: highlightColor(affinity) });
-      });
-    });
+      const plugin = await createPluginUI(container, DefaultPluginUISpec());
+      pluginRefs.current[index] = plugin;
+      return plugin;
+    };
+
+    const loadAll = async () => {
+      await Promise.all(
+        data.map(async (row, index) => {
+          const container = viewerRefs.current[index];
+          if (!container) {
+            return;
+          }
+          const plugin = await ensurePlugin(index, container);
+          if (!plugin || cancelled) {
+            return;
+          }
+          const pdbUrl = structureUrl(fcgrName, row.glycan_name, 'pdb');
+          try {
+            plugin.clear();
+            const dataRef = await plugin.builders.data.download(
+              { url: pdbUrl },
+              { state: { isGhost: true } }
+            );
+            const trajectory = await plugin.builders.structure.parseTrajectory(dataRef, 'pdb');
+            await plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default');
+            if (cancelled) {
+              return;
+            }
+            const affinity = classifyAffinity(row.binding_kd_nm);
+            plugin.canvas3d?.setProps({
+              highlightColor: highlightColor(affinity),
+              backgroundColor: 'white',
+            });
+          } catch (error) {
+            console.error('Failed to load structure', pdbUrl, error);
+          }
+        })
+      );
+    };
+
+    void loadAll();
+
+    return () => {
+      cancelled = true;
+      pluginRefs.current.forEach((plugin) => plugin?.dispose?.());
+      pluginRefs.current = [];
+    };
   }, [data, fcgrName]);
 
   return (
