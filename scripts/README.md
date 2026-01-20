@@ -24,6 +24,19 @@ Entrypoints are grouped by purpose.
 - `scripts/train/train_fcgr_binding_model.py`: baseline FcγR regression.
 - `scripts/train/train_fcgr_with_transfer_learning.py`: transfer learning for FcγR.
 
+## scripts/phase1 (Phase 1 CLI)
+
+- `scripts/phase1/train.py`: train the glycosite classifier.
+- `scripts/phase1/predict.py`: predict N-glycosylation sites from sequences.
+- `scripts/phase1/evaluate_on_therapeutics.py`: evaluate on held-out therapeutics.
+
+## scripts/phase2 (Phase 2 classic CLI)
+
+- `scripts/phase2/preprocess_cfg_data.py`: preprocess CFG array data into a model-ready CSV.
+- `scripts/phase2/train_interaction_model.py`: train the interaction model.
+- `scripts/phase2/evaluate_benchmarks.py`: run baseline benchmark models.
+- `scripts/phase2/predict_new_lectins.py`: predict on new lectin inputs.
+
 ## scripts/analysis (evaluation + prediction)
 
 - `scripts/analysis/evaluate_phase2_model.py`: Phase 2 evaluation and thresholding.

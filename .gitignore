@@ -30,6 +30,15 @@ data/processed/**
 !data/processed/*sample*.csv
 !data/processed/*sample*.jsonl
 
+# Outputs
+outputs/**
+!outputs/.gitkeep
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
 # Results
 results/**
 !results/README.md
@@ -46,3 +55,8 @@ Thumbs.db
 
 # Misc
 *.h5
+*.pkl
+
+# Environment
+.env
+*.pem

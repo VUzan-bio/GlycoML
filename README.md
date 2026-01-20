@@ -1,6 +1,11 @@
 # GlycoML
 
-End-to-end machine learning framework for (i) predicting antibody N-glycosylation sites and FcγR binding impact, and (ii) modeling lectin-glycan interactions from sequence and structure. The codebase is organized as a Python monorepo with shared encoders across phases and a lightweight web UI for structural exploration.
+**Protein language models and graph neural networks for antibody glycosylation site prediction and lectin-glycan binding.**
+
+## Features
+- **Phase 1**: N-glycosylation site prediction (F1=0.88) with structural accessibility ranking
+- **Phase 2**: Lectin-glycan interaction modeling (Pearson r=0.72-0.79)
+- **Phase 3**: Interactive Fcgr binding predictor with Mol* 3D visualization
 
 ---
 
@@ -36,76 +41,69 @@ Lectin-glycan recognition introduces a second layer of biological control: sialy
 ---
 
 ## Installation
-
-From the repository root:
-
 ```bash
-# Clone
-git clone https://github.com/VUzan-bio/GlycoML.git
+git clone https://github.com/username/GlycoML
 cd GlycoML
-
-# Option A: pip (editable install)
-python -m venv .venv
-source .venv/bin/activate             # On Windows: .venv\Scripts\activate
-pip install --upgrade pip
-pip install -e .
-
-# Option B: Poetry
 poetry install
-poetry shell
 ```
 
-This installs the `glycoml` package and all Python dependencies in editable mode, so local code changes are picked up immediately.
-
----
-
-## CLI Quickstart
-
-### Phase 2 example (lectin-glycan interaction model)
-
+## Data Setup
+Download required datasets (~500MB):
 ```bash
-python -m glycoml.phase2.train \
-  --data-path data/interim/glycoml_phase2_unified_lectin_glycan_interactions.csv \
-  --output-dir outputs/phase2_model
+# See docs/data_sources.md for manual download instructions, or:
+python scripts/data/phase2_data_downloader.py
 ```
 
-This trains the Phase 2 interaction model on the unified lectin-glycan dataset and writes model weights, metrics, and predictions into `outputs/phase2_model/`.
+## Quick Start
 
-Analogous scripts exist under `glycoml.phase1` and `scripts/` for Phase 1 training, evaluation, and data preparation (see docstrings and scripts subfolders for task-specific entrypoints).
-
----
-
-## Web Application (optional)
-
-This repository ships a lightweight FastAPI backend plus a React/Vite UI for Phase 3 visualization. To run locally:
-
+### Phase 1: Predict N-glycosylation sites
 ```bash
-# API
-uvicorn backend.app:app --reload --host 0.0.0.0 --port 8000
-
-# Frontend (separate terminal)
-cd frontend
-npm install
-npm run dev
+python scripts/phase1/predict.py \
+  --model outputs/phase1_glyco_classifier.pt \
+  --fasta src/glycoml/phase1/data/sample_sequences.fasta \
+  --out_csv outputs/phase1_predictions.csv
 ```
 
-The UI expects an API layer that exposes FcγR/glycan predictions and structure endpoints. You can also integrate GlycoML as a library in your own service layer by calling the Phase 1/Phase 2 inference functions and returning JSON.
+### Phase 2: Train lectin-glycan model
+```bash
+python scripts/train/train_phase2_with_glycan_encoder_export.py \
+  --data data/interim/glycoml_phase2_unified_lectin_glycan_interactions.csv \
+  --output-dir models \
+  --epochs 50 \
+  --batch-size 16 \
+  --lr 1e-4
+```
 
----
+### Phase 3: Launch web interface
+```bash
+docker-compose up
+# Open http://localhost:8000
+```
 
-## Repository Layout
+## Documentation
+- [Architecture](docs/architecture.md)
+- [Phase 1: Antibody Glycosylation](docs/antibody_classification.md)
+- [Phase 2: Lectin Binding](docs/lectin_glycan_binding.md)
+- [Phase 3: API and UI](docs/extensions.md)
 
-- `glycoml/` - core Python package (encoders, models, training loops)
-- `backend/` - FastAPI service for Phase 3 visualization
-- `frontend/` - React/Vite UI with Mol* viewer
-- `data/` - processed datasets and input CSVs
-- `scripts/` - utility scripts (rendering, preprocessing, export)
-- `outputs/` - model checkpoints, rendered structures, metrics
+## Known Limitations
+- **Phase 1**: `fcgr_binding_module.py` is a stub; use Phase 3 (`train_fcgr.py`) for Fcgr binding predictions
+- **Data**: Raw datasets are not included; see `docs/data_sources.md`
+- **Testing**: Coverage is limited; data loaders and training loops lack comprehensive tests
 
----
+## Citation
+```bibtex
+@article{uzan2026glycoml,
+  title={GlycoML: Protein Language Models for Antibody Glycosylation and Lectin Binding},
+  author={Uzan, Valentin},
+  journal={bioRxiv},
+  year={2026}
+}
+```
 
 ## Citations
 
-Key scientific anchors include high-resolution Fc-FcγR mapping and glycan-functional studies (e.g., Shields et al., 2001; Halin et al., 2021; Otto et al., 2023). 
+Key scientific anchors include high-resolution Fc-FcγR mapping and glycan-functional studies (e.g., Shields et al., 2001; Halin et al., 2021; Otto et al., 2023).
 
-
+## License
+MIT - See [LICENSE](LICENSE)

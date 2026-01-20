@@ -38,7 +38,7 @@ Start from a CFG lectin array export (or a curated CSV).
 The preprocessing script normalizes RFU values and creates train/val/test splits.
 
 ```
-python -m glycoml.phase2.scripts.preprocess_cfg_data \
+python scripts/phase2/preprocess_cfg_data.py \
   --input_csv data/sample_cfg_data.csv \
   --output_csv data/cfg_processed.csv \
   --glycan_library data/glycan_smiles_library.txt \
@@ -50,7 +50,7 @@ python -m glycoml.phase2.scripts.preprocess_cfg_data \
 
 Regression on normalized RFU:
 ```
-python -m glycoml.phase2.scripts.train_interaction_model \
+python scripts/phase2/train_interaction_model.py \
   --data data/cfg_processed.csv \
   --splits data/train_val_test_splits.pkl \
   --task regression \
@@ -60,7 +60,7 @@ python -m glycoml.phase2.scripts.train_interaction_model \
 
 Classification (binder/non-binder):
 ```
-python -m glycoml.phase2.scripts.train_interaction_model \
+python scripts/phase2/train_interaction_model.py \
   --data data/cfg_processed.csv \
   --splits data/train_val_test_splits.pkl \
   --task classification \
@@ -71,7 +71,7 @@ python -m glycoml.phase2.scripts.train_interaction_model \
 
 Optional GCN glycan encoder:
 ```
-python -m glycoml.phase2.scripts.train_interaction_model \
+python scripts/phase2/train_interaction_model.py \
   --data data/cfg_processed.csv \
   --splits data/train_val_test_splits.pkl \
   --glycan_encoder gcn \
@@ -81,7 +81,7 @@ python -m glycoml.phase2.scripts.train_interaction_model \
 ## Baseline benchmarks
 
 ```
-python -m glycoml.phase2.scripts.evaluate_benchmarks \
+python scripts/phase2/evaluate_benchmarks.py \
   --data data/cfg_processed.csv \
   --splits data/train_val_test_splits.pkl \
   --task classification \
@@ -93,7 +93,7 @@ python -m glycoml.phase2.scripts.evaluate_benchmarks \
 Provide a CSV with columns: lectin_sequence, glycan_smiles (and optional glycan_iupac).
 
 ```
-python -m glycoml.phase2.scripts.predict_new_lectins \
+python scripts/phase2/predict_new_lectins.py \
   --model outputs/interaction_model.pt \
   --input_csv data/sample_cfg_data.csv \
   --output_csv outputs/predictions.csv

@@ -147,8 +147,9 @@ class UniLectinStreamer:
                     cached = json.load(handle)
                 self.logger.info("Loaded UniLectin metadata from cache")
                 return cached
-            except Exception:
-                pass
+            except Exception as exc:
+                cache_path = meta_entry.get("path")
+                self.logger.warning("Cache read failed for %s: %s; regenerating", cache_path, exc)
 
         query = {
             "getcolumns": "lectin.lectin_id,protein_name,ligand,iupac,glytoucan_id,uniprot,family,origin,species",

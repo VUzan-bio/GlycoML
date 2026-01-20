@@ -37,36 +37,36 @@ For a quick smoke test, you can point the scripts at `data/sample_sequences.csv`
 ## Training
 
 ```
-python -m glycoml.phase1.scripts.train --data data/thera_sabdab_processed.csv --output_dir outputs
+python scripts/phase1/train.py --data data/thera_sabdab_processed.csv --output_dir outputs
 ```
 
 ### Optional: focal loss
 
 ```
-python -m glycoml.phase1.scripts.train --data data/thera_sabdab_processed.csv --output_dir outputs --use_focal
+python scripts/phase1/train.py --data data/thera_sabdab_processed.csv --output_dir outputs --use_focal
 ```
 
 ## Prediction
 
 Single sequence:
 ```
-python -m glycoml.phase1.scripts.predict --model outputs/glyco_classifier.pt --sequence EVQLVNNSTGATV
+python scripts/phase1/predict.py --model outputs/glyco_classifier.pt --sequence EVQLVNNSTGATV
 ```
 
 FASTA input:
 ```
-python -m glycoml.phase1.scripts.predict --model outputs/glyco_classifier.pt --fasta data/sample_sequences.fasta
+python scripts/phase1/predict.py --model outputs/glyco_classifier.pt --fasta data/sample_sequences.fasta
 ```
 
 Structure ranking (AlphaFold PDB + SASA):
 ```
-python -m glycoml.phase1.scripts.predict --model outputs/glyco_classifier.pt --sequence EVQLVNNSTGATV --pdb path/to/af_model.pdb --sasa_csv path/to/sasa.csv --chain_id H
+python scripts/phase1/predict.py --model outputs/glyco_classifier.pt --sequence EVQLVNNSTGATV --pdb path/to/af_model.pdb --sasa_csv path/to/sasa.csv --chain_id H
 ```
 
 ## Evaluation
 
 ```
-python -m glycoml.phase1.scripts.evaluate_on_therapeutics --data data/thera_sabdab_processed.csv --model outputs/glyco_classifier.pt
+python scripts/phase1/evaluate_on_therapeutics.py --data data/thera_sabdab_processed.csv --model outputs/glyco_classifier.pt
 ```
 
 ## Notes

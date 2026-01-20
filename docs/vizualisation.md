@@ -1,7 +1,7 @@
 # Phase3 Fcgr Web Visualization
 
 This document describes the Phase3 visualization stack: rendering structures, serving predictions via FastAPI, and a lightweight React UI with a Molstar viewer.
-For live inference and the comparison view, see `docs/PHASE3_EXTENSIONS.md`.
+For live inference and the comparison view, see `docs/extensions.md`.
 
 ## 1) Render structures and build the manifest
 

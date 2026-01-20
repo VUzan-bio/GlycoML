@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import random
 from dataclasses import asdict
 from pathlib import Path
@@ -31,6 +32,8 @@ from .data import (
     LectinGlycanDataset,
 )
 from .models.binding_model import BindingModel, BindingModelConfig
+
+LOG = logging.getLogger("glycoml.phase2.train")
 
 
 def set_seed(seed: int) -> None:
@@ -380,8 +383,8 @@ def main() -> None:
         plt.tight_layout()
         plt.savefig(output_dir / "binding_heatmap.png")
         plt.close()
-    except Exception:
-        pass
+    except Exception as exc:
+        LOG.error("Heatmap generation failed: %s", exc)
 
 if __name__ == "__main__":
     main()

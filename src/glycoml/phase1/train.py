@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from .scripts.train import main
+from scripts.phase1.train import main
 
 __all__ = ["main"]
 
