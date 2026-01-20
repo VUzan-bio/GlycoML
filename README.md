@@ -106,6 +106,6 @@ The UI expects an API layer that exposes FcγR/glycan predictions and structure 
 
 ## Citations
 
-Key scientific anchors include high-resolution Fc-FcγR mapping and glycan-functional studies (e.g., Shields et al., 2001; Halin et al., 2021; Otto et al., 2023). If you use GlycoML in a publication, please cite these foundational sources and this repository.
+Key scientific anchors include high-resolution Fc-FcγR mapping and glycan-functional studies (e.g., Shields et al., 2001; Halin et al., 2021; Otto et al., 2023). 
 
-Documentation and releases are hosted at: https://github.com/VUzan-bio/GlycoML
+
