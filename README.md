@@ -17,7 +17,7 @@ End-to-end machine learning framework for (i) predicting antibody N-glycosylatio
 
 ---
 
-## Scientific Rationale (PhD-level summary)
+## Background
 
 Glycosylation is a dominant modulator of antibody effector function, FcγR engagement, and immune routing. For IgG, N-glycans positioned at the Fc CH2 interface (e.g., Asn298, IMGT numbering) control ADCC potency by shaping Fc-FcγRIIIA binding geometry and local electrostatics. A single glycan absence or a terminal saccharide shift (e.g., loss of galactose or fucose) can alter FcγR binding by 2–10x, with direct clinical implications for therapeutic efficacy.
 
