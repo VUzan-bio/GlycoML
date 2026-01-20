@@ -91,19 +91,6 @@ docker-compose up
 - **Data**: Raw datasets are not included; see `docs/data_sources.md`
 - **Testing**: Coverage is limited; data loaders and training loops lack comprehensive tests
 
-## Citation
-```bibtex
-@article{uzan2026glycoml,
-  title={GlycoML: Protein Language Models for Antibody Glycosylation and Lectin Binding},
-  author={Uzan, Valentin},
-  journal={bioRxiv},
-  year={2026}
-}
-```
-
-## Citations
+## References
 
 Key scientific anchors include high-resolution Fc-FcγR mapping and glycan-functional studies (e.g., Shields et al., 2001; Halin et al., 2021; Otto et al., 2023).
-
-## License
-MIT - See [LICENSE](LICENSE)
