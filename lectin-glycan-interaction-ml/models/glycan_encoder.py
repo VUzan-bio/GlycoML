@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Sequence
 import hashlib
+import re
 import warnings
 
 import torch
@@ -35,11 +36,57 @@ COMMON_MONOSACCHARIDES = [
     "GlcNAc",
     "GalNAc",
     "Man",
+    "ManNAc",
     "Fuc",
     "Neu5Ac",
     "Neu5Gc",
+    "KDN",
+    "Kdo",
     "Xyl",
+    "GlcA",
+    "GalA",
+    "IdoA",
+    "Rha",
+    "Ara",
 ]
+
+# IUPAC 2-Carb-38 / SNFG (Varki et al., Glycobiology 2015) condensed
+# abbreviations. Legacy aliases ("NeuAc" -> "Neu5Ac", "NeuGc" -> "Neu5Gc") are
+# accepted on input and normalised to the canonical token.
+_MONOSACCHARIDE_ALIASES = {
+    "NeuAc": "Neu5Ac",
+    "NeuGc": "Neu5Gc",
+    "Sia": "Neu5Ac",
+}
+
+# Longest-first alternation so that e.g. "GalNAc" is matched as a whole token
+# before "Gal" swallows the "Gal" prefix. The regex engine is greedy within an
+# alternation only when options are ordered longest-first, so we enforce that
+# here explicitly. No right-boundary lookahead is imposed because IUPAC
+# condensed notation freely follows a residue with lowercase anomer letters
+# (``a``/``b`` for alpha/beta) and longest-first ordering already prevents
+# "Gal" from matching inside "GalNAc".
+_GLYCAN_TOKEN_ALTERNATION = sorted(
+    set(COMMON_MONOSACCHARIDES) | set(_MONOSACCHARIDE_ALIASES.keys()),
+    key=lambda name: (-len(name), name),
+)
+GLYCAN_TOKEN_RE = re.compile(
+    "(" + "|".join(re.escape(token) for token in _GLYCAN_TOKEN_ALTERNATION) + ")"
+)
+
+
+def tokenize_iupac(iupac: str) -> List[str]:
+    """Tokenise an IUPAC-condensed glycan string into canonical monosaccharides.
+
+    Follows SNFG (Varki et al., Glycobiology 2015) and IUPAC 2-Carb-38.
+    - Aliases (NeuAc, NeuGc, Sia) are mapped to canonical Neu5Ac/Neu5Gc.
+    - Residues embedded within longer names ("Gal" inside "GalNAc") are NOT
+      counted, because the alternation is evaluated longest-first.
+    """
+    if not iupac:
+        return []
+    raw_tokens = GLYCAN_TOKEN_RE.findall(iupac)
+    return [_MONOSACCHARIDE_ALIASES.get(tok, tok) for tok in raw_tokens]
 
 
 @dataclass
@@ -67,14 +114,31 @@ def _fallback_fingerprint(smiles: str, n_bits: int) -> torch.Tensor:
 
 
 def _rdkit_fingerprint(smiles: str, radius: int, n_bits: int) -> torch.Tensor:
+    """Compute a Morgan (ECFP-style) fingerprint that is sensitive to glycan
+    stereochemistry.
+
+    ``useChirality=True`` is mandatory for glycobiology: anomeric configuration
+    (alpha vs beta), D/L epimerism, and 1->3 vs 1->6 linkages all manifest as
+    different stereocentres at atom resolution. The caller is responsible for
+    providing isomeric SMILES (RDKit ``MolToSmiles(mol, isomericSmiles=True)``
+    or glycowork/glypy-generated SMILES). If chirality is stripped upstream,
+    the fingerprint collapses alpha/beta sugars to the same bits.
+    """
     if Chem is None or AllChem is None:
         return _fallback_fingerprint(smiles, n_bits)
     mol = Chem.MolFromSmiles(smiles)
     if mol is None:
         return _fallback_fingerprint(smiles, n_bits)
-    fp = AllChem.GetMorganFingerprintAsBitVect(mol, radius, nBits=n_bits)
-    arr = list(fp)
-    return torch.tensor(arr, dtype=torch.float32)
+    if not any(atom.GetChiralTag() != Chem.ChiralType.CHI_UNSPECIFIED for atom in mol.GetAtoms()):
+        warnings.warn(
+            "Morgan fingerprint computed with useChirality=True but input "
+            "SMILES lacks stereochemistry descriptors (@, @@). "
+            "Alpha/beta anomers will map to identical bits."
+        )
+    fp = AllChem.GetMorganFingerprintAsBitVect(
+        mol, radius, nBits=n_bits, useChirality=True, useFeatures=False
+    )
+    return torch.tensor(list(fp), dtype=torch.float32)
 
 
 def _rdkit_physchem(smiles: str) -> List[float]:
@@ -100,12 +164,16 @@ def _rdkit_physchem(smiles: str) -> List[float]:
 
 
 def count_monosaccharides(iupac: Optional[str]) -> List[float]:
+    """Return per-residue counts in the canonical vocabulary order.
+
+    Uses ``tokenize_iupac`` so that sub-tokens embedded inside longer names do
+    not inflate the count (e.g. ``GalNAc`` no longer contributes to ``Gal``,
+    ``Neu5Ac`` no longer contributes to ``Ac``).
+    """
     if not iupac:
         return [0.0 for _ in COMMON_MONOSACCHARIDES]
-    counts: List[float] = []
-    for token in COMMON_MONOSACCHARIDES:
-        counts.append(float(iupac.count(token)))
-    return counts
+    tokens = tokenize_iupac(iupac)
+    return [float(tokens.count(name)) for name in COMMON_MONOSACCHARIDES]
 
 
 class GlycanFingerprintEncoder:

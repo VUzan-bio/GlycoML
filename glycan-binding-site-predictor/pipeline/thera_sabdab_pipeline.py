@@ -19,15 +19,45 @@ from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 import urllib.error
 import urllib.request
 
+import math
+
 import numpy as np
 import pandas as pd
 from Bio import SeqIO
+from Bio.Seq import Seq
 from Bio.PDB import PDBList, PDBParser, Polypeptide
 from Bio.PDB.Structure import Structure
 
 DEFAULT_PLDDT = 70.0
 
 LOGGER_NAME = "thera_sabdab_pipeline"
+
+# wwPDB experimental method strings (lowercased). See
+# https://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v50.dic/Items/_exptl.method.html
+EXPERIMENTAL_METHODS = frozenset(
+    {
+        "x-ray diffraction",
+        "solution nmr",
+        "solid-state nmr",
+        "electron microscopy",
+        "electron crystallography",
+        "neutron diffraction",
+        "fiber diffraction",
+        "powder diffraction",
+        "solution scattering",
+    }
+)
+
+# Tien et al., PLoS ONE 2013 "Maximum allowed solvent accessibilities of
+# residues in proteins" — empirical max SASA (A^2) from a Gly-X-Gly tripeptide
+# reference observed in the PDB. Used to convert absolute SASA to relative SASA
+# (RSA). Values from Table 1, "empirical".
+MAX_SASA_TIEN_2013_EMPIRICAL = {
+    "A": 121.0, "R": 265.0, "N": 187.0, "D": 187.0, "C": 148.0,
+    "E": 214.0, "Q": 214.0, "G": 97.0,  "H": 216.0, "I": 195.0,
+    "L": 191.0, "K": 230.0, "M": 203.0, "F": 228.0, "P": 154.0,
+    "S": 143.0, "T": 163.0, "W": 264.0, "Y": 255.0, "V": 165.0,
+}
 
 
 @dataclass(frozen=True)
@@ -52,8 +82,9 @@ class SiteRecord:
     position: int
     residue: str
     motif_type: str
-    plddt: float
+    plddt: Optional[float]
     sasa: float
+    rsa: float
     accessibility_rank: int
 
 
@@ -118,14 +149,17 @@ def extract_chain_data(structure: Structure, chain_ids: Optional[Sequence[str]] 
                 continue
             residues = []
             seq_chars: List[str] = []
+            mapping = getattr(
+                Polypeptide,
+                "protein_letters_3to1_extended",
+                Polypeptide.protein_letters_3to1,
+            )
             for residue in chain:
                 if not Polypeptide.is_aa(residue, standard=False):
                     continue
                 residues.append(residue)
-                try:
-                    seq_chars.append(Polypeptide.three_to_one(residue.get_resname()))
-                except KeyError:
-                    seq_chars.append("X")
+                resname = residue.get_resname()
+                seq_chars.append(mapping.get(resname, "X"))
             if seq_chars:
                 chains.append(ChainData(chain_id=chain.id, sequence="".join(seq_chars), residues=residues))
     return chains
@@ -173,16 +207,49 @@ def predict_glycosites(sequence: str) -> List[Tuple[int, str]]:
     return find_nglyco_sites(sequence)
 
 
-def extract_plddt(chain_data: ChainData, default_value: float = DEFAULT_PLDDT) -> List[float]:
-    plddt: List[float] = []
+def is_predicted_structure(structure: Structure) -> bool:
+    """Return True if the PDB header indicates a computed/predicted model.
+
+    AlphaFold2 (Jumper et al., Nature 2021) and other predictors store their
+    per-residue confidence (pLDDT, 0-100) in the B-factor column. Experimental
+    methods (X-ray, NMR, EM, etc.) store the Debye-Waller thermal displacement
+    factor in A^2 in the same column, which must NOT be interpreted as pLDDT.
+    """
+    method = (structure.header.get("structure_method") or "").strip().lower()
+    if not method:
+        return False
+    if method in EXPERIMENTAL_METHODS:
+        return False
+    predicted_keywords = ("predict", "theoretical", "computational", "alphafold", "model")
+    return any(keyword in method for keyword in predicted_keywords)
+
+
+def extract_plddt(
+    chain_data: ChainData,
+    is_confidence: bool = False,
+    default_value: float = DEFAULT_PLDDT,
+) -> List[Optional[float]]:
+    """Extract per-residue pLDDT from B-factor when the structure is predicted.
+
+    For experimental structures, B-factor is the Debye-Waller temperature
+    factor (A^2), NOT a confidence score; returns ``None`` for every residue
+    so downstream consumers can skip the pLDDT term in ranking.
+    """
+    if not is_confidence:
+        return [None] * len(chain_data.sequence)
+
+    plddt: List[Optional[float]] = []
     for residue in chain_data.residues:
         if residue.has_id("CA"):
-            plddt.append(float(residue["CA"].get_bfactor()))
+            b = float(residue["CA"].get_bfactor())
+            # AlphaFold pLDDT is bounded to [0, 100]. Anything outside that
+            # range is treated as missing and replaced by the default.
+            plddt.append(b if 0.0 < b <= 100.0 else default_value)
         else:
             plddt.append(default_value)
     if not plddt:
         return [default_value] * len(chain_data.sequence)
-    return [val if val > 0 else default_value for val in plddt]
+    return plddt
 
 
 def _compute_sasa_dssp(structure: Structure, pdb_path: Path, chain_data: ChainData) -> Optional[List[float]]:
@@ -242,6 +309,25 @@ def compute_sasa(structure: Structure, pdb_path: Path, chain_data: ChainData) ->
     return [0.0] * len(chain_data.sequence)
 
 
+def absolute_to_rsa(sequence: str, sasa_values: Sequence[float]) -> List[float]:
+    """Convert absolute SASA (A^2) to relative SASA (RSA) per Tien et al. 2013.
+
+    RSA[i] = SASA[i] / MAX_SASA[residue_i], clipped to [0, 1.5] to tolerate
+    slight over-exposure from terminal residues and unusual packing. Residues
+    not in the 20 standard amino acids map to Ala's max (conservative).
+    """
+    rsa: List[float] = []
+    fallback = MAX_SASA_TIEN_2013_EMPIRICAL["A"]
+    for residue, sasa in zip(sequence, sasa_values):
+        ref = MAX_SASA_TIEN_2013_EMPIRICAL.get(residue.upper(), fallback)
+        if ref <= 0:
+            rsa.append(0.0)
+            continue
+        ratio = float(sasa) / ref
+        rsa.append(max(0.0, min(ratio, 1.5)))
+    return rsa
+
+
 def rank_accessibility(sasa_values: List[float], positions: List[int]) -> Dict[int, int]:
     ranked = sorted(positions, key=lambda pos: sasa_values[pos - 1], reverse=True)
     return {pos: rank + 1 for rank, pos in enumerate(ranked)}
@@ -251,13 +337,18 @@ def build_site_records(
     pdb_id: str,
     antibody_name: str,
     chain_data: ChainData,
-    plddt_values: List[float],
+    plddt_values: List[Optional[float]],
     sasa_values: List[float],
+    rsa_values: Optional[List[float]] = None,
 ) -> List[SiteRecord]:
     motifs = find_nglyco_sites(chain_data.sequence)
     if not motifs:
         return []
-    ranks = rank_accessibility(sasa_values, [pos for pos, _ in motifs])
+    if rsa_values is None:
+        rsa_values = absolute_to_rsa(chain_data.sequence, sasa_values)
+    # Rank by RSA (dimensionless, residue-normalised) rather than raw SASA (A^2)
+    # so that a 180 A^2 Asn (RSA~0.96) outranks a 180 A^2 Trp (RSA~0.68).
+    ranks = rank_accessibility(rsa_values, [pos for pos, _ in motifs])
     records: List[SiteRecord] = []
     for pos, motif in motifs:
         residue = chain_data.sequence[pos - 1]
@@ -270,6 +361,7 @@ def build_site_records(
             motif_type=motif,
             plddt=plddt_values[pos - 1],
             sasa=sasa_values[pos - 1],
+            rsa=rsa_values[pos - 1],
             accessibility_rank=ranks.get(pos, 0),
         )
         records.append(record)
@@ -280,7 +372,7 @@ def write_fasta(chain_data: ChainData, output_dir: Path, pdb_id: str, antibody_n
     output_dir.mkdir(parents=True, exist_ok=True)
     fasta_path = output_dir / f"{pdb_id}_{chain_data.chain_id}.fasta"
     record_id = f"{antibody_name}|{pdb_id}|{chain_data.chain_id}"
-    SeqIO.write([SeqIO.SeqRecord(seq=chain_data.sequence, id=record_id, description="")], fasta_path, "fasta")
+    SeqIO.write([SeqIO.SeqRecord(seq=Seq(chain_data.sequence), id=record_id, description="")], fasta_path, "fasta")
     return fasta_path
 
 
@@ -320,15 +412,35 @@ def resolve_uniprot_ids(uniprot_ids: Sequence[str], logger: logging.Logger) -> L
         uniprot_id = uniprot_id.strip()
         if not uniprot_id:
             continue
+        # RCSB Search API v2: restrict accession match to UniProt to avoid
+        # spurious GenBank / Ensembl / NORINE ID collisions. See
+        # https://search.rcsb.org/#search-attributes (attribute sibling
+        # database_name lives on the same reference_sequence_identifiers node
+        # and must be combined via an AND group, not concatenated keys).
         query = {
             "query": {
-                "type": "terminal",
-                "service": "text",
-                "parameters": {
-                    "attribute": "rcsb_polymer_entity_container_identifiers.reference_sequence_identifiers.database_accession",
-                    "operator": "exact_match",
-                    "value": uniprot_id,
-                },
+                "type": "group",
+                "logical_operator": "and",
+                "nodes": [
+                    {
+                        "type": "terminal",
+                        "service": "text",
+                        "parameters": {
+                            "attribute": "rcsb_polymer_entity_container_identifiers.reference_sequence_identifiers.database_accession",
+                            "operator": "exact_match",
+                            "value": uniprot_id,
+                        },
+                    },
+                    {
+                        "type": "terminal",
+                        "service": "text",
+                        "parameters": {
+                            "attribute": "rcsb_polymer_entity_container_identifiers.reference_sequence_identifiers.database_name",
+                            "operator": "exact_match",
+                            "value": "UniProt",
+                        },
+                    },
+                ],
             },
             "request_options": {"return_all_hits": True},
             "return_type": "entry",
@@ -373,17 +485,24 @@ def process_record(
     if not chain_data_list:
         return record.pdb_id, [], {"status": "no_chains"}
 
+    predicted = is_predicted_structure(structure)
+
     all_records: List[SiteRecord] = []
     chain_info: Dict[str, Dict[str, object]] = {}
     for chain_data in chain_data_list:
-        plddt = extract_plddt(chain_data)
+        plddt = extract_plddt(chain_data, is_confidence=predicted)
         sasa = compute_sasa(structure, pdb_path, chain_data)
-        chain_records = build_site_records(record.pdb_id, record.antibody_name, chain_data, plddt, sasa)
+        rsa = absolute_to_rsa(chain_data.sequence, sasa)
+        chain_records = build_site_records(
+            record.pdb_id, record.antibody_name, chain_data, plddt, sasa, rsa
+        )
         all_records.extend(chain_records)
         write_fasta(chain_data, fasta_dir, record.pdb_id, record.antibody_name)
+        numeric_plddt = [v for v in plddt if v is not None]
         chain_info[chain_data.chain_id] = {
             "length": len(chain_data.sequence),
-            "mean_plddt": float(np.mean(plddt)) if plddt else DEFAULT_PLDDT,
+            "mean_plddt": float(np.mean(numeric_plddt)) if numeric_plddt else None,
+            "mean_rsa": float(np.mean(rsa)) if rsa else None,
         }
 
     metadata = {
@@ -393,6 +512,7 @@ def process_record(
         "chains": chain_info,
         "resolution": structure.header.get("resolution"),
         "structure_method": structure.header.get("structure_method"),
+        "is_predicted_structure": predicted,
     }
     return record.pdb_id, all_records, metadata
 
@@ -407,6 +527,16 @@ def records_to_dataframe(records: Sequence[SiteRecord]) -> pd.DataFrame:
     """
     return pd.DataFrame([record.__dict__ for record in records])
 
+def _record_to_row(record: SiteRecord) -> Dict[str, object]:
+    row = dict(record.__dict__)
+    # pLDDT is None for experimental structures (where B-factor != confidence);
+    # serialise as empty string so downstream consumers don't mis-read "nan".
+    plddt = row.get("plddt")
+    if plddt is None or (isinstance(plddt, float) and math.isnan(plddt)):
+        row["plddt"] = ""
+    return row
+
+
 def append_site_records(csv_path: Path, records: List[SiteRecord]) -> None:
     csv_path.parent.mkdir(parents=True, exist_ok=True)
     file_exists = csv_path.exists()
@@ -420,13 +550,14 @@ def append_site_records(csv_path: Path, records: List[SiteRecord]) -> None:
             "motif_type",
             "plddt",
             "sasa",
+            "rsa",
             "accessibility_rank",
         ]
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
         if not file_exists:
             writer.writeheader()
         for record in records:
-            writer.writerow(record.__dict__)
+            writer.writerow(_record_to_row(record))
 
 
 def update_metadata(metadata_path: Path, record_metadata: Dict[str, object]) -> None:

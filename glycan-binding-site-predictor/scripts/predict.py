@@ -45,7 +45,11 @@ def build_predictions(
     if not motif_positions:
         return []
     residue_embeddings = embedder.embed_sequence(sequence)
-    features = [extract_motif_embedding(residue_embeddings, pos) for pos in motif_positions]
+    window_size = getattr(classifier, "window_size", 3)
+    features = [
+        extract_motif_embedding(residue_embeddings, pos, window_size=window_size)
+        for pos in motif_positions
+    ]
     x = torch.stack(features).to(device)
     with torch.no_grad():
         logits = classifier(x)

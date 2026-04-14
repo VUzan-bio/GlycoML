@@ -43,13 +43,15 @@ class FocalLoss(nn.Module):
         return loss.mean()
 
 
-def build_collate_fn(embedder: ESM2Embedder) -> callable:
+def build_collate_fn(embedder: ESM2Embedder, window_size: int = 11) -> callable:
     def collate(batch: List[GlycoSample]) -> Tuple[torch.Tensor, torch.Tensor]:
         embeddings = []
         labels = []
         for sample in batch:
             residue_embeddings = embedder.embed_sequence(sample.sequence)
-            motif_embedding = extract_motif_embedding(residue_embeddings, sample.position)
+            motif_embedding = extract_motif_embedding(
+                residue_embeddings, sample.position, window_size=window_size
+            )
             embeddings.append(motif_embedding)
             labels.append(sample.label)
         x = torch.stack(embeddings)
@@ -87,6 +89,13 @@ def main() -> None:
     parser.add_argument("--focal_gamma", type=float, default=2.0)
     parser.add_argument("--focal_alpha", type=float, default=0.25)
     parser.add_argument("--use_focal", action="store_true")
+    parser.add_argument(
+        "--window_size",
+        type=int,
+        default=11,
+        help="Size of the residue context window centred on the candidate Asn. "
+        "Must be odd (default 11; NetNGlyc uses 9, SPRINT-Gly uses 21).",
+    )
     parser.add_argument("--seed", type=int, default=13)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
@@ -110,6 +119,7 @@ def main() -> None:
         hidden_dim=args.hidden_dim,
         num_layers=args.num_layers,
         dropout=args.dropout,
+        window_size=args.window_size,
     ).to(device)
 
     train_loader = DataLoader(
@@ -117,14 +127,14 @@ def main() -> None:
         batch_size=args.batch_size,
         shuffle=True,
         num_workers=0,
-        collate_fn=build_collate_fn(embedder),
+        collate_fn=build_collate_fn(embedder, window_size=args.window_size),
     )
     val_loader = DataLoader(
         SampleDataset(val_samples),
         batch_size=args.batch_size,
         shuffle=False,
         num_workers=0,
-        collate_fn=build_collate_fn(embedder),
+        collate_fn=build_collate_fn(embedder, window_size=args.window_size),
     )
 
     if args.use_focal:
@@ -165,6 +175,7 @@ def main() -> None:
                 hidden_dim=args.hidden_dim,
                 num_layers=args.num_layers,
                 dropout=args.dropout,
+                window_size=args.window_size,
             )
             checkpoint_path = os.path.join(args.output_dir, "glyco_classifier.pt")
             save_classifier(checkpoint_path, classifier, config)

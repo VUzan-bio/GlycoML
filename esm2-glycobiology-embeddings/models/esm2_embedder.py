@@ -88,26 +88,77 @@ class ESM2Embedder:
         for param in self.model.parameters():
             param.requires_grad = False
 
+    _LORA_CANDIDATE_PROJECTIONS = ("q_proj", "k_proj", "v_proj", "out_proj")
+
+    def _discover_lora_target_modules(self) -> List[str]:
+        """Return attention projection module names present on the base model.
+
+        fair-esm's ``esm.multihead_attention.MultiheadAttention`` registers
+        ``q_proj``, ``k_proj``, ``v_proj`` and ``out_proj`` as
+        ``nn.Linear`` children. Some HuggingFace ESM-2 ports instead expose
+        these under the same names inside ``EsmSelfAttention``. We walk the
+        live module tree and keep only names that actually exist to avoid
+        PEFT silently attaching zero adapters.
+        """
+        present: set = set()
+        for name, module in self.model.named_modules():
+            leaf = name.rsplit(".", 1)[-1]
+            if leaf in self._LORA_CANDIDATE_PROJECTIONS and isinstance(module, torch.nn.Linear):
+                present.add(leaf)
+        # Prefer the Hu et al. 2021 recommendation of adapting Q and V only.
+        preferred = [p for p in ("q_proj", "v_proj") if p in present]
+        return preferred if preferred else sorted(present)
+
     def _setup_lora(self) -> None:
         try:
-            from peft import LoraConfig, get_peft_model
+            from peft import LoraConfig, TaskType, get_peft_model
         except ImportError as exc:
             raise ImportError("Install peft: `pip install peft`") from exc
 
+        target_modules = self._discover_lora_target_modules()
+        if not target_modules:
+            raise RuntimeError(
+                "LoRA setup failed: no q_proj/v_proj/k_proj/out_proj nn.Linear "
+                f"modules were discovered on ESM-2 '{self.model_name}'. "
+                "fair-esm and HuggingFace ESM-2 expose these names; verify the "
+                "loaded model version."
+            )
+
+        # ESM-2 is a masked (BERT-style) encoder. Use FEATURE_EXTRACTION so PEFT
+        # does not attach a causal-LM head or a causal attention mask. See
+        # Hu et al. 2021 "LoRA: Low-Rank Adaptation of Large Language Models"
+        # and the PEFT TaskType documentation.
         lora_config = LoraConfig(
             r=self.lora_rank,
             lora_alpha=32,
             lora_dropout=0.1,
             bias="none",
-            task_type="CAUSAL_LM",
-            target_modules=["q_proj", "v_proj"],
+            task_type=TaskType.FEATURE_EXTRACTION,
+            target_modules=target_modules,
         )
 
-        for param in self.model.parameters():
-            param.requires_grad = True
-
+        # NOTE: do NOT set ``param.requires_grad = True`` on the base model
+        # before wrapping. ``get_peft_model`` freezes the base and unfreezes
+        # only the injected LoRA adapter parameters; eagerly unfreezing first
+        # turns LoRA into full fine-tuning.
         self.model = get_peft_model(self.model, lora_config)
-        logger.info("LoRA initialized (rank=%s)", self.lora_rank)
+
+        trainable = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
+        total = sum(p.numel() for p in self.model.parameters())
+        if trainable == 0:
+            raise RuntimeError(
+                "LoRA wrapping produced zero trainable parameters; "
+                f"target_modules={target_modules} did not match the base "
+                "model layout."
+            )
+        logger.info(
+            "LoRA initialised (rank=%s, targets=%s, trainable=%d / %d, %.3f%%)",
+            self.lora_rank,
+            target_modules,
+            trainable,
+            total,
+            100.0 * trainable / max(total, 1),
+        )
 
     def _cache_set(self, sequence: str, embedding: torch.Tensor) -> None:
         if sequence in self._cache:

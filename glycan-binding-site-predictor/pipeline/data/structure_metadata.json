@@ -1,0 +1,52 @@
+{
+  "1HZH": {
+    "status": "ok",
+    "pdb_id": "1HZH",
+    "antibody_name": "IgG1_Fc",
+    "chains": {
+      "H": {
+        "length": 457,
+        "mean_plddt": 103.4157986870897
+      },
+      "K": {
+        "length": 444,
+        "mean_plddt": 77.42932432432431
+      },
+      "L": {
+        "length": 215,
+        "mean_plddt": 91.94553488372094
+      },
+      "M": {
+        "length": 215,
+        "mean_plddt": 91.22553488372094
+      }
+    },
+    "resolution": 2.7,
+    "structure_method": "x-ray diffraction"
+  },
+  "1IGT": {
+    "status": "ok",
+    "pdb_id": "1IGT",
+    "antibody_name": "Anti_influenza_Fab",
+    "chains": {
+      "A": {
+        "length": 214,
+        "mean_plddt": 39.529813084112156
+      },
+      "B": {
+        "length": 444,
+        "mean_plddt": 41.4322972972973
+      },
+      "C": {
+        "length": 214,
+        "mean_plddt": 46.26626168224299
+      },
+      "D": {
+        "length": 444,
+        "mean_plddt": 58.75092342342342
+      }
+    },
+    "resolution": 2.8,
+    "structure_method": "x-ray diffraction"
+  }
+}

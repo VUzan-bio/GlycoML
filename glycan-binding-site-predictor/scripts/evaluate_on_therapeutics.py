@@ -24,13 +24,15 @@ class SampleDataset(Dataset):
         return self.samples[idx]
 
 
-def build_collate_fn(embedder: ESM2Embedder) -> callable:
+def build_collate_fn(embedder: ESM2Embedder, window_size: int = 11) -> callable:
     def collate(batch: List[GlycoSample]) -> Tuple[torch.Tensor, torch.Tensor]:
         embeddings = []
         labels = []
         for sample in batch:
             residue_embeddings = embedder.embed_sequence(sample.sequence)
-            motif_embedding = extract_motif_embedding(residue_embeddings, sample.position)
+            motif_embedding = extract_motif_embedding(
+                residue_embeddings, sample.position, window_size=window_size
+            )
             embeddings.append(motif_embedding)
             labels.append(sample.label)
         x = torch.stack(embeddings)
@@ -78,7 +80,9 @@ def main() -> None:
         batch_size=16,
         shuffle=False,
         num_workers=0,
-        collate_fn=build_collate_fn(embedder),
+        collate_fn=build_collate_fn(
+            embedder, window_size=getattr(classifier, "window_size", 3)
+        ),
     )
 
     precision, recall, f1 = evaluate(classifier, loader)

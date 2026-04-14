@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l /c/Users/uzanv/Documents/GlycoML/lectin-glycan-interaction-ml/models/*.py /c/Users/uzanv/Documents/GlycoML/lectin-glycan-interaction-ml/scripts/*.py /c/Users/uzanv/Documents/GlycoML/lectin-glycan-interaction-ml/utils/*.py)",
+      "Bash(python -m pytest pipeline/tests/ -x -q)",
+      "Bash(where py:*)",
+      "Bash(py -0)",
+      "Bash(py -3.14 -c \"import Bio, numpy, pandas; print\\('ok', Bio.__version__\\)\")",
+      "Bash(py -3.14 -m pip install biopython numpy pandas pytest)",
+      "Bash(py -3.14 -m pip install pytest)",
+      "Bash(py -3.14 -m pytest pipeline/tests/ -x -q)",
+      "Bash(py -3.14 -c \"from pipeline.thera_sabdab_pipeline import is_predicted_structure, absolute_to_rsa, extract_plddt, MAX_SASA_TIEN_2013_EMPIRICAL, EXPERIMENTAL_METHODS; print\\('len_max_sasa=', len\\(MAX_SASA_TIEN_2013_EMPIRICAL\\)\\); print\\('len_exp_methods=', len\\(EXPERIMENTAL_METHODS\\)\\)\")",
+      "Bash(py -3.14 -m pytest tests/ -x -q)",
+      "Bash(py -3.14 -m pip install torch --index-url https://download.pytorch.org/whl/cpu)",
+      "Bash(py -3.14 -m pip install torch)",
+      "Bash(py -3.14 -m pip install rdkit)",
+      "Bash(py -3.14 -m pytest pipeline/tests/test_phase_d.py -q)",
+      "Bash(py -3.14 -c \"import torch; print\\('torch', torch.__version__\\)\")",
+      "Bash(py -3.14 -c \"import rdkit; print\\('rdkit', rdkit.__version__\\)\")",
+      "Bash(py -3.14 -m pip install torch --pre)",
+      "Bash(py -3.14 -m pip install torch --pre --index-url https://download.pytorch.org/whl/nightly/cpu)",
+      "Bash(py -3.14 -c \"import torch; print\\(torch.__version__\\)\")",
+      "Bash(py -3.14 -m pytest tests/ -q)",
+      "Bash(py -3.14 -c \"from rdkit import Chem, AllChem; print\\('rdkit ok'\\)\")",
+      "Bash(py -3.14 -m pytest pipeline/tests/ -q)"
+    ]
+  }
+}

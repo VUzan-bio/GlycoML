@@ -87,22 +87,73 @@ def build_candidate_samples(records: Iterable[SequenceRecord]) -> List[GlycoSamp
     return samples
 
 
+def _stratum_label(record: SequenceRecord) -> int:
+    """Stratification label: 1 if the record carries at least one annotated
+    glycosite, else 0.
+
+    This is the classification label aggregated to the record (not the motif)
+    level, which is the correct grouping key for stratified sampling. With
+    record-level stratification the train/val/test splits preserve the
+    observed fraction of glycosylated antibodies, preventing the pathological
+    case where the validation set contains no positives (common with random
+    splits at small N; Jefferis 2009, Nat. Rev. Drug Discov.).
+    """
+    return 1 if record.glyco_sites else 0
+
+
 def split_records(
     records: List[SequenceRecord],
     val_ratio: float = 0.15,
     test_ratio: float = 0.15,
     seed: int = 13,
+    stratify: bool = True,
 ) -> Tuple[List[SequenceRecord], List[SequenceRecord], List[SequenceRecord]]:
-    """Split records into train/val/test lists."""
+    """Stratified split of records into train / val / test lists.
+
+    Stratification key is :func:`_stratum_label` (glycosylated vs not). Each
+    stratum is shuffled independently and split in the requested ratio so the
+    per-class proportion is preserved across folds. Pass ``stratify=False`` to
+    recover the prior random-shuffle behaviour.
+    """
+    if val_ratio < 0 or test_ratio < 0 or val_ratio + test_ratio >= 1.0:
+        raise ValueError(
+            f"Invalid split ratios val={val_ratio}, test={test_ratio}: must be "
+            "non-negative and sum to < 1.0."
+        )
+
     rng = random.Random(seed)
     records = list(records)
-    rng.shuffle(records)
-    n_total = len(records)
-    n_val = int(n_total * val_ratio)
-    n_test = int(n_total * test_ratio)
-    val_records = records[:n_val]
-    test_records = records[n_val : n_val + n_test]
-    train_records = records[n_val + n_test :]
+
+    if not stratify:
+        rng.shuffle(records)
+        strata = {0: records}
+    else:
+        strata = {}
+        for record in records:
+            strata.setdefault(_stratum_label(record), []).append(record)
+        for bucket in strata.values():
+            rng.shuffle(bucket)
+
+    train_records: List[SequenceRecord] = []
+    val_records: List[SequenceRecord] = []
+    test_records: List[SequenceRecord] = []
+
+    for bucket in strata.values():
+        n = len(bucket)
+        n_val = int(round(n * val_ratio))
+        n_test = int(round(n * test_ratio))
+        # If a stratum is too small to supply at least one record per split,
+        # prefer train over val over test so the rare class never disappears.
+        n_val = min(n_val, max(0, n - 1))
+        n_test = min(n_test, max(0, n - n_val - 1))
+        val_records.extend(bucket[:n_val])
+        test_records.extend(bucket[n_val : n_val + n_test])
+        train_records.extend(bucket[n_val + n_test :])
+
+    # Reshuffle within each split so strata are interleaved.
+    for split in (train_records, val_records, test_records):
+        rng.shuffle(split)
+
     return train_records, val_records, test_records
 
 

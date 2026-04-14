@@ -2,6 +2,8 @@ import math
 
 from pipeline.thera_sabdab_pipeline import (
     ChainData,
+    MAX_SASA_TIEN_2013_EMPIRICAL,
+    absolute_to_rsa,
     build_site_records,
     find_nglyco_sites,
     rank_accessibility,
@@ -33,3 +35,21 @@ def test_build_site_records_assigns_rank():
     record = records[0]
     assert record.position == 2
     assert record.accessibility_rank == 1
+    # RSA must be auto-computed when omitted, using Tien 2013 empirical max.
+    expected_rsa = 2.0 / MAX_SASA_TIEN_2013_EMPIRICAL["N"]
+    assert math.isclose(record.rsa, expected_rsa, rel_tol=1e-6)
+
+
+def test_absolute_to_rsa_matches_tien_table():
+    # Asn near its empirical max should saturate toward 1.0.
+    rsa = absolute_to_rsa("N", [MAX_SASA_TIEN_2013_EMPIRICAL["N"]])
+    assert math.isclose(rsa[0], 1.0, rel_tol=1e-6)
+    # Trp with small SASA stays close to 0.
+    rsa = absolute_to_rsa("W", [5.0])
+    assert rsa[0] < 0.05
+    # Over-exposure is clipped at 1.5.
+    rsa = absolute_to_rsa("G", [1000.0])
+    assert rsa[0] == 1.5
+    # Non-standard residue falls back to Ala reference (does not raise).
+    rsa = absolute_to_rsa("X", [50.0])
+    assert 0.0 < rsa[0] < 1.5
