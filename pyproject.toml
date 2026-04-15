@@ -45,7 +45,9 @@ profile = "black"
 line_length = 100
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "src/glycoml/phase1/pipeline/tests"]
+# Ignore __pycache__ directories that may linger from prior Python versions.
+norecursedirs = ["__pycache__", ".git", "node_modules", "frontend"]
 
 [build-system]
 requires = ["poetry-core>=1.5.0"]

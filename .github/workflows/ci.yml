@@ -15,10 +15,16 @@ jobs:
       - name: Install Poetry
         run: pip install poetry
       - name: Install dependencies
+        # Heavy optional deps (torch-geometric extensions, fair-esm) may need
+        # extra wheels on a clean runner; poetry install pulls them from
+        # pyproject.toml. Use --no-interaction so CI does not block on prompts.
         run: poetry install --no-interaction
       - name: Lint
         run: poetry run black --check .
       - name: Test
-        run: poetry run pytest tests
+        # testpaths in pyproject.toml includes both the top-level tests/
+        # directory and src/glycoml/phase1/pipeline/tests/ for the Phase A/C/D
+        # verification suites.
+        run: poetry run pytest -q
       - name: Build
         run: poetry build
