@@ -1,0 +1,62 @@
+# Caches
+data/cache/**
+*.pyc
+__pycache__/
+**/__pycache__/
+.pytest_cache/
+
+# Logs
+logs/**
+*.log
+
+# Models (track code only)
+models/**
+!models/
+!models/**/
+!models/**/*.py
+!models/README.md
+models/**/*.pt
+models/**/*.pth
+models/**/*.ckpt
+models/**/*.npz
+
+# Data (track metadata + small examples only)
+data/raw/**
+data/interim/**
+data/processed/**
+!data/raw/README.md
+!data/interim/README.md
+!data/processed/README.md
+!data/processed/*sample*.csv
+!data/processed/*sample*.jsonl
+
+# Outputs
+outputs/**
+!outputs/.gitkeep
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Results
+results/**
+!results/README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.h5
+*.pkl
+
+# Environment
+.env
+*.pem

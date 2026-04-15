@@ -1,0 +1,23 @@
+phase1:
+  pdb_ids: null
+  cache_dir: "./data/cache/pdb_cache"
+  rate_limit: 1.0
+  query_limit: 500
+  resume_from_checkpoint: true
+  checkpoint_file: "./data/processed/phase1_antibodies.jsonl"
+
+phase2:
+  filter_family: "Siglec"
+  filter_organism: "Mammalian"
+  max_pairs: 500
+  cache_dir: "./data/cache/unilectin_cache"
+  rate_limit: 0.2
+
+validation:
+  output_dir: "./logs/validation"
+  min_glycosites_per_ab: 0
+  min_sequence_length_lectin: 50
+
+logging:
+  level: "INFO"
+  log_dir: "./logs"

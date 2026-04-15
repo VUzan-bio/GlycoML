@@ -1,5 +1,0 @@
-pdb_id,antibody_name,chain_id,position,residue,motif_type,plddt,sasa,accessibility_rank
-1HZH,IgG1_Fc,H,307,N,NXT,144.86,0.0,1
-1HZH,IgG1_Fc,K,297,N,NXT,75.43,0.0,1
-1IGT,Anti_influenza_Fab,B,298,N,NXT,62.01,0.0,1
-1IGT,Anti_influenza_Fab,D,298,N,NXT,159.43,0.0,1

@@ -1,7 +1,0 @@
-2026-01-05 11:26:54,114 ERROR Processing failed for 1igt: module 'Bio.PDB.Polypeptide' has no attribute 'three_to_one'
-2026-01-05 11:26:54,339 ERROR Processing failed for 1hzh: module 'Bio.PDB.Polypeptide' has no attribute 'three_to_one'
-2026-01-05 11:26:54,340 INFO Done. Output CSV: pipeline\data\glycosylation_sites.csv
-2026-01-05 11:27:41,808 ERROR Processing failed for 1hzh: seq argument should be a Seq or MutableSeq object
-2026-01-05 11:27:41,818 ERROR Processing failed for 1igt: seq argument should be a Seq or MutableSeq object
-2026-01-05 11:27:41,820 INFO Done. Output CSV: pipeline\data\glycosylation_sites.csv
-2026-01-05 11:28:06,966 INFO Done. Output CSV: pipeline\data\glycosylation_sites.csv

@@ -1,0 +1,7 @@
+torch
+fair-esm
+numpy
+scikit-learn
+rdkit-pypi
+# Optional for GCN encoder
+torch-geometric

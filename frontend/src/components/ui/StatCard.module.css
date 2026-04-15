@@ -1,0 +1,83 @@
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.labelRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.badge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+}
+
+.strong {
+  border-left: 3px solid var(--affinity-strong);
+}
+
+.strong .badge {
+  background: rgba(22, 163, 74, 0.12);
+  color: var(--affinity-strong);
+}
+
+.moderate {
+  border-left: 3px solid var(--affinity-moderate);
+}
+
+.moderate .badge {
+  background: rgba(245, 158, 11, 0.16);
+  color: var(--affinity-moderate);
+}
+
+.weak {
+  border-left: 3px solid var(--affinity-weak);
+}
+
+.weak .badge {
+  background: rgba(220, 38, 38, 0.14);
+  color: var(--affinity-weak);
+}
+
+.neutral {
+  border-left: 3px solid var(--border-light);
+}

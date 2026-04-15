@@ -1,0 +1,212 @@
+.layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr) 280px;
+  gap: 24px;
+  align-items: start;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.resultsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.resultsSub {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.statSkeleton {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.heatmapCard {
+  padding: 18px;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.heatmapHeader {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.heatmapMeta {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.heatmapGrid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.heatmapCell {
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, rgba(87, 113, 254, 0.2), rgba(245, 158, 11, 0.2));
+  opacity: 0.8;
+}
+
+.heatmapCellLoading {
+  background: var(--bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.heatmapCellLoading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: shimmer 1.6s infinite;
+}
+
+.heatmapHint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.context {
+  display: flex;
+  flex-direction: column;
+}
+
+.contextPanel {
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contextSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contextTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.exampleList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exampleButton {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: left;
+}
+
+.exampleButton:hover {
+  border-color: var(--primary-blue);
+  color: var(--text-primary);
+}
+
+.codeBlock {
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.inlineButton {
+  align-self: flex-start;
+}
+
+.exportButton {
+  width: 100%;
+}
+
+.downloadLink {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.downloadLink[aria-disabled='true'] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+  .context {
+    grid-column: 1 / -1;
+  }
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}

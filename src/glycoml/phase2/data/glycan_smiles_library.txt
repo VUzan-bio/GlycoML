@@ -1,0 +1,4 @@
+# glycan_id SMILES IUPAC
+gly_001 OC[C@H]1O[C@H](O)[C@H](O)[C@H](O)[C@H]1O Glc
+gly_002 OC[C@H]1O[C@H](O)[C@H](O)[C@H](O)CO Gal
+gly_003 COC(CO)O Man
